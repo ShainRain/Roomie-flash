@@ -1,42 +1,36 @@
 const RoomSync = require('../../utils/room-sync');
 const RoomMap = require('../../utils/room-map');
 const Player = require('../../utils/player');
-const Layout = require('../../utils/room-layout');
+const SceneLayout = require('../../utils/room-scene-layout');
 const RecordsUtil = require('../../utils/records');
 
-const FLOOR_COLORS = { 'blue-gray': '#3B4A6B', walnut: '#8A5A33', slate: '#4A5A66' };
+// Room Master Scene 地图实例：新几何 + 碰撞/障碍由 room-scene-layout 单一数据源驱动
+const map = RoomMap.createMap(SceneLayout.GEOMETRY, SceneLayout);
 
-function hexToRgba(hex, alpha) {
-  const n = parseInt(hex.slice(1), 16);
-  return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${alpha})`;
-}
+// 各交互对象的提示锚点（stage %）：吉他音符飘点取吉他锚点
+const GUITAR_BUBBLE_AT = { x: 56.6, y: 64 };
 
 Page({
   data: {
-    lightOverlay: '',
-    floorTint: '',
     statusBarH: 20,
-    player: { left: 40, top: 74, walking: false, direction: 'right' },
+    // 场景输入（room-scene 组件属性）
+    floor: 'blue-gray',
+    lightTemp: 2700,
+    furnitureKeys: [],
+    recordIds: [],
+    characters: [],
+    nowPlaying: { playing: false, title: '' },
+    bubbles: [],
+    nearId: '',
+    activeIds: [],
+    showHint: true,
+    // 角色逻辑状态（页面持有，组件只消费渲染快照）
+    player: { left: 40, top: 74, direction: 'right' },
     playerSprite: 'idle',
-    playerScale: 0.995,
-    playerZ: 740,
+    peer: { left: 52, top: 64, name: 'KIKI' },
     peerSprite: 'idle',
     peerDirection: 'left',
-    peerScale: 0.922,
-    peerZ: 640,
     syncOnline: false,
-    target: null,
-    peer: { left: 52, top: 64, name: 'KIKI', color: '#F5B83D' },
-    actionLabel: '',
-    layers: [],
-    recordSlots: [],
-    furnitureObjects: [],
-    nearId: '',
-    showHint: true,
-    guitarBurst: false,
-    trackTitle: '',
-    platter: Layout.PLATTER,
-    wallBadge: Layout.WALL_NOW_PLAYING,
     roomState: { projectorOn: false, lampOn: true, recordPlaying: false, seated: false }
   },
 
@@ -52,34 +46,39 @@ Page({
 
   onShow() {
     this.refreshRoomConfig();
-    this.applyRoomStyle();
+    this.syncCharacters();
     // 连接恢复只放在 onShow，避免 onLoad/onShow 重复 join（P4）
     if (!RoomSync.isOnline()) this.doJoin();
   },
 
-  // DIY 状态 → 场景：家具显隐、碰撞、唱片墙槽位
+  // DIY 状态 → 场景：家具显隐、碰撞、唱片墙槽位、地板与灯光
   refreshRoomConfig() {
     const room = getApp().globalData.room || {};
     const keys = Array.isArray(room.furniture) ? room.furniture : [];
-    RoomMap.setActiveFurniture(keys);
-    const layers = Layout.FURNITURE
-      .filter((f) => keys.includes(f.key))
-      .map((f) => ({ key: f.key, src: f.overlay, z: f.z }));
-    const prev = this.data.furnitureObjects;
-    const hotspots = Layout.FIXTURE_OBJECTS
-      .concat(Layout.FURNITURE.filter((f) => f.hotspot && keys.includes(f.key)).map((f) => f.hotspot))
-      .map((o) => {
-        const old = prev.find((p) => p.id === o.id);
-        return { ...o, active: old ? old.active : false };
-      });
+    map.setActiveFurniture(keys);
+    this.hotspotSpots = SceneLayout.FIXTURE_OBJECTS
+      .concat(SceneLayout.FURNITURE
+        .filter((f) => f.hotspot && (f.fixed || keys.includes(f.id)))
+        .map((f) => f.hotspot));
     const selected = RecordsUtil.readSelection((k) => wx.getStorageSync(k));
-    const recordSlots = Layout.RECORD_SLOTS.slice(0, selected.length)
-      .map((slot, i) => ({ ...slot, key: `slot-${i}`, src: `/assets/img/rec-${selected[i]}.webp` }));
+    const trackTitle = Player.snapshot().track.title;
     this.setData({
-      layers,
-      furnitureObjects: hotspots,
-      recordSlots,
-      trackTitle: Player.snapshot().track.title
+      furnitureKeys: keys,
+      recordIds: selected,
+      floor: room.floor || 'blue-gray',
+      lightTemp: room.lightTemp || 2700,
+      nowPlaying: { playing: this.data.roomState.recordPlaying, title: trackTitle }
+    });
+  },
+
+  // 页面逻辑状态 → 组件渲染快照
+  syncCharacters() {
+    const { player, playerSprite, peer, peerSprite, peerDirection } = this.data;
+    this.setData({
+      characters: [
+        { id: 'momo', x: player.left, y: player.top, frame: playerSprite, facing: player.direction === 'left' ? -1 : 1, label: '我' },
+        { id: 'kiki', x: peer.left, y: peer.top, frame: peerSprite, facing: peerDirection === 'left' ? -1 : 1, label: peer.name }
+      ]
     });
   },
 
@@ -112,19 +111,16 @@ Page({
       step += 1;
       const ratio = step / steps;
       const done = step >= steps;
-      const top = start.top + (msg.top - start.top) * ratio;
-      const depth = RoomMap.depthFor(top);
       this.setData({
         peer: {
           ...this.data.peer,
           left: start.left + (msg.left - start.left) * ratio,
-          top
+          top: start.top + (msg.top - start.top) * ratio
         },
         peerDirection: direction,
-        peerScale: depth.scale,
-        peerZ: depth.z,
         peerSprite: done ? 'idle' : (step % 2 === 0 ? 'walk-a' : 'walk-b')
       });
+      this.syncCharacters();
       if (done) {
         clearInterval(this.peerTimer);
         this.peerTimer = null;
@@ -134,10 +130,7 @@ Page({
 
   // 对端家具/房间状态联动（"对方开了放映机"）
   applyPeerState(msg) {
-    if (msg.key) {
-      this.setRoomState({ [msg.key]: msg.value });
-      if (msg.key === 'lampOn') this.applyRoomStyle();
-    }
+    if (msg.key) this.setRoomState({ [msg.key]: msg.value });
     if (msg.furnitureId) this.setFurnitureState(msg.furnitureId, msg.furnitureActive !== false);
     const labels = {
       projectorOn: msg.value ? 'KIKI 打开了放映机' : 'KIKI 关闭了放映机',
@@ -149,15 +142,15 @@ Page({
   },
 
   onFurnitureTap(e) {
-    const id = e.currentTarget.dataset.id;
-    const object = this.data.furnitureObjects.find((item) => item.id === id);
-    if (!object) return;
-    const title = this.data.trackTitle || '夜航';
+    const id = e.detail.id;
+    const known = (this.hotspotSpots || []).find((item) => item.id === id);
+    if (!known) return;
+    const title = this.data.nowPlaying.title || '夜航';
     const actions = {
       'record-wall': () => {
         this.setRoomState({ recordPlaying: true });
         this.setFurnitureState(id, true);
-        this.flashAction(`唱片墙：已挂 ${this.data.recordSlots.length} 张收藏 · 正在播《${title}》`);
+        this.flashAction(`唱片墙：已挂 ${this.data.recordIds.length} 张收藏 · 正在播《${title}》`);
       },
       turntable: () => {
         const playing = !this.data.roomState.recordPlaying;
@@ -172,8 +165,8 @@ Page({
         this.flashAction(enabled ? '放映机已打开 · 房间进入观影模式' : '放映机已关闭');
       },
       sofa: () => {
-        const target = RoomMap.resolveTarget(this.data.player, { left: 51.5, top: 64 });
-        if (RoomMap.distance(this.data.player, target) > 10) {
+        const target = map.resolveTarget(this.data.player, map.fromUV(0.24, 0.47));
+        if (map.distance(this.data.player, target) > 10) {
           this.moveAlongPath(this.data.player, target);
           this.flashAction('走近沙发后即可坐下');
           return;
@@ -182,20 +175,24 @@ Page({
         this.setRoomState({ seated });
         this.setFurnitureState(id, seated);
         this.setData({ playerSprite: seated ? 'sit' : 'idle' });
+        this.syncCharacters();
         this.flashAction(seated ? '你坐进了沙发 · 继续播放' : '你从沙发上站了起来');
       },
       lamp: () => {
         const enabled = !this.data.roomState.lampOn;
         this.setRoomState({ lampOn: enabled });
         this.setFurnitureState(id, enabled);
-        this.applyRoomStyle();
         this.flashAction(enabled ? '落地灯已打开' : '落地灯已关闭 · 投影光更清晰');
       },
       guitar: () => {
         this.setFurnitureState(id, true);
-        this.setData({ guitarBurst: true });
+        this.setData({
+          bubbles: this.data.bubbles.concat([{ id: 'guitar', x: GUITAR_BUBBLE_AT.x, y: GUITAR_BUBBLE_AT.y, text: '♪ ♫ ♪', kind: 'notes' }])
+        });
         if (this.guitarTimer) clearTimeout(this.guitarTimer);
-        this.guitarTimer = setTimeout(() => this.setData({ guitarBurst: false }), 1600);
+        this.guitarTimer = setTimeout(() => {
+          this.setData({ bubbles: this.data.bubbles.filter((b) => b.id !== 'guitar') });
+        }, 1600);
         this.flashAction('你拿起吉他弹了一小段即兴 Riff');
         RoomSync.sendAction('MOMO 弹了一段吉他');
       },
@@ -209,36 +206,38 @@ Page({
   },
 
   setRoomState(next) {
-    this.setData({ roomState: { ...this.data.roomState, ...next } });
+    const roomState = { ...this.data.roomState, ...next };
+    this.setData({
+      roomState,
+      nowPlaying: { playing: roomState.recordPlaying, title: this.data.nowPlaying.title }
+    });
     Object.keys(next).forEach((key) => RoomSync.sendState({ key, value: next[key] }));
   },
 
   setFurnitureState(id, active) {
-    this.setData({ furnitureObjects: this.data.furnitureObjects.map((item) => item.id === id ? { ...item, active } : item) });
+    const set = new Set(this.data.activeIds);
+    if (active) set.add(id); else set.delete(id);
+    this.setData({ activeIds: Array.from(set) });
     RoomSync.sendState({ furnitureId: id, furnitureActive: active });
   },
 
   flashAction(message) {
-    this.setData({ actionLabel: message });
+    const bubbles = this.data.bubbles.filter((b) => b.id !== 'action')
+      .concat([{ id: 'action', x: 50, y: 42, text: message, kind: 'info' }]);
+    this.setData({ bubbles });
     if (this.actionTimer) clearTimeout(this.actionTimer);
-    this.actionTimer = setTimeout(() => this.setData({ actionLabel: '' }), 2600);
+    this.actionTimer = setTimeout(() => {
+      this.setData({ bubbles: this.data.bubbles.filter((b) => b.id !== 'action') });
+    }, 2600);
   },
 
-  onRoomTap(e) {
-    const { x, y } = e.detail;
-    const query = wx.createSelectorQuery().in(this);
-    query.select('.room-frame').boundingClientRect((rect) => {
-      if (!rect) return;
-      const left = ((x - rect.left) / rect.width) * 100;
-      const top = ((y - rect.top) / rect.height) * 100;
-      const safeTarget = RoomMap.resolveTarget(this.data.player, { left, top });
-      this.moveAlongPath(this.data.player, safeTarget);
-      this.setData({ target: safeTarget });
-    }).exec();
+  onSceneTap(e) {
+    const safeTarget = map.resolveTarget(this.data.player, e.detail);
+    this.moveAlongPath(this.data.player, safeTarget);
   },
 
   moveAlongPath(start, target) {
-    const path = RoomMap.findPath(start, target);
+    const path = map.findPath(start, target);
     const walkNext = (index) => {
       if (index >= path.length) return;
       const point = path[index];
@@ -251,8 +250,8 @@ Page({
   updateNearId(pos) {
     let nearId = '';
     let best = 14;
-    this.data.furnitureObjects.forEach((o) => {
-      const d = RoomMap.distance(pos, { left: o.left + o.width / 2, top: o.top + o.height / 2 });
+    (this.hotspotSpots || []).forEach((o) => {
+      const d = map.distance(pos, { left: o.left + o.width / 2, top: o.top + o.height / 2 });
       if (d < best) { best = d; nearId = o.id; }
     });
     if (nearId !== this.data.nearId) this.setData({ nearId });
@@ -261,11 +260,12 @@ Page({
   animatePlayer(left, top, onComplete) {
     if (this.moveTimer) clearInterval(this.moveTimer);
     const start = this.data.player;
-    const distance = RoomMap.distance(start, { left, top });
+    const distance = map.distance(start, { left, top });
     const steps = Math.max(8, Math.ceil(distance * 2.2));
     const direction = left < start.left ? 'left' : 'right';
     let step = 0;
-    this.setData({ player: { ...start, walking: true, direction }, playerSprite: 'walk-a' });
+    this.setData({ player: { ...start, direction }, playerSprite: 'walk-a' });
+    this.syncCharacters();
     this.moveTimer = setInterval(() => {
       step += 1;
       const progress = step / steps;
@@ -275,45 +275,42 @@ Page({
       };
       // 步态帧交替：walk-a / walk-b
       const sprite = step % 2 === 0 ? 'walk-a' : 'walk-b';
-      if (RoomMap.isBlocked(next)) {
+      if (map.isBlocked(next)) {
         clearInterval(this.moveTimer);
         this.moveTimer = null;
-        this.setData({ 'player.walking': false, playerSprite: 'idle' });
+        this.setData({ playerSprite: 'idle' });
+        this.syncCharacters();
         wx.showToast({ title: '前方有家具，已停在安全位置', icon: 'none', duration: 1200 });
         return;
       }
-      const depth = RoomMap.depthFor(next.top);
-      this.setData({
-        player: { ...next, walking: true, direction },
-        playerSprite: sprite,
-        playerScale: depth.scale,
-        playerZ: depth.z
-      });
+      this.setData({ player: { ...next, direction }, playerSprite: sprite });
+      this.syncCharacters();
       this.updateNearId(next);
       RoomSync.sendMove({ left: next.left, top: next.top, direction, walking: true });
       if (step >= steps) {
         clearInterval(this.moveTimer);
         this.moveTimer = null;
-        this.setData({ 'player.walking': false, playerSprite: this.data.roomState.seated ? 'sit' : 'idle' });
+        this.setData({ playerSprite: this.data.roomState.seated ? 'sit' : 'idle' });
+        this.syncCharacters();
         if (onComplete) onComplete();
       }
     }, 28);
   },
 
-  onPeerTap() {
+  onCharTap(e) {
+    if (e.detail.id !== 'kiki') return;
     const dx = this.data.player.left - this.data.peer.left;
     const dy = this.data.player.top - this.data.peer.top;
     if (Math.sqrt(dx * dx + dy * dy) > 22) {
       wx.showToast({ title: '走近一点再互动吧', icon: 'none' });
-      const target = RoomMap.resolveTarget(this.data.player, { left: this.data.peer.left - 12, top: this.data.peer.top + 8 });
+      const target = map.resolveTarget(this.data.player, { left: this.data.peer.left - 12, top: this.data.peer.top + 8 });
       this.moveAlongPath(this.data.player, target);
       return;
     }
     wx.showActionSheet({ itemList: ['挥手打招呼', '击掌', '一起听歌'], success: (res) => {
       const labels = ['已向 KIKI 挥手', '和 KIKI 击掌成功', '已邀请 KIKI 一起听歌'];
-      this.setData({ actionLabel: labels[res.tapIndex] });
+      this.flashAction(labels[res.tapIndex]);
       RoomSync.sendAction(labels[res.tapIndex]);
-      wx.showToast({ title: labels[res.tapIndex], icon: 'none' });
     } });
   },
 
@@ -328,20 +325,6 @@ Page({
     if (this.actionTimer) clearTimeout(this.actionTimer);
     if (this.hintTimer) clearTimeout(this.hintTimer);
     if (this.guitarTimer) clearTimeout(this.guitarTimer);
-  },
-
-  applyRoomStyle() {
-    const room = getApp().globalData.room || {};
-    const k = room.lightTemp || 2700;
-    const t = (k - 2700) / 3300;
-    const lampFactor = this.data.roomState.lampOn ? 1 : 0.25;
-    const warmA = (0.22 * (1 - t) * lampFactor).toFixed(3);
-    const coolA = (0.18 * t).toFixed(3);
-    const floorHex = FLOOR_COLORS[room.floor] || FLOOR_COLORS['blue-gray'];
-    this.setData({
-      lightOverlay: `background: linear-gradient(180deg, rgba(255,217,160,${warmA}) 0%, rgba(190,220,255,${coolA}) 100%);`,
-      floorTint: `background: ${hexToRgba(floorHex, 0.45)};`
-    });
   },
 
   onBack() {

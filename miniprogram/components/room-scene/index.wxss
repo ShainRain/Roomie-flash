@@ -1,0 +1,38 @@
+/* room-scene：图层栈与角色渲染。舞台为正方形（由页面提供 100vw×100vw 容器）。 */
+.sc-stage { position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; }
+.sc-ly { position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; pointer-events: none; }
+.sc-screen { mix-blend-mode: screen; }
+.sc-floor-tint { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 100; pointer-events: none; }
+.sc-slot { position: absolute; z-index: 350; pointer-events: none; }
+
+/* ---- 角色：呼吸 / 步态 / 坐姿 / 接触阴影随景深缩放 ---- */
+.sc-char { position: absolute; pointer-events: none; }
+.sc-char-body { display: flex; flex-direction: column; align-items: center; transform-origin: 50% 100%; }
+.sc-sprite { display: block; filter: drop-shadow(0 6rpx 8rpx rgba(20, 12, 6, 0.28)); }
+.sc-flip { transform: scaleX(-1); }
+.sc-char-shadow { height: 1.1vw; margin-top: -0.7vw; border-radius: 50%; background: rgba(20, 12, 6, 0.3); }
+.sc-char-name { margin-top: 4rpx; padding: 3rpx 12rpx; border-radius: 999rpx; background: rgba(247, 243, 234, 0.88); color: #26221A; font-size: 20rpx; }
+.sc-frame-idle { animation: sc-breathe 2.6s ease-in-out infinite; transform-origin: 50% 100%; }
+.sc-frame-sit .sc-sprite { transform: translateY(6rpx) scaleY(.96); transform-origin: 50% 100%; }
+.sc-frame-walk-a { animation: sc-bob-a .22s ease-in-out infinite; }
+.sc-frame-walk-b { animation: sc-bob-b .22s ease-in-out infinite; }
+@keyframes sc-breathe { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.025); } }
+@keyframes sc-bob-a { 0%, 100% { transform: translateY(0) rotate(-1.2deg); } 50% { transform: translateY(-5rpx) rotate(0); } }
+@keyframes sc-bob-b { 0%, 100% { transform: translateY(0) rotate(1.2deg); } 50% { transform: translateY(-5rpx) rotate(0); } }
+
+/* ---- 正在播放反馈 ---- */
+.sc-turntable-spin { position: absolute; z-index: 702; width: 44rpx; height: 44rpx; margin: -22rpx 0 0 -22rpx; border-radius: 50%; background: repeating-radial-gradient(circle, #1F2329 0 3rpx, #E9A942 4rpx 6rpx); animation: sc-spin .9s linear infinite; pointer-events: none; }
+.sc-wall-badge { position: absolute; z-index: 960; padding: 6rpx 16rpx; border-radius: 999rpx; background: rgba(43, 201, 107, 0.88); color: #FFFFFF; font-size: 18rpx; pointer-events: none; animation: sc-toast-in .25s ease-out; }
+@keyframes sc-spin { to { transform: rotate(360deg); } }
+@keyframes sc-toast-in { from { opacity: 0; transform: translateY(-10rpx); } to { opacity: 1; transform: translateY(0); } }
+
+/* ---- 热点：默认隐形，靠近/激活/首访提示时浮现 ---- */
+.sc-hotspot { position: absolute; display: flex; align-items: center; justify-content: center; border: 2rpx dashed transparent; border-radius: 20rpx; transition: background .25s, border-color .25s; }
+.sc-hint .sc-hotspot { border-color: rgba(247, 243, 234, 0.38); animation: sc-hint-pulse 1.8s ease-in-out infinite; }
+.sc-hotspot:active, .sc-hotspot-lit { background: rgba(247, 243, 234, 0.16); border-color: rgba(247, 243, 234, 0.72); }
+.sc-hotspot-badge { display: flex; align-items: center; gap: 5rpx; padding: 5rpx 10rpx; border-radius: 999rpx; background: rgba(31, 35, 41, 0.48); color: rgba(247, 243, 234, 0.92); font-size: 18rpx; opacity: 0; transform: scale(.9); transition: opacity .2s, transform .2s; }
+.sc-hotspot:active .sc-hotspot-badge, .sc-hotspot-lit .sc-hotspot-badge { opacity: 1; transform: scale(1); }
+@keyframes sc-hint-pulse { 0%, 100% { background: rgba(247, 243, 234, 0); } 50% { background: rgba(247, 243, 234, 0.12); } }
+
+/* ---- 气泡 ---- */
+.sc-bubble { position: absolute; z-index: 1000; transform: translateX(-50%); padding: 12rpx 24rpx; border-radius: 999rpx; background: rgba(31, 35, 41, 0.82); color: #FFFFFF; font-size: 24rpx; white-space: nowrap; pointer-events: none; }

@@ -32,13 +32,16 @@ const DEFAULT_GEOMETRY = {
 
 // 碰撞体（uv 矩形）由布局数据派生；id 沿用旧障碍 id，furniture 为 DIY 家具 key
 // （null = 固定件，始终生效）
-const OBSTACLES = Layout.FURNITURE
-  .filter((f) => f.collision)
-  .map((f) => ({ id: f.obstacle || f.key, furniture: f.key, ...f.collision }))
-  .concat((Layout.FIXED_COLLIDERS || []).map((c) => ({ id: c.id, furniture: c.furniture || null, ...c.collision })));
+function buildObstacles(layout) {
+  return layout.FURNITURE
+    .filter((f) => f.collision)
+    .map((f) => ({ id: f.obstacle || f.key, furniture: f.key, ...f.collision }))
+    .concat((layout.FIXED_COLLIDERS || []).map((c) => ({ id: c.id, furniture: c.furniture || null, ...c.collision })));
+}
 
-function createMap(geometry) {
+function createMap(geometry, layout) {
   const G = { ...DEFAULT_GEOMETRY, ...(geometry || {}) };
+  const OBSTACLES = buildObstacles(layout || Layout);
 
   // DIY 家具显隐联动：未选择的家具撤掉碰撞。null = 全部生效（未初始化时的安全默认）
   let activeFurniture = null;
@@ -227,6 +230,8 @@ function createMap(geometry) {
     OBSTACLES,
     setActiveFurniture,
     floorPolygon,
+    toUV,
+    fromUV,
     insideFloor,
     clampToFloor,
     isBlocked,

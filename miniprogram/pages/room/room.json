@@ -2,6 +2,7 @@
   "navigationBarTitleText": "深夜放映室",
   "navigationStyle": "custom",
   "usingComponents": {
-    "mini-player": "/components/mini-player/index"
+    "mini-player": "/components/mini-player/index",
+    "room-scene": "/components/room-scene/index"
   }
 }
