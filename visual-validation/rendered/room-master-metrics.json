@@ -1,0 +1,137 @@
+{
+  "generatedAt": "2026-10-05T11:57:44.583Z",
+  "geometry": {
+    "roomRatio": 0.7572,
+    "recordWallRatioVisible": 0.3833,
+    "recordWallRatioFull": 0.2574,
+    "charMomoRatio": 0.169,
+    "charKikiRatio": 0.155,
+    "layerCount": 8
+  },
+  "samples": {
+    "windowWarm": {
+      "rgb": [
+        26,
+        31,
+        42
+      ],
+      "hue": 220
+    },
+    "windowCool": {
+      "rgb": [
+        26,
+        31,
+        42
+      ],
+      "hue": 220
+    },
+    "lampWarm": {
+      "rgb": [
+        174,
+        139,
+        98
+      ],
+      "hue": 32
+    },
+    "lampCool": {
+      "rgb": [
+        158,
+        123,
+        89
+      ],
+      "hue": 30
+    },
+    "momoWithL6": {
+      "rgb": [
+        208,
+        184,
+        150
+      ],
+      "hue": 35
+    },
+    "momoNoL6": {
+      "rgb": [
+        207,
+        182,
+        148
+      ],
+      "hue": 35
+    }
+  },
+  "checks": [
+    {
+      "name": "房间主体占 stage",
+      "value": 0.7572,
+      "pass": true,
+      "detail": "门槛 ≥0.75"
+    },
+    {
+      "name": "MOMO 高度/房间可视高度",
+      "value": 0.169,
+      "pass": true,
+      "detail": "门槛 0.15–0.22"
+    },
+    {
+      "name": "KIKI 高度/房间可视高度",
+      "value": 0.155,
+      "pass": true,
+      "detail": "门槛 0.15–0.22(纵深缩放后)"
+    },
+    {
+      "name": "唱片墙/左墙可视面积",
+      "value": 0.3833,
+      "pass": true,
+      "detail": "门槛 0.25–0.40"
+    },
+    {
+      "name": "灯光层数量",
+      "value": 8,
+      "pass": true,
+      "detail": "L0–L7 共 8 层"
+    },
+    {
+      "name": "窗区色相(2700K)",
+      "value": 220,
+      "pass": true,
+      "detail": "期望冷蓝 185–245,RGB=26,31,42"
+    },
+    {
+      "name": "窗区色相(6000K)",
+      "value": 220,
+      "pass": true,
+      "detail": "RGB=26,31,42"
+    },
+    {
+      "name": "落地灯光池色相(2700K)",
+      "value": 32,
+      "pass": true,
+      "detail": "期望暖 15–50,RGB=174,139,98"
+    },
+    {
+      "name": "光池暖度差(2700K vs 6000K)",
+      "value": 7,
+      "pass": true,
+      "detail": "2700K 应明显更暖"
+    },
+    {
+      "name": "角色受光·MOMO 亮度提升",
+      "value": 1.7,
+      "pass": true,
+      "detail": "有L6 lum=180.7 无L6 lum=179.0"
+    },
+    {
+      "name": "角色受光·KIKI 亮度提升",
+      "value": 1.3,
+      "pass": true,
+      "detail": "有L6 lum=140.3 无L6 lum=139.0"
+    },
+    {
+      "name": "角色受光·L6 覆盖与色温",
+      "value": "1 / H31",
+      "pass": true,
+      "detail": "L6 在角色区覆盖率>0.5 且为暖色"
+    }
+  ],
+  "passed": 12,
+  "total": 12
+}

@@ -1,0 +1,184 @@
+{
+  "canvas": 828,
+  "geometry": {
+    "X0": 414,
+    "Y0": 235,
+    "SX": 480,
+    "SY": 250,
+    "WALL_H": 440
+  },
+  "polygons": {
+    "floor": [
+      [
+        -66,
+        485
+      ],
+      [
+        414,
+        235
+      ],
+      [
+        894,
+        485
+      ],
+      [
+        414,
+        735
+      ]
+    ],
+    "leftWall": [
+      [
+        -66,
+        45
+      ],
+      [
+        414,
+        -205
+      ],
+      [
+        414,
+        235
+      ],
+      [
+        -66,
+        485
+      ]
+    ],
+    "rightWall": [
+      [
+        414,
+        -205
+      ],
+      [
+        894,
+        45
+      ],
+      [
+        894,
+        485
+      ],
+      [
+        414,
+        235
+      ]
+    ]
+  },
+  "areas": {
+    "floorVisible": 235463,
+    "leftWallVisible": 141816,
+    "rightWallVisible": 141816,
+    "roomVisible": 519095,
+    "canvas": 685584,
+    "roomRatio": 0.7572,
+    "leftWallFull": 211200
+  },
+  "recordWall": {
+    "itemizedPx": {
+      "covers": 31097,
+      "shelves": 14497,
+      "poster": 6336,
+      "vinyl": 1059,
+      "stack": 1369
+    },
+    "totalPx": 54357,
+    "ratioOfLeftWallVisible": 0.3833,
+    "ratioOfLeftWallFull": 0.2574
+  },
+  "roomVisibleHeightPx": 735,
+  "characters": {
+    "momo": {
+      "name": "momo",
+      "uv": [
+        0.68,
+        0.6
+      ],
+      "footPx": [
+        452,
+        555
+      ],
+      "topPct": 67.03,
+      "scale": 0.972,
+      "heightPx": 124,
+      "z": 670,
+      "bbox": {
+        "x": 404,
+        "y": 431,
+        "w": 97,
+        "h": 124
+      }
+    },
+    "kiki": {
+      "name": "kiki",
+      "uv": [
+        0.2,
+        0.44
+      ],
+      "footPx": [
+        299,
+        395
+      ],
+      "topPct": 47.71,
+      "scale": 0.888,
+      "heightPx": 114,
+      "z": 477,
+      "bbox": {
+        "x": 254,
+        "y": 281,
+        "w": 89,
+        "h": 114
+      }
+    }
+  },
+  "samples": {
+    "window": {
+      "x": 766,
+      "y": 118,
+      "w": 62,
+      "h": 200
+    },
+    "lampPool": {
+      "x": 495,
+      "y": 485,
+      "w": 100,
+      "h": 50
+    },
+    "charMomo": {
+      "x": 404,
+      "y": 431,
+      "w": 97,
+      "h": 124
+    },
+    "charKiki": {
+      "x": 254,
+      "y": 281,
+      "w": 89,
+      "h": 114
+    }
+  },
+  "layers": [
+    "room/room-base.webp",
+    "room/ambient-shadow.webp",
+    "room/cool-night-window.webp",
+    "room/warm-light-room.webp",
+    "room/shelf-edge-glow.webp",
+    "room/lamp-pool.webp",
+    "room/warm-veil-char.webp",
+    "room/projector-beam.webp"
+  ],
+  "furnitureAssets": [
+    "room/furn-sofa.webp",
+    "room/furn-vinyl-player.webp",
+    "room/furn-table.webp",
+    "room/furn-cat-bed.webp",
+    "room/furn-lamp.webp",
+    "room/furn-plant.webp",
+    "room/furn-rug.webp",
+    "room/furn-curtain.webp",
+    "room/furn-projector.webp",
+    "room/furn-poster.webp",
+    "room/furn-coffee.webp",
+    "room/furn-bookshelf.webp",
+    "room/furn-doll.webp",
+    "room/furn-guitar.webp"
+  ]
+}
