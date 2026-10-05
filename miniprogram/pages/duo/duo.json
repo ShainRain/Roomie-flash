@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "一起听",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "mini-player": "/components/mini-player/index"
+  }
+}

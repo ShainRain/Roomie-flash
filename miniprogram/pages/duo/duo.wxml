@@ -1,0 +1,50 @@
+<view class="page">
+
+  <!-- 自绘顶栏 -->
+  <view class="topbar rise-in" style="padding-top: {{statusBarH}}px;">
+    <view class="nav-ic" hover-class="btn-hover" bindtap="onBack">‹</view>
+    <view class="nav-ic nav-ic-ghost"></view>
+  </view>
+
+  <!-- 刊头:中文大标题 + en-serif 英文小标 + 同频状态 -->
+  <view class="title-row rise-in rise-1">
+    <view class="title-left">
+      <text class="page-title">双人同频</text>
+      <text class="page-title-en en-serif">Duo</text>
+    </view>
+    <view class="pill pill-live pill-breathe">◉ 同频中 · {{sync}}%</view>
+  </view>
+
+  <!-- 双人房间场景(场景层结构与绑定保持不动):两个人在同一个房间里一起听 -->
+  <view class="art-wrap rise-in rise-2">
+    <view class="duo-stage" bindtap="onStageTap">
+      <image class="art" src="/assets/img/room-interactive.webp" mode="aspectFit" />
+      <image wx:for="{{recordSlots}}" wx:key="key" class="record-plate" src="{{item.src}}" style="left: {{item.left}}%; top: {{item.top}}%; width: {{item.width}}%; height: {{item.height}}%;" />
+      <image wx:for="{{layers}}" wx:key="key" class="furn-layer" src="{{item.src}}" style="z-index: {{item.z}};" mode="aspectFit" />
+      <view class="stage-player" style="left: {{player.left}}%; top: {{player.top}}%; transform: translate(-50%, -88%) scale({{playerScale}}); z-index: {{playerZ}};"><view class="sprite-motion sprite-{{playerSprite}}"><image class="stage-sprite direction-{{player.direction}}" src="/assets/img/char-momo-{{playerSprite}}.webp" mode="widthFix" /></view></view>
+      <view class="stage-peer" style="left: {{peerPosition.left}}%; top: {{peerPosition.top}}%; transform: translate(-50%, -88%) scale({{peerScale}}); z-index: {{peerZ}};" catchtap="onPeerTap"><view class="sprite-motion sprite-{{peerSprite}}"><image class="stage-sprite" src="/assets/img/char-kiki-{{peerSprite}}.webp" mode="widthFix" /></view></view>
+      <view wx:if="{{interaction}}" class="interaction">{{interaction}}</view>
+    </view>
+  </view>
+
+  <!-- 米白纸张共享播放卡:一起听状态 + 波形 + 进度/传输(mini-player) -->
+  <view class="card play-card rise-in rise-3">
+    <view class="play-head">
+      <view class="play-head-info">
+        <text class="duo-names">与 {{peer}} 一起听</text>
+        <text class="duo-sync">同频中 · {{sync}}%</text>
+      </view>
+      <view class="sync-wave">
+        <view class="wave-bar"></view>
+        <view class="wave-bar"></view>
+        <view class="wave-bar"></view>
+        <view class="wave-bar"></view>
+      </view>
+    </view>
+    <mini-player subtitle="{{'歌单由 ' + me.name + ' 控制'}}" tap-target="none" bind:control="onPlayerControl" />
+  </view>
+
+  <!-- 退出双人房 -->
+  <view class="btn-ghost-danger exit-btn rise-in rise-4" hover-class="btn-hover" bindtap="onExit">退出双人房</view>
+
+</view>

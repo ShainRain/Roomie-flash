@@ -1,0 +1,190 @@
+.tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  height: 128rpx;
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--night-900);
+  border-top: 1rpx solid rgba(246, 239, 221, 0.10);
+  box-shadow: 0 -8rpx 32rpx rgba(4, 8, 18, 0.55);
+}
+
+.tab {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 110rpx;
+  color: var(--night-sub);
+}
+
+.badge {
+  position: absolute;
+  top: 10rpx;
+  left: calc(50% + 12rpx);
+  min-width: 32rpx;
+  height: 32rpx;
+  padding: 0 8rpx;
+  border-radius: 999rpx;
+  background: var(--danger);
+  color: #ffffff;
+  font-size: 20rpx;
+  line-height: 32rpx;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.tab-on {
+  color: var(--green);
+}
+
+.tab-label {
+  font-size: 20rpx;
+  margin-top: 6rpx;
+}
+
+/* ---- 纯 CSS 线性小图标 ---- */
+.ic {
+  position: relative;
+  width: 44rpx;
+  height: 44rpx;
+}
+
+/* 首页：小房子 */
+.ic-home::before {
+  content: '';
+  position: absolute;
+  left: 8rpx;
+  top: 20rpx;
+  width: 28rpx;
+  height: 20rpx;
+  border: 4rpx solid currentColor;
+  border-radius: 4rpx;
+}
+.ic-home::after {
+  content: '';
+  position: absolute;
+  left: 11rpx;
+  top: 2rpx;
+  width: 20rpx;
+  height: 20rpx;
+  border-left: 4rpx solid currentColor;
+  border-top: 4rpx solid currentColor;
+  transform: rotate(45deg);
+  border-radius: 3rpx;
+}
+
+/* 好友：两个圆点人 */
+.ic-friends::before {
+  content: '';
+  position: absolute;
+  left: 4rpx;
+  top: 6rpx;
+  width: 14rpx;
+  height: 14rpx;
+  border: 4rpx solid currentColor;
+  border-radius: 50%;
+  box-shadow: 22rpx 6rpx 0 -4rpx var(--night-900), 22rpx 6rpx 0 0 currentColor;
+}
+.ic-friends::after {
+  content: '';
+  position: absolute;
+  left: 2rpx;
+  top: 26rpx;
+  width: 18rpx;
+  height: 12rpx;
+  border: 4rpx solid currentColor;
+  border-radius: 10rpx 10rpx 4rpx 4rpx;
+}
+
+/* 消息：气泡 */
+.ic-msg::before {
+  content: '';
+  position: absolute;
+  left: 6rpx;
+  top: 8rpx;
+  width: 32rpx;
+  height: 22rpx;
+  border: 4rpx solid currentColor;
+  border-radius: 12rpx;
+}
+.ic-msg::after {
+  content: '';
+  position: absolute;
+  left: 16rpx;
+  top: 28rpx;
+  width: 12rpx;
+  height: 12rpx;
+  border-left: 4rpx solid currentColor;
+  border-bottom: 4rpx solid currentColor;
+  transform: rotate(-45deg) skew(-12deg, -12deg);
+  background: transparent;
+}
+
+/* 我的：人像 */
+.ic-me::before {
+  content: '';
+  position: absolute;
+  left: 13rpx;
+  top: 4rpx;
+  width: 16rpx;
+  height: 16rpx;
+  border: 4rpx solid currentColor;
+  border-radius: 50%;
+}
+.ic-me::after {
+  content: '';
+  position: absolute;
+  left: 7rpx;
+  top: 26rpx;
+  width: 28rpx;
+  height: 14rpx;
+  border: 4rpx solid currentColor;
+  border-radius: 14rpx 14rpx 4rpx 4rpx;
+}
+
+/* 中央创建按钮 */
+.tab-create {
+  justify-content: flex-start;
+}
+
+.create-btn {
+  width: 96rpx;
+  height: 96rpx;
+  margin-top: -36rpx;
+  border-radius: 50%;
+  background: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10rpx 24rpx rgba(34, 197, 94, 0.40), inset 0 2rpx 0 rgba(255, 255, 255, 0.28), 0 0 0 10rpx var(--night-950);
+}
+
+.create-plus {
+  color: #ffffff;
+  font-size: 60rpx;
+  font-weight: 300;
+  line-height: 1;
+  margin-top: -4rpx;
+}
+
+/* Visual reset: quieter bottom chrome; central action remains the only loud element. */
+.tabbar {
+  background: rgba(8, 17, 29, 0.96);
+  border-top-color: rgba(247,243,234,0.08);
+  box-shadow: 0 -10rpx 36rpx rgba(0,0,0,0.42);
+}
+
+.create-btn {
+  width: 88rpx;
+  height: 88rpx;
+  margin-top: -30rpx;
+  box-shadow: 0 8rpx 20rpx rgba(43, 201, 107, 0.26), 0 0 0 8rpx var(--night-950);
+}
+
+.create-plus { font-size: 52rpx; }

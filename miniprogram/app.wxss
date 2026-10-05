@@ -1,0 +1,238 @@
+/* ===== Roomie 设计令牌 · 深夜放映室 (v3 · 视觉重置基准) =====
+   空间关系:外部=深夜蓝(冷) / 内部=米白纸张+胡桃木+2700K暖光 / 交互=Roomie Green / 强调=琥珀
+   所有页面只允许消费本文件变量,禁止散落硬编码 hex。
+   令牌值对齐 ROOMIE-VISUAL-DESIGN-SPEC §3 Master Tokens。 */
+page {
+  /* ---- 外部 · 深夜 ---- */
+  --night-950: #08111D;
+  --night-900: #0E1A29;
+  --night-850: #162537;
+  --night-800: #203248;
+  --night-line: rgba(247, 243, 234, 0.12);
+  --night-text: #F7F0E4;
+  --night-sub: #93A0B1;
+
+  /* ---- 内部 · 纸张 ---- */
+  --paper-100: #F3EBDD;
+  --paper-95: #F8F2E6;
+  --paper-90: #EDE3D1;
+  --ink-900: #1F2329;
+  --ink-700: #4B5563;
+  --ink-500: #8A8F98;
+  --line: #ECE7DA;
+
+  /* ---- 交互 · Roomie Green(只给 LIVE/在线/同步/主CTA/正向确认) ---- */
+  --green: #2BC96B;
+  --green-deep: #1E9F54;
+  --green-soft: #E5F4E9;
+
+  /* ---- 强调 · 琥珀 / 胡桃木 / 2700K 暖光 ---- */
+  --amber: #E9A942;
+  --amber-deep: #A96B20;
+  --amber-soft: #FBEAC6;
+  --walnut-900: #24140D;
+  --walnut-700: #3E2618;
+  --walnut-500: #704628;
+  --warm-light: #F6C77A;
+
+  --danger: #D96B55;
+
+  /* ---- 兼容别名(旧类名 → 新令牌,页面迁移期间保持有效) ---- */
+  --night: var(--night-950);
+  --night-2: var(--night-900);
+  --night-3: var(--night-850);
+  --paper: var(--paper-100);
+  --paper-2: var(--paper-90);
+  --ink: var(--ink-900);
+  --ink-2: var(--ink-700);
+  --ink-3: var(--ink-500);
+  --wood: var(--walnut-500);
+  --wood-deep: var(--walnut-700);
+  --cream: var(--night);
+  --sky: var(--night-2);
+  --white: #FFFFFF;
+
+  /* ---- 字号(rpx, 375 逻辑宽基准) ---- */
+  --fs-display-xl: 64rpx;
+  --fs-display: 56rpx;
+  --fs-hero: 44rpx;
+  --fs-title: 44rpx;
+  --fs-section: 34rpx;
+  --fs-sub: 27rpx;
+  --fs-body: 29rpx;
+  --fs-caption: 23rpx;
+  --fs-micro: 20rpx;
+
+  /* ---- 间距(4px 基准) ---- */
+  --sp-micro: 8rpx;
+  --sp-compact: 16rpx;
+  --sp-small: 24rpx;
+  --sp-normal: 32rpx;
+  --sp-medium: 40rpx;
+  --sp-card: 48rpx;
+  --sp-section: 64rpx;
+  --sp-hero: 80rpx;
+
+  /* ---- 圆角 ---- */
+  --r-pill: 999rpx;
+  --r-card-lg: 42rpx;
+  --r-card: 32rpx;
+  --r-card-sm: 22rpx;
+  --r-image: 28rpx;
+
+  /* ---- 阴影(三族:纸卡 / 悬浮控件 / 绿色 CTA) ---- */
+  --shadow-paper: 0 16rpx 42rpx rgba(5, 10, 18, 0.18);
+  --shadow-float: 0 14rpx 34rpx rgba(2, 8, 15, 0.30);
+  --shadow-green: 0 10rpx 22rpx rgba(43, 201, 107, 0.22), inset 0 1rpx 0 rgba(255, 255, 255, 0.22);
+
+  background: var(--night-950);
+  color: var(--night-text);
+  font-family: "MiSans", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: var(--fs-body);
+  line-height: 1.45;
+}
+
+/* ===== 通用组件类 ===== */
+.en-serif {
+  font-family: "Oranienbaum", "Times New Roman", serif;
+  letter-spacing: 4rpx;
+  text-transform: uppercase;
+}
+
+/* Paper Card:米白纸张 + 柔和圆角 + 轻纸纹 + 柔和纸影 */
+.card,
+.paper-card {
+  background: var(--paper-100);
+  background-image:
+    radial-gradient(rgba(112, 70, 40, 0.045) 1rpx, transparent 1.6rpx),
+    linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0));
+  background-size: 16rpx 16rpx, 100% 100%;
+  color: var(--ink-900);
+  border-radius: var(--r-card-lg);
+  box-shadow: var(--shadow-paper);
+}
+
+/* Status Pill 基底 */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--r-pill);
+  padding: 8rpx 24rpx;
+  font-size: var(--fs-caption);
+}
+
+/* LIVE / 在线 / 正向状态:绿底白字 */
+.pill-live {
+  background: var(--green);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 6rpx 16rpx rgba(34, 197, 94, 0.35);
+}
+
+/* 深夜底上的次级状态(半透明暖白) */
+.pill-dark {
+  background: rgba(247, 243, 234, 0.10);
+  color: var(--night-text);
+  border: 1rpx solid var(--night-line);
+}
+
+/* 纸张上的绿色状态(收藏中/同步中/已保存) */
+.pill-green-soft {
+  background: var(--green-soft);
+  color: var(--green-deep);
+  font-weight: 600;
+}
+
+/* 纸张上的琥珀状态(XP/氛围值) */
+.pill-amber {
+  background: var(--amber-soft);
+  color: var(--amber-deep);
+  font-weight: 600;
+}
+
+/* Green CTA:胶囊 + 轻立体(绿色只给关键行动) */
+.btn-primary {
+  background: var(--green);
+  color: #ffffff;
+  border-radius: var(--r-pill);
+  font-weight: 600;
+  text-align: center;
+  box-shadow: var(--shadow-green);
+}
+
+/* 纸张上的描边按钮 */
+.btn-ghost {
+  background: transparent;
+  color: var(--green-deep);
+  border: 2rpx solid var(--green);
+  border-radius: var(--r-pill);
+  text-align: center;
+}
+
+/* 深夜底上的描边按钮 */
+.btn-ghost-night {
+  background: transparent;
+  color: var(--night-text);
+  border: 2rpx solid var(--night-line);
+  border-radius: var(--r-pill);
+  text-align: center;
+}
+
+/* 危险/退出操作描边(退出双人房):柔和警示,不用攻击性强红 */
+.btn-ghost-danger {
+  background: transparent;
+  color: var(--danger);
+  border: 2rpx solid var(--danger);
+  border-radius: var(--r-pill);
+  text-align: center;
+}
+
+/* 统一按压反馈:主交互元素配 hover-class="btn-hover" 使用 */
+.btn-hover {
+  opacity: 0.86;
+}
+
+/* 页面左右留白(375 基准 20–24px → 40–48rpx) */
+.page-pad {
+  padding: 0 40rpx;
+}
+
+/* 深夜底上的页面标题/次文字 */
+.section-title {
+  font-size: var(--fs-section);
+  font-weight: 700;
+  color: var(--night-text);
+}
+
+.text-sub {
+  color: var(--night-sub);
+  font-size: var(--fs-caption);
+}
+
+/* 纸张内的标题/次文字(paper card 内部使用) */
+.paper-title {
+  font-size: var(--fs-section);
+  font-weight: 700;
+  color: var(--ink-900);
+}
+
+.paper-sub {
+  color: var(--ink-500);
+  font-size: var(--fs-caption);
+}
+
+/* ===== VISUAL RESET V1 · polish overrides =====
+   目的：压低“AI dashboard / neon game UI”感，让纸张、木材、深夜和空间本身成为主角。 */
+.pill-live {
+  background: var(--green);
+  box-shadow: 0 5rpx 14rpx rgba(43, 201, 107, 0.20);
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, #35D477 0%, #24B961 100%);
+  box-shadow: 0 8rpx 20rpx rgba(43, 201, 107, 0.18), inset 0 1rpx 0 rgba(255,255,255,0.20);
+}
+
+.btn-primary::after {
+  display: none;
+}

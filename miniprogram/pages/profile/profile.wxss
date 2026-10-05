@@ -1,0 +1,338 @@
+.page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--night-950) 0%, var(--night-900) 55%, var(--night-950) 100%);
+  padding-bottom: 220rpx;
+}
+
+/* ---- 入场动效: opacity 0→1, translateY 16rpx→0, 错峰 ---- */
+.anim-in {
+  opacity: 0;
+  transform: translateY(16rpx);
+  animation: rise-in 0.24s ease-out forwards;
+}
+.anim-d1 { animation-delay: 0.06s; }
+
+@keyframes rise-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- 编辑式刊头 ---- */
+.masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20rpx;
+  margin-bottom: 28rpx;
+}
+
+.masthead-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.masthead-title {
+  font-size: var(--fs-title);
+  font-weight: 700;
+  color: var(--night-text);
+  line-height: 1.2;
+}
+
+.masthead-en {
+  font-size: var(--fs-micro);
+  color: var(--night-sub);
+}
+
+.masthead-gear {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  background: var(--night-850);
+  border: 1rpx solid var(--night-line);
+  color: var(--night-sub);
+  font-size: 34rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ---- 一整张纸张档案卡 ---- */
+.sheet {
+  padding: 36rpx 32rpx 40rpx;
+}
+
+.sheet-line {
+  height: 2rpx;
+  background: var(--line);
+  margin: 32rpx 0 28rpx;
+}
+
+.sec-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+/* ---- ① 角色档案行 ---- */
+.me-row {
+  display: flex;
+  gap: 24rpx;
+}
+
+.me-avatar {
+  width: 144rpx;
+  height: 144rpx;
+  border-radius: 50%;
+  background: var(--amber-soft);
+  border: 4rpx solid var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.me-avatar-img {
+  width: 112rpx;
+  height: 136rpx;
+}
+
+.me-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.me-name-row {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  flex-wrap: wrap;
+}
+
+.me-name {
+  font-size: var(--fs-section);
+  font-weight: 800;
+  color: var(--ink-900);
+}
+
+/* 纸张上的深色等级 pill(对应深夜底 pill-dark 的纸面版本) */
+.pill-ink {
+  background: var(--ink-900);
+  color: var(--paper-100);
+  font-weight: 600;
+}
+
+.me-quote {
+  font-size: var(--fs-caption);
+  font-style: italic;
+  color: var(--ink-500);
+  border-left: 6rpx solid var(--amber);
+  padding-left: 16rpx;
+  line-height: 1.6;
+}
+
+.me-actions {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 4rpx;
+}
+
+.me-btn {
+  font-size: var(--fs-caption);
+  padding: 8rpx 28rpx;
+}
+
+/* ---- ② 我的唱片墙 ---- */
+.wall-count {
+  font-size: var(--fs-caption);
+  color: var(--green-deep);
+  font-weight: 600;
+}
+
+.wall-desc {
+  display: block;
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+  margin: 8rpx 0 20rpx;
+}
+
+.wall-tip {
+  background: var(--green-soft);
+  color: var(--green-deep);
+  font-size: var(--fs-caption);
+  border-radius: var(--r-card-sm);
+  padding: 20rpx 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.wall-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.rec {
+  position: relative;
+  width: calc((100% - 48rpx) / 4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  padding: 14rpx 8rpx;
+  border-radius: var(--r-card-sm);
+  border: 2rpx solid var(--line);
+  background: var(--paper-95);
+  box-sizing: border-box;
+}
+
+.rec-on {
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+
+.rec-cover {
+  width: 100%;
+  height: 92rpx;
+}
+
+.rec-title {
+  font-size: var(--fs-micro);
+  color: var(--ink-500);
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.rec-check {
+  position: absolute;
+  right: 8rpx;
+  top: 8rpx;
+  width: 28rpx;
+  height: 28rpx;
+  border-radius: 50%;
+  background: var(--green);
+  color: var(--white);
+  font-size: 18rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 末尾虚线「+」添加格(视觉引导,选择流程即上方唱片格点选) */
+.rec-add {
+  border: 2rpx dashed var(--ink-500);
+  background: transparent;
+  justify-content: center;
+  min-height: 164rpx;
+  opacity: 0.45;
+}
+
+.rec-add-plus {
+  font-size: 48rpx;
+  font-weight: 300;
+  color: var(--ink-500);
+  line-height: 1;
+}
+
+/* ---- 保存按钮:已保存=纸面正向确认态 ---- */
+.save-wall {
+  margin-top: 28rpx;
+  height: 96rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-body);
+}
+
+.save-done {
+  background: var(--green-soft);
+  color: var(--green-deep);
+  box-shadow: none;
+}
+
+/* ---- ③ 我的成就 ---- */
+.ach-row {
+  margin-top: 24rpx;
+  display: flex;
+  justify-content: space-between;
+}
+
+.ach {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  flex: 1;
+}
+
+.ach-ic {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  color: var(--white);
+  font-size: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2rpx 0 rgba(255, 255, 255, 0.28);
+}
+
+.ach-name {
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  color: var(--ink-900);
+}
+
+.ach-lv {
+  font-size: var(--fs-micro);
+  color: var(--ink-500);
+}
+
+/* ---- ④ 我的房间 ---- */
+.room-row {
+  margin-top: 20rpx;
+  padding: 16rpx;
+  border-radius: var(--r-card-sm);
+  background: var(--paper-95);
+  border: 2rpx solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.room-thumb {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 24rpx;
+  flex-shrink: 0;
+  background: var(--night-900);
+}
+
+.room-meta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.room-now {
+  font-size: var(--fs-sub);
+  font-weight: 700;
+  color: var(--ink-900);
+}
+
+.room-sub {
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+}
+
+.room-arrow {
+  font-size: 44rpx;
+  color: var(--ink-500);
+}

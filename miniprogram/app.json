@@ -1,0 +1,35 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/friends/friends",
+    "pages/create/create",
+    "pages/messages/messages",
+    "pages/profile/profile",
+    "pages/room/room",
+    "pages/song/song",
+    "pages/duo/duo",
+    "pages/architect/architect",
+    "pages/postcard/postcard"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#0B1320",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "Roomie",
+    "backgroundColor": "#0B1320"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#8A96A8",
+    "selectedColor": "#22C55E",
+    "backgroundColor": "#101B2A",
+    "list": [
+      { "pagePath": "pages/home/home", "text": "房间" },
+      { "pagePath": "pages/friends/friends", "text": "好友" },
+      { "pagePath": "pages/create/create", "text": "创建" },
+      { "pagePath": "pages/messages/messages", "text": "消息" },
+      { "pagePath": "pages/profile/profile", "text": "我" }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

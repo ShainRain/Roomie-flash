@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Roomie · 好友</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 390px; }
+  body { font-family: -apple-system, "PingFang SC", "MiSans", "Microsoft YaHei", sans-serif; font-size: 13.52px; color: #F2ECDC; background: #0C1424; }
+  .en-serif { font-family: "Oranienbaum", "Times New Roman", serif; letter-spacing: 4.16px; text-transform: uppercase; }
+  .page { min-height: 844px; background: linear-gradient(180deg, #0C1424 0%, #101B30 55%, #0C1424 100%); padding: 0 16.64px 100px; }
+  .card { background: #F6EFDD; background-image: radial-gradient(rgba(138,90,51,.05) .52px, transparent .83px); background-size: 7.28px 7.28px; color: #26221A; border-radius: 16.64px; box-shadow: 0 6.24px 16.64px rgba(4,8,18,.45); }
+  .pill { display: inline-flex; align-items: center; border-radius: 999px; padding: 4.16px 12.48px; font-size: 11.44px; }
+  .pill-live { background: #2FBF71; color: #fff; font-weight: 600; box-shadow: 0 3.12px 8.32px rgba(47,191,113,.35); }
+  .pill-dark { background: rgba(246,239,221,.10); color: #F2ECDC; border: .52px solid rgba(246,239,221,.14); }
+
+  .statusbar { height: 44px; display: flex; align-items: center; justify-content: space-between; padding: 0 28px 0 32px; font-size: 14px; font-weight: 600; color: #F2ECDC; margin: 0 -16.64px; }
+  .sb-right { display: flex; align-items: center; gap: 6px; }
+  .sb-signal { display: flex; align-items: flex-end; gap: 1.5px; height: 11px; }
+  .sb-signal i { width: 3px; background: #F2ECDC; border-radius: 1px; display: block; }
+  .sb-signal i:nth-child(1) { height: 4px; } .sb-signal i:nth-child(2) { height: 6px; } .sb-signal i:nth-child(3) { height: 8px; } .sb-signal i:nth-child(4) { height: 10px; }
+  .sb-battery { width: 22px; height: 11px; border: 1.5px solid rgba(242,236,220,.5); border-radius: 3px; position: relative; display: block; }
+  .sb-battery::before { content: ''; position: absolute; left: 1.5px; top: 1.5px; bottom: 1.5px; width: 70%; background: #F2ECDC; border-radius: 1px; }
+
+  .rh { display: flex; align-items: center; justify-content: space-between; padding: 12.48px 0 4.16px; }
+  .rh-left { display: flex; flex-direction: column; gap: 1.04px; }
+  .rh-brand { font-size: 17.68px; color: #F2ECDC; letter-spacing: 4.16px; line-height: 1.2; }
+  .rh-sub { font-size: 10.4px; color: #8B96AC; letter-spacing: 1.04px; }
+  .rh-right { display: flex; align-items: center; gap: 8.32px; }
+  .rh-live { display: flex; align-items: center; gap: 4.16px; padding: 4.16px 11.44px; border-radius: 999px; background: #2FBF71; color: #fff; font-size: 10.4px; font-weight: 700; letter-spacing: 1.04px; box-shadow: 0 3.12px 8.32px rgba(47,191,113,.35); }
+  .rh-live-dot { width: 5.2px; height: 5.2px; border-radius: 50%; background: #fff; }
+  .rh-avatar { width: 27.04px; height: 27.04px; border-radius: 50%; background: #F0A93C; color: #fff; font-size: 12.48px; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 1.56px solid rgba(246,239,221,.35); }
+
+  .head { display: flex; flex-direction: column; gap: 2.08px; margin-top: 10.4px; margin-bottom: 4.16px; }
+  .section-title { font-size: 18.72px; font-weight: 700; color: #F2ECDC; }
+  .head-sub { font-size: 11.44px; color: #8B96AC; }
+
+  .village { position: relative; }
+  .village-img { width: 100%; height: 249.6px; object-fit: contain; }
+  .v-tag { position: absolute; box-shadow: 0 4.16px 10.4px rgba(4,8,18,.45); }
+  .v-tag-1 { left: 12%; top: 18%; }
+  .v-tag-2 { right: 10%; top: 34%; }
+  .v-tag-3 { left: 52%; top: 62%; }
+
+  .banner { display: flex; align-items: center; justify-content: space-between; padding: 14.56px 16.64px; border-radius: 16.64px; background: linear-gradient(120deg, #2FBF71 0%, #1F9D5A 100%); box-shadow: 0 5.2px 12.48px rgba(47,191,113,.38), inset 0 1.04px 0 rgba(255,255,255,.28); margin-bottom: 4.16px; }
+  .banner-text { display: flex; flex-direction: column; gap: 3.12px; }
+  .banner-title { color: #fff; font-size: 15.6px; font-weight: 700; }
+  .banner-sub { color: rgba(255,255,255,.85); font-size: 11.44px; }
+  .banner-ic { width: 33.28px; height: 33.28px; border-radius: 50%; background: rgba(255,255,255,.25); color: #fff; font-size: 20.8px; display: flex; align-items: center; justify-content: center; }
+
+  .group-title { font-size: 12.48px; color: #8B96AC; margin: 14.56px 4.16px 8.32px; }
+  .friend-list { padding: 4.16px 14.56px; }
+  .friend { display: flex; align-items: center; gap: 10.4px; padding: 12.48px 0; border-bottom: 1.04px solid #E3D9C2; }
+  .friend:last-child { border-bottom: none; }
+  .friend-off { opacity: .72; }
+  .f-avatar { position: relative; width: 41.6px; height: 41.6px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 15.6px; font-weight: 700; flex-shrink: 0; }
+  .f-dot { position: absolute; right: 0; bottom: 0; width: 10.4px; height: 10.4px; border-radius: 50%; background: #2FBF71; border: 2.08px solid #F6EFDD; }
+  .f-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2.08px; }
+  .f-name-row { display: flex; align-items: center; gap: 6.24px; }
+  .f-name { font-size: 14.56px; font-weight: 700; color: #26221A; }
+  .f-tag { font-size: 9.36px; color: #1F9D5A; background: #DFF5E9; border-radius: 999px; padding: 1.04px 7.28px; }
+  .f-status { font-size: 11.44px; color: #9A9080; }
+  .f-btn { flex-shrink: 0; font-size: 12.48px; padding: 6.24px 16.64px; border-radius: 999px; }
+  .f-btn-solid { background: #2FBF71; color: #fff; font-weight: 600; box-shadow: 0 3.12px 8.32px rgba(47,191,113,.35), inset 0 1.04px 0 rgba(255,255,255,.28); }
+  .f-btn-green { background: #DFF5E9; color: #1F9D5A; font-weight: 600; }
+  .f-btn-ghost { border: 1.04px solid #9A9080; color: #9A9080; }
+
+  .tabbar { position: fixed; left: 0; width: 390px; bottom: 0; display: flex; align-items: flex-end; height: 66.56px; background: #0E1830; border-top: .52px solid rgba(246,239,221,.10); box-shadow: 0 -4.16px 16.64px rgba(4,8,18,.55); z-index: 10; }
+  .tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 57.2px; color: #7A8398; }
+  .tab-on { color: #2FBF71; }
+  .tab-label { font-size: 10.4px; margin-top: 3.12px; }
+  .ic { position: relative; width: 22.88px; height: 22.88px; }
+  .ic-home::before { content: ''; position: absolute; left: 4.16px; top: 10.4px; width: 14.56px; height: 10.4px; border: 2.08px solid currentColor; border-radius: 2.08px; }
+  .ic-home::after { content: ''; position: absolute; left: 5.72px; top: 1.04px; width: 10.4px; height: 10.4px; border-left: 2.08px solid currentColor; border-top: 2.08px solid currentColor; transform: rotate(45deg); border-radius: 1.56px; }
+  .ic-friends::before { content: ''; position: absolute; left: 2.08px; top: 3.12px; width: 7.28px; height: 7.28px; border: 2.08px solid currentColor; border-radius: 50%; box-shadow: 11.44px 3.12px 0 -2.08px #0E1830, 11.44px 3.12px 0 0 currentColor; }
+  .ic-friends::after { content: ''; position: absolute; left: 1.04px; top: 13.52px; width: 9.36px; height: 6.24px; border: 2.08px solid currentColor; border-radius: 5.2px 5.2px 2.08px 2.08px; }
+  .ic-msg::before { content: ''; position: absolute; left: 3.12px; top: 4.16px; width: 16.64px; height: 11.44px; border: 2.08px solid currentColor; border-radius: 6.24px; }
+  .ic-msg::after { content: ''; position: absolute; left: 8.32px; top: 14.56px; width: 6.24px; height: 6.24px; border-left: 2.08px solid currentColor; border-bottom: 2.08px solid currentColor; transform: rotate(-45deg) skew(-12deg, -12deg); }
+  .ic-me::before { content: ''; position: absolute; left: 6.76px; top: 2.08px; width: 8.32px; height: 8.32px; border: 2.08px solid currentColor; border-radius: 50%; }
+  .ic-me::after { content: ''; position: absolute; left: 3.64px; top: 13.52px; width: 14.56px; height: 7.28px; border: 2.08px solid currentColor; border-radius: 7.28px 7.28px 2.08px 2.08px; }
+  .tab-create { justify-content: flex-start; }
+  .create-btn { width: 49.92px; height: 49.92px; margin-top: -18.72px; border-radius: 50%; background: #2FBF71; display: flex; align-items: center; justify-content: center; box-shadow: 0 5.2px 12.48px rgba(47,191,113,.45), inset 0 1.04px 0 rgba(255,255,255,.28), 0 0 0 5.2px #0C1424; }
+  .create-plus { color: #fff; font-size: 31.2px; font-weight: 300; line-height: 1; margin-top: -2.08px; }
+</style>
+</head>
+<body>
+  <div class="statusbar">
+    <span>9:41</span>
+    <span class="sb-right"><span class="sb-signal"><i></i><i></i><i></i><i></i></span><span class="sb-battery"></span></span>
+  </div>
+  <div class="page">
+    <div class="rh">
+      <div class="rh-left">
+        <div class="rh-brand en-serif">ROOMIE</div>
+        <div class="rh-sub">深夜放映室 · 0731</div>
+      </div>
+      <div class="rh-right">
+        <div class="rh-live"><div class="rh-live-dot"></div>LIVE</div>
+        <div class="rh-avatar">M</div>
+      </div>
+    </div>
+    <div class="head">
+      <span class="section-title">好友</span>
+      <span class="head-sub">在音乐里,朋友都在这里。</span>
+    </div>
+
+    <div class="village">
+      <img class="village-img" src="../miniprogram/assets/img/friends-village.webp" alt="">
+      <div class="v-tag v-tag-1 pill pill-live">KIKI · 在线</div>
+      <div class="v-tag v-tag-2 pill pill-live">NANA · 在线</div>
+      <div class="v-tag v-tag-3 pill pill-dark">RITA · 离线</div>
+    </div>
+
+    <div class="banner">
+      <div class="banner-text">
+        <span class="banner-title">邀请好友进房间</span>
+        <span class="banner-sub">一起听《晴天》,放映墙同步画面</span>
+      </div>
+      <div class="banner-ic">＋</div>
+    </div>
+
+    <div class="group-title">在线好友 · 3</div>
+    <div class="card friend-list">
+      <div class="friend">
+        <div class="f-avatar" style="background:#F5B83D;">K<div class="f-dot"></div></div>
+        <div class="f-info">
+          <div class="f-name-row"><span class="f-name">KIKI</span><span class="f-tag">房间中</span></div>
+          <span class="f-status">在你的房间 · 一起听《晴天》</span>
+        </div>
+        <div class="f-btn f-btn-solid">进入</div>
+      </div>
+      <div class="friend">
+        <div class="f-avatar" style="background:#7FB5E8;">N<div class="f-dot"></div></div>
+        <div class="f-info">
+          <div class="f-name-row"><span class="f-name">NANA</span></div>
+          <span class="f-status">正在听《晴天》</span>
+        </div>
+        <div class="f-btn f-btn-green">邀请</div>
+      </div>
+      <div class="friend">
+        <div class="f-avatar" style="background:#E8734A;">A<div class="f-dot"></div></div>
+        <div class="f-info">
+          <div class="f-name-row"><span class="f-name">ABO</span></div>
+          <span class="f-status">正在逛唱片墙</span>
+        </div>
+        <div class="f-btn f-btn-green">邀请</div>
+      </div>
+    </div>
+
+    <div class="group-title">离线好友 · 2</div>
+    <div class="card friend-list">
+      <div class="friend friend-off">
+        <div class="f-avatar" style="background:#C9CDD4;">R</div>
+        <div class="f-info">
+          <div class="f-name-row"><span class="f-name">RITA</span></div>
+          <span class="f-status">2 小时前听过《花海》</span>
+        </div>
+        <div class="f-btn f-btn-ghost">邀请</div>
+      </div>
+      <div class="friend friend-off">
+        <div class="f-avatar" style="background:#C9CDD4;">T</div>
+        <div class="f-info">
+          <div class="f-name-row"><span class="f-name">TAO</span></div>
+          <span class="f-status">昨天布置了唱片墙</span>
+        </div>
+        <div class="f-btn f-btn-ghost">邀请</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabbar">
+    <div class="tab"><div class="ic ic-home"></div><span class="tab-label">房间</span></div>
+    <div class="tab tab-on"><div class="ic ic-friends"></div><span class="tab-label">好友</span></div>
+    <div class="tab tab-create"><div class="create-btn"><span class="create-plus">+</span></div></div>
+    <div class="tab"><div class="ic ic-msg"></div><span class="tab-label">消息</span></div>
+    <div class="tab"><div class="ic ic-me"></div><span class="tab-label">我</span></div>
+  </div>
+</body>
+</html>

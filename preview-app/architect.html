@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Roomie · 建筑师模式</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 390px; }
+  body { font-family: -apple-system, "PingFang SC", "MiSans", "Microsoft YaHei", sans-serif; font-size: 13.52px; color: #F2ECDC; background: #0C1424; }
+  .en-serif { font-family: "Oranienbaum", "Times New Roman", serif; letter-spacing: 2.08px; text-transform: uppercase; }
+  .page { min-height: 844px; background: linear-gradient(180deg, #0C1424 0%, #101B30 55%, #0C1424 100%); padding: 52px 16.64px 40px; }
+  .card { background: #F6EFDD; background-image: radial-gradient(rgba(138,90,51,.05) .52px, transparent .83px); background-size: 7.28px 7.28px; color: #26221A; border-radius: 16.64px; box-shadow: 0 6.24px 16.64px rgba(4,8,18,.45); }
+  .pill-live { display: inline-flex; align-items: center; border-radius: 999px; padding: 4.16px 12.48px; font-size: 11.44px; background: #2FBF71; color: #fff; font-weight: 600; box-shadow: 0 3.12px 8.32px rgba(47,191,113,.35); }
+  .btn-primary { background: #2FBF71; color: #fff; border-radius: 999px; font-weight: 600; text-align: center; box-shadow: 0 5.2px 12.48px rgba(47,191,113,.38), inset 0 1.04px 0 rgba(255,255,255,.28); }
+
+  .head-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12.48px; }
+  .head-text { display: flex; flex-direction: column; gap: 2.08px; }
+  .section-title { font-size: 18.72px; font-weight: 700; color: #F2ECDC; }
+  .head-en { font-size: 10.4px; color: #8B96AC; }
+  .save-btn { padding: 7.28px 22.88px; font-size: 13.52px; }
+
+  .preview-frame { position: relative; border-radius: 16.64px; overflow: hidden; box-shadow: 0 8.32px 20.8px rgba(4,8,18,.55), 0 0 0 .52px rgba(246,239,221,.08); }
+  .preview-img { width: 100%; height: 357.76px; object-fit: cover; display: block; }
+  .preview-tag { position: absolute; left: 12.48px; bottom: 37.44px; }
+  .preview-hint { margin: 8.32px 4.16px 0; font-size: 11.44px; color: #8B96AC; }
+
+  .panel { margin-top: 16.64px; }
+  .bench { padding: 14.56px; }
+  .bench-divider { height: 1.04px; background: #E3D9C2; margin: 14.56px 0; }
+  .panel-title { font-size: 14.56px; font-weight: 700; color: #26221A; display: block; margin-bottom: 10.4px; }
+  .grid { display: flex; flex-wrap: wrap; gap: 10.4px; }
+  .cell { position: relative; width: calc((100% - 31.2px) / 4); background: #ECE2CB; border-radius: 12.48px; border: 1.04px solid transparent; padding: 12.48px 0; display: flex; flex-direction: column; align-items: center; gap: 4.16px; }
+  .cell-on { border-color: #2FBF71; background: #DFF5E9; }
+  .cell-icon { width: 33.28px; height: 33.28px; object-fit: contain; }
+  .cell-name { font-size: 10.4px; color: #6E6656; }
+  .cell-check { position: absolute; right: 5.2px; top: 5.2px; width: 16.64px; height: 16.64px; border-radius: 50%; background: #2FBF71; color: #fff; font-size: 10.4px; display: flex; align-items: center; justify-content: center; }
+
+  .swatches { display: flex; gap: 16.64px; }
+  .swatch-wrap { display: flex; flex-direction: column; align-items: center; gap: 5.2px; }
+  .swatch { width: 49.92px; height: 49.92px; border-radius: 14.56px; border: 2.08px solid transparent; display: flex; align-items: center; justify-content: center; }
+  .swatch-on { border-color: #2FBF71; }
+  .swatch-check { color: #fff; font-size: 16.64px; font-weight: 700; }
+  .swatch-name { font-size: 10.4px; color: #6E6656; }
+
+  .light-row { display: flex; align-items: center; gap: 8.32px; }
+  .light-end { font-size: 10.4px; color: #9A9080; width: 68.64px; text-align: center; flex-shrink: 0; }
+  .light-slider { flex: 1; height: 4.16px; border-radius: 999px; background: linear-gradient(90deg, #FFD9A0, #F0A93C 60%, #E3D9C2); position: relative; }
+  .light-thumb { position: absolute; left: 0; top: -3.12px; width: 10.4px; height: 10.4px; border-radius: 50%; background: #fff; box-shadow: 0 1.04px 3.12px rgba(38,34,26,.35); }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="head-row">
+      <div class="head-text">
+        <span class="section-title">建筑师模式</span>
+        <span class="head-en en-serif">Architect</span>
+      </div>
+      <div class="btn-primary save-btn">保存</div>
+    </div>
+    <div class="preview-frame">
+      <img class="preview-img" src="../miniprogram/assets/img/room-hero.webp" alt="">
+      <div class="preview-tag pill-live">正在播放 · 晴天</div>
+    </div>
+    <div class="preview-hint">已选家具 7 件 · 2700K 灯光</div>
+
+    <div class="panel">
+      <div class="card bench">
+        <div class="bench-section">
+          <span class="panel-title">家具</span>
+          <div class="grid">
+            <div class="cell cell-on"><img class="cell-icon" src="../miniprogram/assets/img/furn-icon-sofa.webp" alt=""><span class="cell-name">沙发</span><div class="cell-check">✓</div></div>
+            <div class="cell cell-on"><img class="cell-icon" src="../miniprogram/assets/img/furn-icon-vinyl-player.webp" alt=""><span class="cell-name">黑胶机</span><div class="cell-check">✓</div></div>
+            <div class="cell"><img class="cell-icon" src="../miniprogram/assets/img/furn-icon-cat-bed.webp" alt=""><span class="cell-name">猫窝</span></div>
+            <div class="cell"><img class="cell-icon" src="../miniprogram/assets/img/furn-icon-bookshelf.webp" alt=""><span class="cell-name">书架</span></div>
+            <div class="cell cell-on"><img class="cell-icon" src="../miniprogram/assets/img/furn-icon-lamp.webp" alt=""><span class="cell-name">落地灯</span><div class="cell-check">✓</div></div>
+            <div class="cell cell-on"><img class="cell-icon" src="../miniprogram/assets/img/furn-icon-plant.webp" alt=""><span class="cell-name">绿植</span><div class="cell-check">✓</div></div>
+            <div class="cell cell-on"><img class="cell-icon" src="../miniprogram/assets/img/furn-icon-rug.webp" alt=""><span class="cell-name">地毯</span><div class="cell-check">✓</div></div>
+            <div class="cell"><img class="cell-icon" src="../miniprogram/assets/img/furn-icon-curtain.webp" alt=""><span class="cell-name">挂帘</span></div>
+            <div class="cell cell-on"><img class="cell-icon" src="../miniprogram/assets/img/furn-icon-projector.webp" alt=""><span class="cell-name">放映机</span><div class="cell-check">✓</div></div>
+            <div class="cell"><img class="cell-icon" src="../miniprogram/assets/img/furn-icon-poster.webp" alt=""><span class="cell-name">海报</span></div>
+            <div class="cell"><img class="cell-icon" src="../miniprogram/assets/img/furn-icon-coffee.webp" alt=""><span class="cell-name">咖啡机</span></div>
+            <div class="cell cell-on"><img class="cell-icon" src="../miniprogram/assets/img/furn-icon-guitar.webp" alt=""><span class="cell-name">吉他角</span><div class="cell-check">✓</div></div>
+          </div>
+        </div>
+        <div class="bench-divider"></div>
+        <div class="bench-section">
+          <span class="panel-title">地板</span>
+          <div class="swatches">
+            <div class="swatch-wrap"><div class="swatch" style="background:#3B4A6B;"></div><span class="swatch-name">夜蓝灰</span></div>
+            <div class="swatch-wrap"><div class="swatch swatch-on" style="background:#8A5A33;"><span class="swatch-check">✓</span></div><span class="swatch-name">胡桃木 · 使用中</span></div>
+            <div class="swatch-wrap"><div class="swatch" style="background:#4A5A66;"></div><span class="swatch-name">深石板</span></div>
+          </div>
+        </div>
+        <div class="bench-divider"></div>
+        <div class="bench-section">
+          <span class="panel-title">灯光</span>
+          <div class="light-row">
+            <span class="light-end">暖黄 2700K</span>
+            <div class="light-slider"><div class="light-thumb"></div></div>
+            <span class="light-end">雪白 6000K</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

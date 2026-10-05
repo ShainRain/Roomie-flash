@@ -1,0 +1,43 @@
+<view class="page">
+  <roomie-header custom-nav subtitle="深夜放映室 · 0731" avatar="M" pageTitle="消息" pageSubtitle="Messages" />
+  <view class="page-pad">
+
+    <view class="paper-card msg-list anim-in" wx:if="{{messages.length}}">
+      <view
+        class="msg"
+        wx:for="{{messages}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="onMessageTap"
+      >
+        <view class="m-avatar" style="background: {{item.color}};">
+          {{item.from[0]}}
+          <view wx:if="{{item.unread}}" class="m-unread"></view>
+        </view>
+        <view class="m-info">
+          <view class="m-row">
+            <text class="m-name {{item.unread ? 'm-name-unread' : ''}}">{{item.from}}</text>
+            <text class="m-time">{{item.time}}</text>
+          </view>
+          <text class="m-summary {{item.unread ? 'm-summary-unread' : ''}}">{{item.title}}</text>
+        </view>
+        <view
+          wx:if="{{item.action}}"
+          class="m-btn"
+          hover-class="btn-hover"
+          data-id="{{item.id}}"
+          data-from="{{item.from}}"
+          catchtap="onMessageAction"
+        >{{item.action}}</view>
+      </view>
+    </view>
+
+    <!-- 空态 -->
+    <view wx:else class="paper-card empty anim-in">
+      <view class="empty-mark"><view class="empty-dot"></view></view>
+      <text class="empty-title">暂时没有新消息</text>
+      <text class="empty-sub">好友的邀请和房间动态会出现在这里</text>
+    </view>
+
+  </view>
+</view>

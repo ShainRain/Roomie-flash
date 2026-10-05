@@ -1,0 +1,52 @@
+<view class="page">
+  <!-- 全屏天空背景 + 正方形房间画框（不切边，百分比坐标与底图一一对应） -->
+  <view class="room-stage {{roomState.projectorOn ? 'projector-on' : ''}} {{roomState.lampOn ? 'lamp-on' : 'lamp-off'}} {{showHint ? 'hint-phase' : ''}}">
+    <view wx:if="{{showHint}}" class="room-hint">点击房间任意位置移动 · 点击物件进行互动</view>
+    <view class="room-frame" bindtap="onRoomTap">
+      <image class="room-art" src="/assets/img/room-interactive.webp" mode="aspectFit" />
+      <view class="floor-tint" style="{{floorTint}}"></view>
+      <!-- DIY 唱片墙槽位 -->
+      <image wx:for="{{recordSlots}}" wx:key="key" class="record-plate" src="{{item.src}}" style="left: {{item.left}}%; top: {{item.top}}%; width: {{item.width}}%; height: {{item.height}}%;" />
+      <!-- DIY 家具覆盖层 -->
+      <image wx:for="{{layers}}" wx:key="key" class="furn-layer" src="{{item.src}}" style="z-index: {{item.z}};" mode="aspectFit" />
+      <!-- 状态视觉反馈层 -->
+      <view wx:if="{{roomState.projectorOn}}" class="projector-beam"></view>
+      <view wx:if="{{roomState.recordPlaying}}" class="turntable-spin" style="left: {{platter.left}}%; top: {{platter.top}}%;"></view>
+      <view wx:if="{{roomState.recordPlaying}}" class="wall-now-playing" style="left: {{wallBadge.left}}%; top: {{wallBadge.top}}%;">▶ 《{{trackTitle}}》</view>
+      <view wx:if="{{guitarBurst}}" class="guitar-notes"><text>♪</text><text>♫</text><text>♪</text></view>
+      <!-- 互动物件热点：标签默认隐藏，靠近或激活时浮现 -->
+      <view wx:for="{{furnitureObjects}}" wx:key="id" class="scene-object {{item.active || item.id === nearId ? 'object-active' : ''}} object-{{item.id}}" data-id="{{item.id}}" style="left: {{item.left}}%; top: {{item.top}}%; width: {{item.width}}%; height: {{item.height}}%; z-index: {{item.z}};" catchtap="onFurnitureTap">
+        <view class="object-badge"><text>{{item.icon}}</text><text>{{item.name}}</text></view>
+        <view wx:if="{{item.id === 'floor-records' && roomState.recordPlaying}}" class="spinning-record">●</view>
+      </view>
+      <view class="room-player" style="left: {{player.left}}%; top: {{player.top}}%; transform: translate(-50%, -88%) scale({{playerScale}}); z-index: {{playerZ}};">
+        <view class="sprite-motion sprite-{{playerSprite}}">
+          <image class="avatar-sprite direction-{{player.direction}}" src="/assets/img/char-momo-{{playerSprite}}.webp" mode="widthFix" />
+        </view>
+        <view class="avatar-shadow" style="transform: scale({{playerScale}});"></view>
+        <text>我</text>
+      </view>
+      <view class="room-peer" style="left: {{peer.left}}%; top: {{peer.top}}%; transform: translate(-50%, -88%) scale({{peerScale}}); z-index: {{peerZ}};" catchtap="onPeerTap">
+        <view class="sprite-motion sprite-{{peerSprite}}">
+          <image class="avatar-sprite direction-{{peerDirection}}" src="/assets/img/char-kiki-{{peerSprite}}.webp" mode="widthFix" />
+        </view>
+        <view class="avatar-shadow" style="transform: scale({{peerScale}});"></view>
+        <text>{{peer.name}}</text>
+      </view>
+      <view class="art-tint" style="{{lightOverlay}}"></view>
+      <view wx:if="{{actionLabel}}" class="action-label">{{actionLabel}}</view>
+    </view>
+  </view>
+
+  <!-- 顶部栏 -->
+  <view class="topbar" style="padding-top: {{statusBarH}}px;">
+    <view class="nav-ic" bindtap="onBack">‹</view>
+    <view class="pill pill-live">{{syncOnline ? '● 正在播放 · LIVE 已连线' : '● 正在播放 · LIVE'}}</view>
+    <view class="nav-ic" bindtap="onShare">↗</view>
+  </view>
+
+  <!-- 底部悬浮播放器 -->
+  <view class="dock">
+    <mini-player />
+  </view>
+</view>

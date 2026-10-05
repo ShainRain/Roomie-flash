@@ -1,0 +1,143 @@
+.page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--night-950) 0%, var(--night-900) 55%, var(--night-950) 100%);
+  padding-bottom: 200rpx;
+}
+
+/* ---- 入场动效:与 home 同一 rise-in 语言;backwards 填充,保住 btn-hover 按压反馈 ---- */
+.anim-in { animation: rise-in 0.24s ease-out backwards; }
+@keyframes rise-in { from { opacity: 0; transform: translateY(16rpx); } }
+
+/* ---- 消息列表(paper-card 由 app.wxss 提供) ---- */
+.msg-list {
+  padding: 8rpx 28rpx;
+}
+
+.msg {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 26rpx 0;
+  border-bottom: 2rpx solid var(--line);
+}
+
+.msg:last-child {
+  border-bottom: none;
+}
+
+.m-avatar {
+  position: relative;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-size: var(--fs-body);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* 未读绿点:绿只给在线/正向状态 */
+.m-unread {
+  position: absolute;
+  right: -2rpx;
+  top: -2rpx;
+  width: 18rpx;
+  height: 18rpx;
+  border-radius: 50%;
+  background: var(--green);
+  border: 4rpx solid var(--paper-100);
+}
+
+.m-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.m-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.m-name {
+  font-size: var(--fs-body);
+  color: var(--ink-700);
+}
+
+.m-name-unread {
+  color: var(--ink-900);
+  font-weight: 700;
+}
+
+.m-time {
+  font-size: var(--fs-micro);
+  color: var(--ink-500);
+  flex-shrink: 0;
+}
+
+.m-summary {
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.m-summary-unread {
+  color: var(--ink-700);
+}
+
+.m-btn {
+  flex-shrink: 0;
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  color: var(--green-deep);
+  background: var(--green-soft);
+  border-radius: var(--r-pill);
+  padding: 12rpx 28rpx;
+}
+
+/* ---- 空态:克制,不用 emoji,一枚纸面环 + 琥珀点 ---- */
+.empty {
+  padding: 100rpx 32rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.empty-mark {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  border: 2rpx solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8rpx;
+}
+
+.empty-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: var(--amber);
+}
+
+.empty-title {
+  font-size: var(--fs-body);
+  font-weight: 700;
+  color: var(--ink-900);
+}
+
+.empty-sub {
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+}

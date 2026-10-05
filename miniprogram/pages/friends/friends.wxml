@@ -1,0 +1,82 @@
+<view class="page">
+  <roomie-header custom-nav subtitle="深夜放映室 · 0731" avatar="M" pageTitle="好友" pageSubtitle="FRIENDS" />
+  <view class="page-pad">
+
+    <!-- 刊头副行 -->
+    <view class="head anim-in">
+      <text class="head-sub">在音乐里，朋友都在这里。</text>
+    </view>
+
+    <!-- 夜色中的房间群落:朋友们的房间 -->
+    <view class="village anim-in anim-d1">
+      <image class="village-img" src="/assets/img/friends-village.webp" mode="aspectFit" />
+      <view
+        wx:for="{{villageTags}}"
+        wx:key="name"
+        class="v-tag {{item.pos}} pill pill-dark {{item.online ? '' : 'v-tag-off'}}"
+      >
+        <view class="v-dot {{item.online ? '' : 'v-dot-off'}}"></view>
+        <text>{{item.name}} · {{item.online ? '在线' : '离线'}}</text>
+      </view>
+    </view>
+
+    <!-- 在线好友:纸张卡叠上群落插画的下缘 -->
+    <view class="card friend-card online-card anim-in anim-d2">
+      <view class="card-head">
+        <text class="paper-title">在线好友 · {{online.length}}</text>
+        <text class="card-head-en en-serif">Online</text>
+      </view>
+      <view class="friend" wx:for="{{online}}" wx:key="name">
+        <view class="f-avatar" style="background: {{item.color}};">
+          {{item.name[0]}}
+          <view class="f-dot"></view>
+        </view>
+        <view class="f-info">
+          <view class="f-name-row">
+            <text class="f-name">{{item.name}}</text>
+            <text wx:if="{{item.tag}}" class="f-tag">{{item.tag}}</text>
+          </view>
+          <text class="f-status">在线 · {{item.status}}</text>
+        </view>
+        <view
+          class="f-btn f-btn-solid {{inviting === item.name ? 'f-btn-wait' : ''}}"
+          hover-class="btn-hover"
+          data-type="{{item.type}}"
+          data-name="{{item.name}}"
+          bindtap="onFriendAction"
+        >{{inviting === item.name ? '等待中…' : '来坐坐'}}</view>
+      </view>
+    </view>
+
+    <!-- 离线好友:区块整体降透明度 -->
+    <view class="card friend-card offline-card anim-in anim-d3">
+      <view class="card-head">
+        <text class="paper-title">离线好友 · {{offline.length}}</text>
+        <text class="card-head-en en-serif">Offline</text>
+      </view>
+      <view class="friend" wx:for="{{offline}}" wx:key="name">
+        <view class="f-avatar" style="background: {{item.color}};">{{item.name[0]}}</view>
+        <view class="f-info">
+          <view class="f-name-row">
+            <text class="f-name">{{item.name}}</text>
+          </view>
+          <text class="f-status">{{item.status}}</text>
+        </view>
+        <view
+          class="f-btn f-btn-ghost {{inviting === item.name ? 'f-btn-wait' : ''}}"
+          hover-class="btn-hover"
+          data-type="{{item.type}}"
+          data-name="{{item.name}}"
+          bindtap="onFriendAction"
+        >{{inviting === item.name ? '等待中…' : item.action}}</view>
+      </view>
+    </view>
+
+    <!-- 邀请好友(页面主 CTA) -->
+    <view class="btn-primary invite-cta anim-in anim-d4" hover-class="btn-hover" bindtap="onBannerInvite">
+      <text class="invite-cta-label">邀请好友进房间</text>
+      <text class="invite-cta-arrow">→</text>
+    </view>
+
+  </view>
+</view>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <defs>
+    <!-- L3 悬浮 UI 投影：offset (0,10) blur 20 ink 20% -->
+    <filter id="cmp-sh-l3" x="-40%" y="-40%" width="180%" height="200%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#3E3A32" flood-opacity="0.2"/>
+    </filter>
+    <!-- L2 角色投影：offset (5,8) blur 12 ink 15% -->
+    <filter id="cmp-sh-l2" x="-40%" y="-40%" width="180%" height="200%">
+      <feDropShadow dx="5" dy="8" stdDeviation="6" flood-color="#3E3A32" flood-opacity="0.15"/>
+    </filter>
+    <!-- Room AI 光晕 mist-mint -->
+    <radialGradient id="cmp-ai-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#C4DED2" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#C4DED2" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 明信片天空：Golden Sunset 115° -->
+    <linearGradient id="cmp-card-sky" x1="0%" y1="15%" x2="100%" y2="85%">
+      <stop offset="0%" stop-color="#F2D9A0"/>
+      <stop offset="100%" stop-color="#F6E8C8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 基底 cream-wall -->
+  <rect width="1200" height="800" fill="#F6F0E4"/>
+
+  <!-- ===== 页眉 ===== -->
+  <text x="48" y="44" font-family="MiSans" font-size="10" letter-spacing="3" fill="#7A7263">QQ MUSIC CONCEPT · DESIGN SYSTEM</text>
+  <text x="1152" y="44" text-anchor="end" font-family="MiSans" font-size="9" letter-spacing="1.5" fill="#7A7263">FIGMA COMPONENTS · V1.0</text>
+  <text x="46" y="88" font-family="Oranienbaum" font-size="40" fill="#3E3A32">Roomie · Components</text>
+  <text x="48" y="116" font-family="Noto Serif SC" font-size="14" fill="#7A7263">一座随音乐呼吸的小建筑 —— 组件集</text>
+  <line x1="48" y1="134" x2="1152" y2="134" stroke="#E7DCC8" stroke-width="1"/>
+
+  <!-- ===== 01 聊天气泡 ===== -->
+  <g>
+    <!-- 对方：白底 paper -->
+    <g filter="url(#cmp-sh-l3)">
+      <rect x="48" y="164" width="238" height="44" rx="10" fill="#FBF8F1"/>
+      <polygon points="60,206 60,220 74,206" fill="#FBF8F1"/>
+    </g>
+    <text x="66" y="191" font-family="MiSans" font-size="13" fill="#3E3A32">这首歌让我想起去年的夏天。</text>
+    <!-- 自己：QQ 绿 -->
+    <g filter="url(#cmp-sh-l3)">
+      <rect x="98" y="236" width="238" height="44" rx="10" fill="#31C27C"/>
+      <polygon points="322,278 322,292 308,278" fill="#31C27C"/>
+    </g>
+    <text x="116" y="263" font-family="MiSans" font-size="13" fill="#FBF8F1">我也是，单曲循环了一整夜</text>
+    <text x="48" y="330" font-family="MiSans" font-size="9" letter-spacing="1.5" fill="#7A7263">01 · CHAT BUBBLE · 圆角 10 · 投影 L3</text>
+    <text x="48" y="346" font-family="MiSans" font-size="10" fill="#3E3A32">聊天气泡 —— 白底对方 / QQ 绿自己</text>
+  </g>
+
+  <!-- ===== 02 迷你播放器 ===== -->
+  <g>
+    <rect x="384" y="164" width="300" height="84" rx="12" fill="#FBF8F1" filter="url(#cmp-sh-l3)"/>
+    <!-- 黑胶缩略 -->
+    <circle cx="422" cy="206" r="26" fill="#3E3A32"/>
+    <circle cx="422" cy="206" r="20" fill="none" stroke="#7A7263" stroke-width="0.75"/>
+    <circle cx="422" cy="206" r="15" fill="none" stroke="#7A7263" stroke-width="0.75"/>
+    <circle cx="422" cy="206" r="9" fill="#E8B04B"/>
+    <circle cx="422" cy="206" r="2.5" fill="#FBF8F1"/>
+    <!-- 歌名 -->
+    <text x="462" y="196" font-family="Noto Serif SC" font-size="14" fill="#3E3A32">晴天</text>
+    <text x="500" y="196" font-family="Oranienbaum" font-size="11" fill="#7A7263">Sunny Day</text>
+    <text x="462" y="213" font-family="MiSans" font-size="10" fill="#7A7263">周杰伦 · Jay Chou</text>
+    <!-- 进度条 -->
+    <rect x="462" y="226" width="134" height="4" rx="2" fill="#E7DCC8"/>
+    <rect x="462" y="226" width="76" height="4" rx="2" fill="#31C27C"/>
+    <circle cx="538" cy="228" r="4" fill="#31C27C"/>
+    <!-- 控制键 -->
+    <polygon points="622,206 634,198 634,214" fill="#7A7263"/>
+    <rect x="636" y="198" width="2.5" height="16" rx="1.25" fill="#7A7263"/>
+    <circle cx="656" cy="206" r="13" fill="#31C27C"/>
+    <polygon points="652,198 664,206 652,214" fill="#FBF8F1"/>
+    <polygon points="682,206 670,198 670,214" fill="#7A7263"/>
+    <rect x="673.5" y="198" width="2.5" height="16" rx="1.25" fill="#7A7263"/>
+    <text x="384" y="330" font-family="MiSans" font-size="9" letter-spacing="1.5" fill="#7A7263">02 · MINI PLAYER · 圆角 12 · 进度 #31C27C</text>
+    <text x="384" y="346" font-family="MiSans" font-size="10" fill="#3E3A32">迷你播放器 —— 黑胶缩略 + 进度条</text>
+  </g>
+
+  <!-- ===== 03 黑胶唱片 ===== -->
+  <g>
+    <circle cx="810" cy="218" r="78" fill="#3E3A32" filter="url(#cmp-sh-l2)"/>
+    <circle cx="810" cy="218" r="70" fill="none" stroke="#7A7263" stroke-width="0.75" opacity="0.6"/>
+    <circle cx="810" cy="218" r="62" fill="none" stroke="#7A7263" stroke-width="0.75" opacity="0.6"/>
+    <circle cx="810" cy="218" r="54" fill="none" stroke="#7A7263" stroke-width="0.75" opacity="0.6"/>
+    <circle cx="810" cy="218" r="42" fill="none" stroke="#E8B04B" stroke-width="12"/>
+    <circle cx="810" cy="218" r="24" fill="#FBF8F1"/>
+    <text x="810" y="215" text-anchor="middle" font-family="Oranienbaum" font-size="8" letter-spacing="1" fill="#3E3A32">ROOMIE</text>
+    <text x="810" y="226" text-anchor="middle" font-family="MiSans" font-size="6" fill="#7A7263">33⅓ RPM</text>
+    <circle cx="810" cy="218" r="3" fill="#3E3A32"/>
+    <text x="732" y="330" font-family="MiSans" font-size="9" letter-spacing="1.5" fill="#7A7263">03 · VINYL · Ø156 · 投影 L2</text>
+    <text x="732" y="346" font-family="MiSans" font-size="10" fill="#3E3A32">黑胶唱片 —— 盘体 + 封面色环</text>
+  </g>
+
+  <!-- ===== 04 云朵 ===== -->
+  <g>
+    <ellipse cx="1044" cy="206" rx="46" ry="26" fill="#FBF8F1" opacity="0.85"/>
+    <ellipse cx="1092" cy="192" rx="38" ry="24" fill="#FBF8F1" opacity="0.9"/>
+    <ellipse cx="1114" cy="216" rx="40" ry="20" fill="#FBF8F1" opacity="0.8"/>
+    <text x="996" y="330" font-family="MiSans" font-size="9" letter-spacing="1.5" fill="#7A7263">04 · CLOUD · 3 ELLIPSES</text>
+    <text x="996" y="346" font-family="MiSans" font-size="10" fill="#3E3A32">云朵 —— 白色微透明</text>
+  </g>
+
+  <line x1="48" y1="392" x2="1152" y2="392" stroke="#E7DCC8" stroke-width="1"/>
+
+  <!-- ===== 05 Room AI 精灵 ===== -->
+  <g>
+    <circle cx="160" cy="520" r="72" fill="url(#cmp-ai-glow)"/>
+    <circle cx="160" cy="520" r="56" fill="none" stroke="#A89A80" stroke-width="1" stroke-dasharray="4 5"/>
+    <circle cx="215" cy="505" r="3" fill="#A89A80"/>
+    <!-- 45° 几何体：原 44×44 rx10 方块旋转 45° 后的绝对路径（圆角半径 10 不变），中心 (160,520) -->
+    <g filter="url(#cmp-sh-l2)">
+      <path d="M 167.07 495.96 L 184.04 512.93 A 10 10 0 0 1 184.04 527.07 L 167.07 544.04 A 10 10 0 0 1 152.93 544.04 L 135.96 527.07 A 10 10 0 0 1 135.96 512.93 L 152.93 495.96 A 10 10 0 0 1 167.07 495.96 Z" fill="#FBF8F1"/>
+    </g>
+    <circle cx="152" cy="516" r="3" fill="#3E3A32"/>
+    <circle cx="168" cy="516" r="3" fill="#3E3A32"/>
+    <path d="M 152 528 Q 160 534 168 528" fill="none" stroke="#3E3A32" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="48" y="636" font-family="MiSans" font-size="9" letter-spacing="1.5" fill="#7A7263">05 · ROOM AI · 光晕 MIST-MINT · 虚线轨道</text>
+    <text x="48" y="652" font-family="MiSans" font-size="10" fill="#3E3A32">Room AI 精灵 —— 出现 6s 后隐去，永远不打断</text>
+  </g>
+
+  <!-- ===== 06 建筑明信片 ===== -->
+  <g>
+    <rect x="340" y="428" width="248" height="196" rx="4" fill="#FBF8F1" filter="url(#cmp-sh-l2)"/>
+    <rect x="356" y="444" width="216" height="128" fill="url(#cmp-card-sky)"/>
+    <!-- 俯视等距房间：地板菱形（宽120 高60，2:1 软等距） -->
+    <polygon points="464,516 524,546 464,576 404,546" fill="#C49A6C"/>
+    <polygon points="464,516 524,546 524,502 464,472" fill="#E7DCC8"/>
+    <polygon points="464,516 404,546 404,502 464,472" fill="#F6F0E4"/>
+    <!-- 8×8 网格示意 -->
+    <line x1="434" y1="531" x2="494" y2="561" stroke="#C8BBA4" stroke-width="0.75"/>
+    <line x1="434" y1="561" x2="494" y2="531" stroke="#C8BBA4" stroke-width="0.75"/>
+    <!-- 窗光 -->
+    <rect x="416" y="508" width="18" height="24" rx="2" fill="#FFD98A"/>
+    <!-- ROOM ID 牌 -->
+    <rect x="356" y="584" width="110" height="22" rx="11" fill="#3E3A32"/>
+    <text x="411" y="599" text-anchor="middle" font-family="Oranienbaum" font-size="10" letter-spacing="1.5" fill="#FBF8F1">ROOM ID 0731</text>
+    <text x="572" y="601" text-anchor="end" font-family="MiSans" font-size="9" fill="#7A7263">晴天 · 17:42</text>
+    <text x="340" y="652" font-family="MiSans" font-size="9" letter-spacing="1.5" fill="#7A7263">06 · POSTCARD · 拍立得白边</text>
+    <text x="340" y="668" font-family="MiSans" font-size="10" fill="#3E3A32">建筑明信片 —— 俯视房间 + ROOM ID 牌</text>
+  </g>
+
+  <!-- ===== 07 Chip / 标签 ===== -->
+  <g>
+    <rect x="664" y="452" width="92" height="30" rx="15" fill="#31C27C"/>
+    <circle cx="682" cy="467" r="3.5" fill="#FBF8F1"/>
+    <text x="694" y="471" font-family="MiSans" font-size="11" letter-spacing="1.5" fill="#FBF8F1">LIVE</text>
+    <rect x="664" y="500" width="158" height="30" rx="15" fill="#E7DCC8"/>
+    <circle cx="682" cy="515" r="3.5" fill="#E8B04B"/>
+    <text x="694" y="519" font-family="Oranienbaum" font-size="12" letter-spacing="0.5" fill="#3E3A32">Golden Sunset</text>
+    <rect x="664" y="548" width="120" height="30" rx="15" fill="#C4DED2"/>
+    <text x="724" y="567" text-anchor="middle" font-family="MiSans" font-size="11" fill="#3E3A32">雨夜陪伴</text>
+    <text x="664" y="652" font-family="MiSans" font-size="9" letter-spacing="1.5" fill="#7A7263">07 · CHIP / TAG · 圆角 999</text>
+    <text x="664" y="668" font-family="MiSans" font-size="10" fill="#3E3A32">标签 —— LIVE / Golden Sunset</text>
+  </g>
+
+  <!-- ===== 08 按钮组 ===== -->
+  <g>
+    <rect x="936" y="452" width="184" height="42" rx="12" fill="#31C27C" filter="url(#cmp-sh-l3)"/>
+    <text x="1028" y="479" text-anchor="middle" font-family="MiSans" font-size="13" fill="#FBF8F1">播放全屋音乐</text>
+    <rect x="936" y="514" width="184" height="42" rx="12" fill="none" stroke="#3E3A32" stroke-width="1.25"/>
+    <text x="1028" y="541" text-anchor="middle" font-family="MiSans" font-size="13" fill="#3E3A32">稍后再听</text>
+    <rect x="936" y="576" width="184" height="42" rx="12" fill="#1F9E63"/>
+    <text x="1028" y="603" text-anchor="middle" font-family="MiSans" font-size="13" fill="#FBF8F1">播放全屋音乐</text>
+    <text x="1120" y="632" text-anchor="end" font-family="MiSans" font-size="9" fill="#7A7263">按压态 #1F9E63</text>
+    <text x="936" y="652" font-family="MiSans" font-size="9" letter-spacing="1.5" fill="#7A7263">08 · BUTTON · 圆角 12 · H42</text>
+    <text x="936" y="668" font-family="MiSans" font-size="10" fill="#3E3A32">按钮 —— QQ 绿主按钮 / 描边次按钮</text>
+  </g>
+
+  <!-- 页脚 -->
+  <line x1="48" y1="716" x2="1152" y2="716" stroke="#E7DCC8" stroke-width="1"/>
+  <text x="48" y="742" font-family="MiSans" font-size="9" letter-spacing="1.5" fill="#7A7263">光源 35° · 左上 → 右下 · 全稿统一</text>
+  <text x="1152" y="742" text-anchor="end" font-family="MiSans" font-size="9" letter-spacing="1.5" fill="#7A7263">ROOMIE · 一座随音乐呼吸的小建筑</text>
+</svg>

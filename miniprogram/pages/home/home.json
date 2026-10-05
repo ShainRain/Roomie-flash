@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "Roomie",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "mini-player": "/components/mini-player/index",
+    "roomie-header": "/components/roomie-header/index"
+  }
+}

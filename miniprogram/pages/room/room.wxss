@@ -1,0 +1,118 @@
+.page {
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--night-950) 0%, var(--night-900) 55%, var(--night-950) 100%);
+  overflow: hidden;
+}
+
+.room-stage { position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; }
+/* 正方形画框：与底图 1:1，不做裁切；垂直居中略偏上，避开顶部栏与底部播放器 */
+.room-frame { position: absolute; left: 50%; width: 100vw; right: auto; top: 46%; transform: translate(-50%, -50%) scale(1.14); transform-origin: center center; height: 100vw; }
+.room-hint { position: absolute; z-index: 2; top: 150rpx; left: 32rpx; right: 32rpx; text-align: center; color: rgba(247, 243, 234, 0.78); font-size: 22rpx; }
+
+/* ---- DIY 图层 ---- */
+.room-art { position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; transition: filter .5s ease; }
+.furn-layer { position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; pointer-events: none; }
+.record-plate { position: absolute; z-index: 350; pointer-events: none; }
+.floor-tint { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1; pointer-events: none; clip-path: polygon(16.9% 67.4%, 50% 50%, 83.1% 67.4%, 50% 85.75%); }
+.lamp-off .room-art, .lamp-off .furn-layer { filter: brightness(.62) saturate(.8); }
+.projector-on .room-art, .projector-on .furn-layer { filter: brightness(1.04) saturate(1.08); }
+
+/* ---- 互动物件热点：默认隐形，靠近/激活/首访提示时浮现 ---- */
+.scene-object { position: absolute; display: flex; align-items: center; justify-content: center; border: 2rpx dashed transparent; border-radius: 20rpx; transition: background .25s, border-color .25s; }
+.hint-phase .scene-object { border-color: rgba(247, 243, 234, 0.38); animation: hint-pulse 1.8s ease-in-out infinite; }
+.scene-object:active, .object-active { background: rgba(247, 243, 234, 0.16); border-color: rgba(247, 243, 234, 0.72); }
+.object-badge { display: flex; align-items: center; gap: 5rpx; padding: 5rpx 10rpx; border-radius: 999rpx; background: rgba(31, 35, 41, 0.48); color: rgba(247, 243, 234, 0.92); font-size: 18rpx; opacity: 0; transform: scale(.9); transition: opacity .2s, transform .2s; }
+.scene-object:active .object-badge, .object-active .object-badge { opacity: 1; transform: scale(1); }
+@keyframes hint-pulse { 0%, 100% { background: rgba(247, 243, 234, 0); } 50% { background: rgba(247, 243, 234, 0.12); } }
+
+/* ---- 状态视觉反馈 ---- */
+.projector-beam { position: absolute; z-index: 940; left: 41%; top: 31%; width: 41%; height: 30%; opacity: .42; background: linear-gradient(60deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0)); clip-path: polygon(0 100%, 100% 0, 100% 55%); animation: beam-breathe 2.8s ease-in-out infinite; pointer-events: none; }
+.turntable-spin { position: absolute; z-index: 702; width: 44rpx; height: 44rpx; margin: -22rpx 0 0 -22rpx; border-radius: 50%; background: repeating-radial-gradient(circle, var(--ink-900) 0 3rpx, var(--amber) 4rpx 6rpx); animation: spin-record .9s linear infinite; pointer-events: none; }
+.wall-now-playing { position: absolute; z-index: 960; padding: 6rpx 16rpx; border-radius: 999rpx; background: rgba(34, 197, 94, 0.88); color: var(--white); font-size: 18rpx; pointer-events: none; animation: toast-in .25s ease-out; }
+.guitar-notes { position: absolute; z-index: 960; left: 52%; top: 66%; pointer-events: none; }
+.guitar-notes text { position: absolute; color: var(--green); font-size: 30rpx; animation: note-float 1.5s ease-out forwards; }
+.guitar-notes text:nth-child(2) { left: 22rpx; animation-delay: .25s; color: var(--amber); }
+.guitar-notes text:nth-child(3) { left: -18rpx; animation-delay: .5s; }
+@keyframes note-float { from { opacity: 0; transform: translateY(0) scale(.8); } 30% { opacity: 1; } to { opacity: 0; transform: translateY(-70rpx) scale(1.15); } }
+.spinning-record { width: 42rpx; height: 42rpx; border-radius: 50%; background: repeating-radial-gradient(circle, var(--ink-900) 0 3rpx, var(--danger) 4rpx 6rpx); animation: spin-record .9s linear infinite; color: transparent; }
+@keyframes beam-breathe { 0%, 100% { opacity: .25; } 50% { opacity: .52; } }
+@keyframes spin-record { to { transform: rotate(360deg); } }
+@keyframes toast-in { from { opacity: 0; transform: translateY(-10rpx); } to { opacity: 1; transform: translateY(0); } }
+
+/* ---- 角色：呼吸 / 重心起伏 / 接触阴影随景深缩放 ---- */
+.room-player, .room-peer { position: absolute; display: flex; flex-direction: column; align-items: center; transition: filter .2s; }
+.room-peer:active { filter: brightness(1.15); }
+.avatar-sprite { width: 74rpx; filter: drop-shadow(0 6rpx 8rpx rgba(31, 35, 41, 0.22)); }
+.sprite-idle { animation: breathe 2.6s ease-in-out infinite; transform-origin: 50% 100%; }
+.sprite-sit { transform: translateY(6rpx) scaleY(.96); transform-origin: 50% 100%; }
+.sprite-walk-a { animation: bob-a .22s ease-in-out infinite; }
+.sprite-walk-b { animation: bob-b .22s ease-in-out infinite; }
+@keyframes breathe { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.025); } }
+@keyframes bob-a { 0%, 100% { transform: translateY(0) rotate(-1.2deg); } 50% { transform: translateY(-5rpx) rotate(0); } }
+@keyframes bob-b { 0%, 100% { transform: translateY(0) rotate(1.2deg); } 50% { transform: translateY(-5rpx) rotate(0); } }
+.avatar-shadow { width: 66rpx; height: 14rpx; margin-top: -8rpx; border-radius: 50%; background: rgba(31, 35, 41, 0.22); }
+.direction-left { transform: scaleX(-1); }
+.room-player text, .room-peer text { margin-top: 4rpx; padding: 3rpx 12rpx; border-radius: 999rpx; background: rgba(247, 243, 234, 0.88); color: var(--ink-900); font-size: 20rpx; }
+
+.art-tint { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 950; pointer-events: none; }
+.action-label { position: absolute; z-index: 1000; left: 50%; top: 42%; transform: translateX(-50%); padding: 12rpx 24rpx; border-radius: 999rpx; background: rgba(31, 35, 41, 0.82); color: var(--white); font-size: 24rpx; }
+
+/* ---- 顶部栏 ---- */
+.topbar {
+  position: relative;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 32rpx 0;
+}
+
+.nav-ic {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  background: rgba(16, 27, 42, 0.72);
+  border: 1rpx solid var(--night-line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  color: var(--night-text);
+  box-shadow: 0 8rpx 24rpx rgba(11, 19, 32, 0.45);
+}
+
+/* ---- 底部悬浮播放器（mini-player 组件） ---- */
+.dock {
+  position: fixed;
+  left: 32rpx;
+  right: 32rpx;
+  bottom: calc(40rpx + env(safe-area-inset-bottom));
+  z-index: 1000;
+}
+
+/* Visual reset: use the night as atmosphere, not empty filler. */
+.room-stage::after {
+  content: '';
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 25%;
+  height: 48%;
+  background:
+    radial-gradient(ellipse at 50% 55%, rgba(224,151,69,0.16), rgba(224,151,69,0) 58%),
+    radial-gradient(ellipse at 50% 18%, rgba(94,132,170,0.10), rgba(94,132,170,0) 56%);
+  filter: blur(16rpx);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.room-frame { z-index: 1; }
+
+.topbar { z-index: 1300; }
+
+.topbar .pill-live {
+  padding-left: 18rpx;
+  padding-right: 18rpx;
+  box-shadow: 0 5rpx 14rpx rgba(43,201,107,0.20);
+}

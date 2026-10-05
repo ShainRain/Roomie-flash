@@ -1,0 +1,20 @@
+<view class="rh" style="{{customNav ? 'padding-top: ' + statusBarHeight + 'px;' : ''}}">
+  <view class="rh-top">
+    <view class="rh-left">
+      <view class="rh-brand en-serif">ROOMIE</view>
+      <view class="rh-sub">{{subtitle}}</view>
+    </view>
+    <view class="rh-right">
+      <view wx:if="{{live}}" class="rh-live">
+        <view class="rh-live-dot"></view>
+        <text>{{liveText}}</text>
+      </view>
+      <view wx:if="{{share}}" class="rh-share" bindtap="onShare">↗</view>
+      <view class="rh-avatar" style="background: {{avatarColor}};">{{avatar}}</view>
+    </view>
+  </view>
+  <view wx:if="{{pageTitle}}" class="rh-title-row">
+    <view class="rh-title">{{pageTitle}}</view>
+    <view wx:if="{{pageSubtitle}}" class="rh-title-en en-serif">{{pageSubtitle}}</view>
+  </view>
+</view>

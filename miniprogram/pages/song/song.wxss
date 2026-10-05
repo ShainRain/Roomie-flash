@@ -1,0 +1,515 @@
+.page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 50% 24%, rgba(233, 169, 66, 0.10), rgba(233, 169, 66, 0) 34%),
+    linear-gradient(180deg, var(--night-950) 0%, #0C1827 52%, var(--night-950) 100%);
+  display: flex;
+  flex-direction: column;
+  padding: 0 40rpx calc(40rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+
+/* ---- 入场:克制的 rise-in,可错峰 ---- */
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(16rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.rise-in { animation: rise-in 0.24s ease-out both; }
+.rise-d1 { animation-delay: 0.06s; }
+.rise-d2 { animation-delay: 0.12s; }
+
+/* ---- 顶部栏(对齐 room 页 topbar,令牌化) ---- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 0 8rpx;
+}
+
+.nav-ic {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  background: rgba(23, 36, 55, 0.72);
+  border: 1rpx solid var(--night-line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  color: var(--night-text);
+  box-shadow: 0 8rpx 24rpx rgba(4, 8, 18, 0.45);
+}
+
+.topbar-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rpx;
+}
+
+.tt-brand {
+  font-size: var(--fs-caption);
+  color: var(--night-text);
+}
+
+.tt-sub {
+  font-size: var(--fs-micro);
+  color: var(--night-sub);
+}
+
+/* ---- Hero:黑胶微场景 ---- */
+.turntable {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 530rpx;
+}
+
+/* 2700K 台灯光晕 */
+.turntable-glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 640rpx;
+  height: 640rpx;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 184, 61, 0.16) 0%, rgba(245, 184, 61, 0) 62%);
+}
+
+/* 胡桃木桌面的接触影 */
+.turntable-shadow {
+  position: absolute;
+  left: 50%;
+  bottom: 10rpx;
+  transform: translateX(-50%);
+  width: 560rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(43, 26, 18, 0.55) 0%, rgba(43, 26, 18, 0) 70%);
+}
+
+/* 黑胶本体:同心纹(材料质感色) */
+.disc {
+  position: relative;
+  width: 430rpx;
+  height: 430rpx;
+  border-radius: 50%;
+  background-color: #13100D;
+  background-image: repeating-radial-gradient(circle at center, #13100D 0rpx, #13100D 4rpx, #2D241C 4rpx, #2D241C 8rpx);
+  box-shadow:
+    0 24rpx 60rpx rgba(4, 8, 18, 0.6),
+    0 0 64rpx rgba(245, 184, 61, 0.18),
+    0 0 0 2rpx rgba(247, 243, 234, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.disc-spin {
+  animation: spin 6s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 静止高光弧(不随盘旋转) */
+.disc-sheen {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 460rpx;
+  height: 460rpx;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0) 42%),
+    linear-gradient(315deg, rgba(255, 217, 160, 0.08) 0%, rgba(255, 217, 160, 0) 30%);
+  pointer-events: none;
+}
+
+/* 中央标签:日落海景(原创几何渐变,无版权素材) */
+.disc-label {
+  position: relative;
+  width: 190rpx;
+  height: 190rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 8rpx solid #16120D;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.disc-sunset {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 50% 32%, #FFE9B8 0rpx, #FFE9B8 15rpx, rgba(255, 233, 184, 0) 17rpx),
+    linear-gradient(180deg, var(--amber) 0%, #E8784A 44%, var(--paper-100) 45.5%, var(--paper-100) 47.5%, #2E4A5F 49%, var(--night-900) 100%);
+}
+
+.disc-hole {
+  position: absolute;
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: var(--paper-100);
+  border: 3rpx solid #16120D;
+}
+
+.disc-label-text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 22rpx;
+  text-align: center;
+  color: var(--paper-95);
+  font-size: var(--fs-caption);
+  font-weight: 700;
+  text-shadow: 0 2rpx 8rpx rgba(11, 19, 32, 0.6);
+}
+
+/* 胡桃木唱臂:播放时落下,暂停时抬起 */
+.tonearm {
+  position: absolute;
+  right: 96rpx;
+  top: 16rpx;
+  width: 10rpx;
+  height: 210rpx;
+  background: linear-gradient(180deg, var(--walnut-500), var(--walnut-700));
+  border-radius: 8rpx;
+  transform-origin: top center;
+  transform: rotate(-28deg);
+  transition: transform 0.8s ease;
+}
+
+.tonearm::before {
+  content: '';
+  position: absolute;
+  top: -18rpx;
+  left: -13rpx;
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  background: var(--walnut-700);
+  border: 4rpx solid var(--walnut-500);
+}
+
+.tonearm::after {
+  content: '';
+  position: absolute;
+  bottom: -10rpx;
+  left: -5rpx;
+  width: 20rpx;
+  height: 26rpx;
+  border-radius: 6rpx;
+  background: var(--walnut-900);
+}
+
+.tonearm-on {
+  transform: rotate(-6deg);
+}
+
+/* ---- 纸张卡片(叠上 Hero) ---- */
+.song-card {
+  position: relative;
+  z-index: 2;
+  margin-top: -32rpx;
+  padding: 40rpx 40rpx 32rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.song-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.song-names {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+  min-width: 0;
+}
+
+.song-kicker {
+  font-size: var(--fs-micro);
+  color: var(--ink-500);
+}
+
+.song-title {
+  font-size: var(--fs-section);
+  font-weight: 700;
+  color: var(--ink-900);
+}
+
+.song-artist {
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+}
+
+.song-head .pill {
+  flex-shrink: 0;
+}
+
+/* ---- 进度条 ---- */
+.seek-row {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  margin-top: 32rpx;
+}
+
+.time {
+  font-size: var(--fs-micro);
+  color: var(--ink-500);
+  font-variant-numeric: tabular-nums;
+  width: 72rpx;
+  text-align: center;
+}
+
+.seek {
+  flex: 1;
+  margin: 0;
+}
+
+/* ---- 传输控制 ---- */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 8rpx 8rpx;
+}
+
+.ctl-side {
+  width: 72rpx;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-500);
+}
+
+.ctl-skip {
+  width: 72rpx;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-900);
+}
+
+.ctl-play {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: var(--green);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-green);
+}
+
+/* ---- 纯 CSS 播放控制图标 ---- */
+.ic-play-lg {
+  width: 0;
+  height: 0;
+  border-top: 22rpx solid transparent;
+  border-bottom: 22rpx solid transparent;
+  border-left: 34rpx solid var(--white);
+  margin-left: 8rpx;
+}
+
+.ic-pause-lg {
+  width: 32rpx;
+  height: 40rpx;
+  border-left: 11rpx solid var(--white);
+  border-right: 11rpx solid var(--white);
+}
+
+.ic-prev,
+.ic-next {
+  position: relative;
+  width: 0;
+  height: 0;
+  border-top: 14rpx solid transparent;
+  border-bottom: 14rpx solid transparent;
+}
+
+.ic-prev {
+  border-right: 21rpx solid currentColor;
+}
+
+.ic-prev::before {
+  content: '';
+  position: absolute;
+  left: -9rpx;
+  top: -14rpx;
+  width: 6rpx;
+  height: 28rpx;
+  background: currentColor;
+  border-radius: 3rpx;
+}
+
+.ic-next {
+  border-left: 21rpx solid currentColor;
+}
+
+.ic-next::before {
+  content: '';
+  position: absolute;
+  right: -9rpx;
+  top: -14rpx;
+  width: 6rpx;
+  height: 28rpx;
+  background: currentColor;
+  border-radius: 3rpx;
+}
+
+/* 随机:两支交叉箭头 */
+.ic-shuffle {
+  position: relative;
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.ic-shuffle-a,
+.ic-shuffle-b {
+  position: absolute;
+  left: 1rpx;
+  top: 14rpx;
+  width: 26rpx;
+  height: 4rpx;
+  border-radius: 2rpx;
+  background: currentColor;
+}
+
+.ic-shuffle-a { transform: rotate(30deg); }
+.ic-shuffle-b { transform: rotate(-30deg); }
+
+.ic-shuffle-a::before,
+.ic-shuffle-b::before {
+  content: '';
+  position: absolute;
+  right: -8rpx;
+  top: -6rpx;
+  width: 0;
+  height: 0;
+  border-top: 8rpx solid transparent;
+  border-bottom: 8rpx solid transparent;
+  border-left: 10rpx solid currentColor;
+}
+
+/* 循环:缺口圆环 + 顺时针箭头 */
+.ic-loop {
+  position: relative;
+  width: 26rpx;
+  height: 26rpx;
+  border: 4rpx solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+}
+
+.ic-loop::before {
+  content: '';
+  position: absolute;
+  top: -9rpx;
+  right: -2rpx;
+  width: 0;
+  height: 0;
+  border-top: 8rpx solid transparent;
+  border-bottom: 8rpx solid transparent;
+  border-left: 11rpx solid currentColor;
+  transform: rotate(48deg);
+}
+
+/* ---- 歌词 / 评论 分段 ---- */
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 64rpx;
+  padding: 24rpx 0 8rpx;
+}
+
+.tab-item {
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  color: var(--ink-500);
+  padding-bottom: 8rpx;
+  border-bottom: 4rpx solid transparent;
+}
+
+.tab-on {
+  color: var(--green-deep);
+  font-weight: 700;
+  border-bottom-color: var(--green);
+}
+
+/* ---- 歌词 ---- */
+.lyrics {
+  height: 300rpx;
+  margin-top: 8rpx;
+}
+
+.lyric-line {
+  text-align: center;
+  font-size: var(--fs-body);
+  color: var(--ink-500);
+  padding: 12rpx 24rpx;
+  transition: color 0.3s ease;
+}
+
+.lyric-on {
+  color: var(--green-deep);
+  font-weight: 700;
+}
+
+.lyrics-tail {
+  height: 140rpx;
+}
+
+/* ---- 评论 ---- */
+.comments {
+  height: 300rpx;
+  margin-top: 8rpx;
+}
+
+.comment {
+  padding: 20rpx 8rpx;
+  border-bottom: 1rpx solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.comment-head {
+  display: flex;
+  justify-content: space-between;
+}
+
+.comment-user {
+  font-size: var(--fs-caption);
+  font-weight: 700;
+  color: var(--ink-700);
+}
+
+.comment-likes {
+  font-size: var(--fs-micro);
+  color: var(--ink-500);
+}
+
+.comment-text {
+  font-size: var(--fs-body);
+  color: var(--ink-900);
+}

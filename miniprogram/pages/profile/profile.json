@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "我的放映室",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "roomie-header": "/components/roomie-header/index"
+  }
+}

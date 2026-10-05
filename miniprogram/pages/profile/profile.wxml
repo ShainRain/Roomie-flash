@@ -1,0 +1,97 @@
+<view class="page">
+  <roomie-header custom-nav subtitle="{{user.roomName}} · {{user.roomId}}" avatar="{{user.name[0]}}" />
+  <view class="page-pad">
+
+    <!-- 编辑式刊头:中文大标题 + en-serif 小标 + 右上设置齿轮 -->
+    <view class="masthead anim-in">
+      <view class="masthead-text">
+        <text class="masthead-title">我的放映室</text>
+        <text class="en-serif masthead-en">My Room</text>
+      </view>
+      <view class="masthead-gear" hover-class="btn-hover" bindtap="onSetting">⚙</view>
+    </view>
+
+    <!-- 一整张米白纸张档案卡 -->
+    <view class="card sheet anim-in anim-d1">
+
+      <!-- ① 角色档案行 -->
+      <view class="me-row">
+        <view class="me-avatar">
+          <image class="me-avatar-img" src="/assets/img/char-momo-idle.webp" mode="aspectFit" />
+        </view>
+        <view class="me-info">
+          <view class="me-name-row">
+            <text class="me-name">{{user.name}}</text>
+            <text class="pill pill-ink">Lv.{{user.level}}</text>
+            <text class="pill pill-amber">{{user.badge}}</text>
+          </view>
+          <text class="me-quote">「好的音乐,会让房间变成另一个世界。」</text>
+          <view class="me-actions">
+            <view class="btn-ghost me-btn" hover-class="btn-hover" data-name="换发型" bindtap="onDress">换发型</view>
+            <view class="btn-ghost me-btn" hover-class="btn-hover" data-name="换服装" bindtap="onDress">换服装</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="sheet-line"></view>
+
+      <!-- ② 我的唱片墙 -->
+      <view class="sec-head">
+        <text class="paper-title">我的唱片墙</text>
+        <text class="wall-count">已选 {{selected.length}} / {{maxPick}}</text>
+      </view>
+      <text class="wall-desc">从收藏的 {{records.length}} 张唱片中挑选,挂在房间的墙上</text>
+      <view wx:if="{{selected.length === 0}}" class="wall-tip">还没有选唱片 —— 点下面的唱片,把喜欢的声音挂上墙</view>
+      <view class="wall-grid">
+        <view
+          wx:for="{{records}}"
+          wx:key="id"
+          class="rec {{selected.indexOf(item.id) >= 0 ? 'rec-on' : ''}}"
+          hover-class="btn-hover"
+          data-id="{{item.id}}"
+          bindtap="onToggleRecord"
+        >
+          <image class="rec-cover" src="/assets/img/rec-{{item.id}}.webp" mode="aspectFit" />
+          <text class="rec-title">{{item.title}}</text>
+          <view wx:if="{{selected.indexOf(item.id) >= 0}}" class="rec-check">✓</view>
+        </view>
+        <view class="rec rec-add">
+          <text class="rec-add-plus">+</text>
+        </view>
+      </view>
+      <view class="btn-primary save-wall {{dirty ? '' : 'save-done'}}" hover-class="btn-hover" bindtap="onSave">
+        {{dirty ? '保存布置' : '已保存'}}
+      </view>
+
+      <view class="sheet-line"></view>
+
+      <!-- ③ 我的成就 -->
+      <view class="sec-head">
+        <text class="paper-title">我的成就</text>
+      </view>
+      <view class="ach-row">
+        <view class="ach" wx:for="{{achievements}}" wx:key="name">
+          <view class="ach-ic" style="background: {{item.color}};">{{item.glyph}}</view>
+          <text class="ach-name">{{item.name}}</text>
+          <text class="ach-lv">Lv.{{item.lv}}</text>
+        </view>
+      </view>
+
+      <view class="sheet-line"></view>
+
+      <!-- ④ 我的房间 -->
+      <view class="sec-head">
+        <text class="paper-title">我的房间</text>
+      </view>
+      <view class="room-row" hover-class="btn-hover" bindtap="onGotoRoom">
+        <image class="room-thumb" src="/assets/img/room-hero.webp" mode="aspectFill" />
+        <view class="room-meta">
+          <text class="room-now">当前使用 · {{user.roomName}}</text>
+          <text class="room-sub">{{user.name}} 的放映室 · Lv.{{user.level}}</text>
+        </view>
+        <text class="room-arrow">›</text>
+      </view>
+
+    </view>
+  </view>
+</view>

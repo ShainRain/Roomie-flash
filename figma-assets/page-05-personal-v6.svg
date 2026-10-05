@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+<defs>
+<filter id="v6p-greenShadow" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#31C27C" flood-opacity="0.25"/></filter>
+</defs>
+<rect width="390" height="844" fill="#FFFFFF"/>
+<g id="Status Bar">
+<text x="28" y="34" font-family="Inter" font-size="13" font-weight="600" fill="#1D2120">9:41</text>
+<g fill="#1D2120" opacity="0.85"><rect x="300" y="24" width="3" height="7" rx="1"/><rect x="305" y="22" width="3" height="9" rx="1"/><rect x="310" y="20" width="3" height="11" rx="1"/><rect x="315" y="18" width="3" height="13" rx="1"/></g>
+<rect x="328" y="19" width="24" height="12" rx="3.5" fill="none" stroke="#1D2120" stroke-width="1"/><rect x="330" y="21" width="15" height="8" rx="2" fill="#1D2120"/><rect x="353.5" y="22.5" width="2.5" height="5" rx="1.2" fill="#1D2120"/>
+</g>
+<g id="Header">
+<text x="24" y="86" font-family="MiSans Semibold" font-size="26" fill="#1D2120">我的放映室</text>
+<text x="25" y="108" font-family="Inter" font-size="11" font-weight="600" letter-spacing="3" fill="#8A8F8C">PERSONALIZE</text>
+</g>
+<g id="Character Card">
+<rect x="16" y="124" width="358" height="180" rx="20" fill="#FBF6EE"/>
+<ellipse cx="95" cy="272" rx="46" ry="13" fill="#FFFFFF" stroke="#EFE6D6" stroke-width="1"/>
+<ellipse cx="95" cy="267.4" rx="14.9" ry="4.3" fill="#D8DAD4" opacity="0.85"/>
+<path d="M 90.3,255.6 L 90.3,263.0 M 99.7,255.6 L 99.7,263.0" fill="none" stroke="#F4CFB8" stroke-width="3.7" stroke-linecap="round"/>
+<ellipse cx="90.0" cy="265.5" rx="5.0" ry="3.0" fill="#4A3B33"/>
+<ellipse cx="100.0" cy="265.5" rx="5.0" ry="3.0" fill="#4A3B33"/>
+<path d="M 95.0,211.6 L 95.0,219.0" fill="none" stroke="#F4CFB8" stroke-width="4.5" stroke-linecap="round"/>
+<path d="M 87.6,230.2 Q 85.7,220.3 89.4,216.5 Q 95.0,213.4 100.6,216.5 Q 104.3,220.3 102.4,230.2 Z" fill="#F8EFDC" stroke="#4A3B33" stroke-width="0.8"/>
+<ellipse cx="86.0" cy="220.9" rx="4.0" ry="3.7" fill="#F8EFDC" stroke="#4A3B33" stroke-width="0.8"/>
+<ellipse cx="104.0" cy="220.9" rx="4.0" ry="3.7" fill="#F1E4CB" stroke="#4A3B33" stroke-width="0.8"/>
+<path d="M 86.0,223.4 L 83.8,233.3" fill="none" stroke="#F4CFB8" stroke-width="3.2" stroke-linecap="round"/>
+<path d="M 104.0,223.4 L 106.2,233.3" fill="none" stroke="#EAC3A9" stroke-width="3.2" stroke-linecap="round"/>
+<path d="M 86.9,228.9 L 103.1,228.9 L 108.6,253.7 Q 95.0,258.1 81.4,253.7 Z" fill="#C0523E" stroke="#4A3B33" stroke-width="0.8"/>
+<path d="M 103.1,228.9 L 108.6,253.7 Q 103.1,256.2 98.7,256.8 L 100.0,228.9 Z" fill="#A8432F" opacity="0.55"/>
+<polygon points="87.6,228.9 87.2,217.8 90.3,217.8 90.7,228.9" fill="#C0523E" stroke="#4A3B33" stroke-width="0.6"/>
+<polygon points="99.3,228.9 99.7,217.8 102.8,217.8 102.4,228.9" fill="#A8432F" stroke="#4A3B33" stroke-width="0.6"/>
+<path d="M 91.0,215.3 Q 95.0,219.0 99.0,215.3 L 97.2,213.1 Q 95.0,215.3 92.8,213.1 Z" fill="#FFFDF6" stroke="#4A3B33" stroke-width="0.6"/>
+<circle cx="95.0" cy="202.3" r="11.8" fill="#3B3431" stroke="#4A3B33" stroke-width="0.8"/>
+<path d="M 101.8,193.0 Q 106.8,198.6 106.2,210.3 L 103.1,210.3 Q 104.3,199.8 98.7,193.6 Z" fill="#322B28" opacity="0.6"/>
+<circle cx="95.0" cy="204.8" r="9.0" fill="#F4CFB8" stroke="#4A3B33" stroke-width="0.8"/>
+<ellipse cx="88.2" cy="208.5" rx="1.9" ry="1.1" fill="#EFA395" opacity="0.55"/>
+<ellipse cx="101.8" cy="208.5" rx="1.9" ry="1.1" fill="#EFA395" opacity="0.55"/>
+<circle cx="91.0" cy="206.0" r="1.0" fill="#3B3431"/>
+<circle cx="99.0" cy="206.0" r="1.0" fill="#3B3431"/>
+<path d="M 92.5,209.1 Q 95.0,211.0 97.5,209.1" fill="none" stroke="#A8543F" stroke-width="1" stroke-linecap="round"/>
+<path d="M 83.8,201.7 Q 84.5,192.4 95.0,191.1 Q 105.5,192.4 106.2,201.7 Q 103.7,196.7 100.6,198.6 Q 98.1,194.8 95.0,197.9 Q 91.9,194.8 89.4,198.6 Q 86.3,196.7 83.8,201.7 Z" fill="#3B3431" stroke="#4A3B33" stroke-width="0.8" stroke-linejoin="round"/>
+<path d="M 94.1,189.3 C 88.2,181.2 79.5,180.0 80.1,186.2 C 80.7,191.7 88.8,192.4 94.1,190.5 Z" fill="#D23A2C" stroke="#4A3B33" stroke-width="0.8" stroke-linejoin="round"/>
+<path d="M 95.9,189.3 C 101.8,181.2 110.5,180.0 109.9,186.2 C 109.3,191.7 101.2,192.4 95.9,190.5 Z" fill="#D23A2C" stroke="#4A3B33" stroke-width="0.8" stroke-linejoin="round"/>
+<path d="M 88.8,184.3 Q 90.7,186.8 88.8,189.3 M 101.2,184.3 Q 99.3,186.8 101.2,189.3" fill="none" stroke="#B02A1F" stroke-width="0.8" stroke-linecap="round"/>
+<circle cx="95.0" cy="189.3" r="2.6" fill="#B02A1F" stroke="#4A3B33" stroke-width="0.8"/>
+<text x="162" y="172" font-family="Inter" font-size="15" font-weight="600" fill="#1D2120">MOMO · LV.7</text>
+<rect x="162" y="184" width="64" height="22" rx="11" fill="#E8F7EF"/>
+<text x="194" y="199" text-anchor="middle" font-family="MiSans Semibold" font-size="10.5" fill="#31C27C">建筑师</text>
+<rect x="162" y="220" width="88" height="30" rx="15" fill="#FFFFFF" stroke="#E3DCCF" stroke-width="1.2"/>
+<text x="206" y="239" text-anchor="middle" font-family="MiSans" font-size="11" fill="#1D2120">换发型</text>
+<rect x="260" y="220" width="88" height="30" rx="15" fill="#FFFFFF" stroke="#E3DCCF" stroke-width="1.2"/>
+<text x="304" y="239" text-anchor="middle" font-family="MiSans" font-size="11" fill="#1D2120">换服装</text>
+<text x="162" y="278" font-family="MiSans" font-size="9.5" fill="#E6B15A">✦ 更立体的可爱形象素材即将更新</text>
+</g>
+<g id="Vinyl Wall">
+<text x="24" y="340" font-family="MiSans Semibold" font-size="15" fill="#1D2120">唱片墙布置</text>
+<text x="366" y="340" text-anchor="end" font-family="MiSans Semibold" font-size="12" fill="#31C27C">已选 6 / 12 展示位</text>
+<text x="24" y="360" font-family="MiSans" font-size="10" fill="#8A8F8C">从收藏的 24 张唱片中挑选，挂在房间的墙上</text>
+<g id="Record 1"><circle cx="63" cy="420" r="34" fill="#2F4A5A"/><circle cx="63" cy="420" r="28" fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1"/><circle cx="63" cy="420" r="21" fill="none" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="1"/><circle cx="63" cy="420" r="11.5" fill="#E6B15A"/><circle cx="63" cy="420" r="1.6" fill="#FFFFFF"/><circle cx="63" cy="420" r="39" fill="none" stroke="#31C27C" stroke-width="2.5"/><circle cx="89" cy="394" r="8.5" fill="#31C27C" stroke="#FFFFFF" stroke-width="2"/><path d="M85.2,394 L87.8,396.6 L92.8,391.4" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g id="Record 2"><circle cx="147" cy="420" r="34" fill="#4A6752"/><circle cx="147" cy="420" r="28" fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1"/><circle cx="147" cy="420" r="21" fill="none" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="1"/><circle cx="147" cy="420" r="11.5" fill="#F7F3EA"/><circle cx="147" cy="420" r="1.6" fill="#FFFFFF"/><circle cx="147" cy="420" r="39" fill="none" stroke="#31C27C" stroke-width="2.5"/><circle cx="173" cy="394" r="8.5" fill="#31C27C" stroke="#FFFFFF" stroke-width="2"/><path d="M169.2,394 L171.8,396.6 L176.8,391.4" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g id="Record 3" opacity="0.5"><circle cx="231" cy="420" r="34" fill="#3A3230"/><circle cx="231" cy="420" r="28" fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1"/><circle cx="231" cy="420" r="21" fill="none" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="1"/><circle cx="231" cy="420" r="11.5" fill="#D96A4D"/><circle cx="231" cy="420" r="1.6" fill="#FFFFFF"/></g>
+<g id="Record 4"><circle cx="315" cy="420" r="34" fill="#2F4A5A"/><circle cx="315" cy="420" r="28" fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1"/><circle cx="315" cy="420" r="21" fill="none" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="1"/><circle cx="315" cy="420" r="11.5" fill="#6D99A6"/><circle cx="315" cy="420" r="1.6" fill="#FFFFFF"/><circle cx="315" cy="420" r="39" fill="none" stroke="#31C27C" stroke-width="2.5"/><circle cx="341" cy="394" r="8.5" fill="#31C27C" stroke="#FFFFFF" stroke-width="2"/><path d="M337.2,394 L339.8,396.6 L344.8,391.4" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g id="Record 5"><circle cx="63" cy="510" r="34" fill="#4A6752"/><circle cx="63" cy="510" r="28" fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1"/><circle cx="63" cy="510" r="21" fill="none" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="1"/><circle cx="63" cy="510" r="11.5" fill="#F7F3EA"/><circle cx="63" cy="510" r="1.6" fill="#FFFFFF"/><circle cx="63" cy="510" r="39" fill="none" stroke="#31C27C" stroke-width="2.5"/><circle cx="89" cy="484" r="8.5" fill="#31C27C" stroke="#FFFFFF" stroke-width="2"/><path d="M85.2,484 L87.8,486.6 L92.8,481.4" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g id="Record 6" opacity="0.5"><circle cx="147" cy="510" r="34" fill="#3A3230"/><circle cx="147" cy="510" r="28" fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1"/><circle cx="147" cy="510" r="21" fill="none" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="1"/><circle cx="147" cy="510" r="11.5" fill="#E6B15A"/><circle cx="147" cy="510" r="1.6" fill="#FFFFFF"/></g>
+<g id="Record 7"><circle cx="231" cy="510" r="34" fill="#2F4A5A"/><circle cx="231" cy="510" r="28" fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1"/><circle cx="231" cy="510" r="21" fill="none" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="1"/><circle cx="231" cy="510" r="11.5" fill="#D96A4D"/><circle cx="231" cy="510" r="1.6" fill="#FFFFFF"/><circle cx="231" cy="510" r="39" fill="none" stroke="#31C27C" stroke-width="2.5"/><circle cx="257" cy="484" r="8.5" fill="#31C27C" stroke="#FFFFFF" stroke-width="2"/><path d="M253.2,484 L255.8,486.6 L260.8,481.4" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g id="Record 8" opacity="0.5"><circle cx="315" cy="510" r="34" fill="#4A6752"/><circle cx="315" cy="510" r="28" fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1"/><circle cx="315" cy="510" r="21" fill="none" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="1"/><circle cx="315" cy="510" r="11.5" fill="#F7F3EA"/><circle cx="315" cy="510" r="1.6" fill="#FFFFFF"/></g>
+<g id="Record 9" opacity="0.5"><circle cx="63" cy="600" r="34" fill="#3A3230"/><circle cx="63" cy="600" r="28" fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1"/><circle cx="63" cy="600" r="21" fill="none" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="1"/><circle cx="63" cy="600" r="11.5" fill="#6D99A6"/><circle cx="63" cy="600" r="1.6" fill="#FFFFFF"/></g>
+<g id="Record 10"><circle cx="147" cy="600" r="34" fill="#2F4A5A"/><circle cx="147" cy="600" r="28" fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1"/><circle cx="147" cy="600" r="21" fill="none" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="1"/><circle cx="147" cy="600" r="11.5" fill="#F7F3EA"/><circle cx="147" cy="600" r="1.6" fill="#FFFFFF"/><circle cx="147" cy="600" r="39" fill="none" stroke="#31C27C" stroke-width="2.5"/><circle cx="173" cy="574" r="8.5" fill="#31C27C" stroke="#FFFFFF" stroke-width="2"/><path d="M169.2,574 L171.8,576.6 L176.8,571.4" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g id="Record 11" opacity="0.5"><circle cx="231" cy="600" r="34" fill="#4A6752"/><circle cx="231" cy="600" r="28" fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1"/><circle cx="231" cy="600" r="21" fill="none" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="1"/><circle cx="231" cy="600" r="11.5" fill="#E6B15A"/><circle cx="231" cy="600" r="1.6" fill="#FFFFFF"/></g>
+<g id="Record 12" opacity="0.5"><circle cx="315" cy="600" r="34" fill="#3A3230"/><circle cx="315" cy="600" r="28" fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1"/><circle cx="315" cy="600" r="21" fill="none" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="1"/><circle cx="315" cy="600" r="11.5" fill="#D96A4D"/><circle cx="315" cy="600" r="1.6" fill="#FFFFFF"/></g>
+</g>
+<g id="Actions">
+<rect x="45" y="664" width="300" height="48" rx="24" fill="#31C27C" filter="url(#v6p-greenShadow)"/>
+<text x="195" y="694" text-anchor="middle" font-family="MiSans Semibold" font-size="15" fill="#FFFFFF">保存布置</text>
+</g>
+<g id="Bottom Nav">
+<rect x="0" y="764" width="390" height="80" fill="#FFFFFF"/>
+<line x1="0" y1="764" x2="390" y2="764" stroke="#ECECEC" stroke-width="0.5"/>
+<polygon points="28,790 39,780 50,790" fill="#9AA09C"/><rect x="32.5" y="789" width="13" height="12" fill="#9AA09C"/><rect x="36.5" y="794" width="5" height="7" fill="#FFFFFF"/>
+<circle cx="112" cy="783" r="4.2" fill="none" stroke="#9AA09C" stroke-width="2"/>
+<path d="M103.5,797 Q103.5,788.5 112,788.5 Q120.5,788.5 120.5,797" fill="none" stroke="#9AA09C" stroke-width="2" stroke-linecap="round"/>
+<circle cx="124.5" cy="784.5" r="3.3" fill="none" stroke="#9AA09C" stroke-width="1.7"/>
+<path d="M120.8,797 Q120.8,791 124.5,791 Q128.2,791 128.2,797" fill="none" stroke="#9AA09C" stroke-width="1.7" stroke-linecap="round"/>
+<polygon points="268,794 268,801 274,794" fill="#9AA09C"/><rect x="264" y="781" width="18" height="14" rx="4" fill="none" stroke="#9AA09C" stroke-width="2"/>
+<circle cx="351" cy="783" r="5" fill="none" stroke="#31C27C" stroke-width="2"/><path d="M342.5,800 Q342.5,790.5 351,790.5 Q359.5,790.5 359.5,800" fill="none" stroke="#31C27C" stroke-width="2" stroke-linecap="round"/>
+<circle cx="195" cy="766" r="28" fill="#31C27C"/>
+<line x1="195" y1="758" x2="195" y2="774" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+<line x1="187" y1="766" x2="203" y2="766" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+<text x="39" y="816" text-anchor="middle" font-family="MiSans" font-size="10" fill="#9AA09C">首页</text>
+<text x="117" y="816" text-anchor="middle" font-family="MiSans" font-size="10" fill="#9AA09C">好友</text>
+<text x="195" y="816" text-anchor="middle" font-family="MiSans" font-size="10" fill="#9AA09C">创建</text>
+<text x="273" y="816" text-anchor="middle" font-family="MiSans" font-size="10" fill="#9AA09C">消息</text>
+<text x="351" y="816" text-anchor="middle" font-family="MiSans Semibold" font-size="10" fill="#31C27C">我的</text>
+<rect x="128" y="828" width="134" height="5" rx="2.5" fill="#1D2120" opacity="0.2"/>
+</g>
+</svg>

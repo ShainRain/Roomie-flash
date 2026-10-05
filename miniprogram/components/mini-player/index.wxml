@@ -1,0 +1,23 @@
+<view class="mp-card">
+  <view class="mp-vinyl {{snap.playing ? 'mp-vinyl-spin' : ''}}" bindtap="onOpenDetail">
+    <view class="mp-vinyl-hole"></view>
+  </view>
+  <view class="mp-info" bindtap="onOpenDetail">
+    <text class="mp-title">{{snap.track.title}}</text>
+    <text class="mp-subtitle">{{subtitle ? subtitle : snap.track.artist + ' · ' + snap.track.album}}</text>
+    <view class="mp-progress-row">
+      <text class="mp-time">{{snap.positionText}}</text>
+      <view class="mp-track">
+        <view class="mp-fill" style="width: {{snap.progress}}%;"></view>
+      </view>
+      <text class="mp-time">{{snap.durationText}}</text>
+    </view>
+  </view>
+  <view class="mp-ctrl">
+    <view class="mp-ctrl-sm" bindtap="onPrev"><view class="ic-prev"></view></view>
+    <view class="mp-ctrl-play" bindtap="onTogglePlay">
+      <view class="{{snap.playing ? 'ic-pause' : 'ic-play'}}"></view>
+    </view>
+    <view class="mp-ctrl-sm" bindtap="onNext"><view class="ic-next"></view></view>
+  </view>
+</view>
