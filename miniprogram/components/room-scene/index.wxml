@@ -1,0 +1,51 @@
+<!-- Room Master Scene：图层栈顺序与 Phase 0 §7.3 一致 -->
+<view class="sc-stage {{hint ? 'sc-hint' : ''}}" bindtap="onStageTap">
+  <!-- L0 中性材质基底 -->
+  <image class="sc-ly" src="{{L.L0}}" mode="aspectFit" />
+  <!-- L1 AO / 接触阴影 / 暗角 -->
+  <image class="sc-ly" src="{{L.L1}}" mode="aspectFit" />
+  <!-- L2 窗外冷夜（色温反向层） -->
+  <image class="sc-ly sc-screen" src="{{L.L2}}" mode="aspectFit" style="opacity: {{op.L2}};" />
+  <!-- 地板换色（clip-path 菱形由 room-map floorPolygon 唯一导出） -->
+  <view class="sc-floor-tint" style="{{floorStyle}}"></view>
+  <!-- L3 室内暖光洗（色温主层 × lampFactor） -->
+  <image class="sc-ly sc-screen" src="{{L.L3}}" mode="aspectFit" style="opacity: {{op.L3}};" />
+  <!-- L4 层板暖边 -->
+  <image class="sc-ly sc-screen" src="{{L.L4}}" mode="aspectFit" style="opacity: {{op.L4}};" />
+
+  <!-- DIY 唱片墙槽位 -->
+  <image wx:for="{{slots}}" wx:key="key" class="sc-slot" src="{{item.src}}" style="left: {{item.left}}%; top: {{item.top}}%; width: {{item.width}}%; height: {{item.height}}%;" />
+
+  <!-- 家具 + 角色：统一 z 轴排序，角色随景深插入家具层之间 -->
+  <block wx:for="{{zStack}}" wx:key="key">
+    <image wx:if="{{item.type === 'furn'}}" class="sc-ly" src="{{item.src}}" mode="aspectFit" style="z-index: {{item.z}};" />
+    <view wx:else class="sc-char" data-id="{{item.id}}" catchtap="onCharTap" style="left: {{item.x}}%; top: {{item.y}}%; z-index: {{item.z}};">
+      <view class="sc-char-body" style="transform: translate(-50%, -88%) scale({{item.scale}});">
+        <view class="sc-frame-{{item.frame}}">
+          <image class="sc-sprite {{item.facing < 0 ? 'sc-flip' : ''}}" src="/assets/img/char-{{item.id}}-{{item.frame}}.webp" mode="widthFix" style="width: {{item.wPct}}vw;" />
+        </view>
+        <view class="sc-char-shadow" style="width: {{item.shadowW}}vw;"></view>
+        <text wx:if="{{item.label}}" class="sc-char-name">{{item.label}}</text>
+      </view>
+    </view>
+  </block>
+
+  <!-- L5 落地灯光池 -->
+  <image wx:if="{{op.L5 > 0}}" class="sc-ly sc-screen" src="{{L.L5}}" mode="aspectFit" style="opacity: {{op.L5}};" />
+  <!-- L6 角色暖薄纱（角色受光） -->
+  <image class="sc-ly sc-screen" src="{{L.L6}}" mode="aspectFit" style="opacity: {{op.L6}};" />
+  <!-- L7 放映光束 + 幕布发光画面 -->
+  <image wx:if="{{op.L7 > 0}}" class="sc-ly sc-screen" src="{{L.L7}}" mode="aspectFit" style="opacity: {{op.L7}};" />
+
+  <!-- 正在播放：唱盘旋转 + 墙上徽章 -->
+  <view wx:if="{{nowPlaying.playing}}" class="sc-turntable-spin" style="left: {{platter.left}}%; top: {{platter.top}}%;"></view>
+  <view wx:if="{{nowPlaying.playing}}" class="sc-wall-badge" style="left: {{wallBadge.left}}%; top: {{wallBadge.top}}%;">▶ 《{{nowPlaying.title}}》</view>
+
+  <!-- 互动物件热点（preview 模式不渲染） -->
+  <view wx:for="{{hotspots}}" wx:key="id" class="sc-hotspot {{item.lit ? 'sc-hotspot-lit' : ''}}" data-id="{{item.id}}" style="left: {{item.left}}%; top: {{item.top}}%; width: {{item.width}}%; height: {{item.height}}%; z-index: {{item.z}};" catchtap="onHotspotTap">
+    <view class="sc-hotspot-badge"><text>{{item.icon}}</text><text>{{item.name}}</text></view>
+  </view>
+
+  <!-- 气泡反馈层 -->
+  <view wx:for="{{bubbles}}" wx:key="id" class="sc-bubble sc-bubble-{{item.kind || 'info'}}" style="left: {{item.x}}%; top: {{item.y}}%;">{{item.text}}</view>
+</view>
