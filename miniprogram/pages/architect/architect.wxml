@@ -1,0 +1,130 @@
+<view class="page">
+
+  <!-- 刊头:中文大标题 + en-serif 英文小标 + 保存主 CTA(保存后转「已保存」绿软态) -->
+  <view class="head page-pad rise">
+    <view class="head-row">
+      <view class="head-text">
+        <text class="masthead">建筑师模式</text>
+        <text class="en-serif head-en">Architect Studio</text>
+      </view>
+      <view class="save-btn {{dirty ? 'btn-primary' : 'pill-green-soft'}}" hover-class="btn-hover" bindtap="onSave">
+        {{dirty ? '保存' : '已保存'}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 房间预览(与房间页同源:家具覆盖层 + 唱片墙 + 灯光色温实时预览,结构不动) -->
+  <view class="preview page-pad rise rise-1">
+    <view class="preview-frame">
+      <image class="preview-img" src="/assets/img/room-interactive.webp" mode="aspectFit" />
+      <view class="preview-floor" style="background: {{floorColor}};"></view>
+      <image wx:for="{{previewSlots}}" wx:key="key" class="preview-plate" src="{{item.src}}" style="left: {{item.left}}%; top: {{item.top}}%; width: {{item.width}}%; height: {{item.height}}%;" />
+      <image wx:for="{{previewLayers}}" wx:key="key" class="preview-layer" src="{{item.src}}" style="z-index: {{item.z}};" mode="aspectFit" />
+      <view class="preview-tint" style="{{lightOverlay}}"></view>
+      <view class="preview-tag pill pill-live">正在播放 · 晴天</view>
+      <!-- 右侧悬浮工具钮:与下方分段标签同步 -->
+      <view class="tools">
+        <view
+          wx:for="{{tabs}}"
+          wx:key="key"
+          class="tool pill-dark {{activeTab === item.key ? 'tool-on' : ''}}"
+          data-key="{{item.key}}"
+          bindtap="onTabChange"
+          hover-class="btn-hover"
+        >{{item.short}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 工作台纸张 sheet:从预览下缘叠上来,分段标签「家具 | 地板 | 灯光」 -->
+  <view class="panel page-pad rise rise-2">
+    <view class="card bench">
+      <view class="grabber"></view>
+
+      <view class="tabs">
+        <view
+          wx:for="{{tabs}}"
+          wx:key="key"
+          class="tab {{activeTab === item.key ? 'tab-on' : ''}}"
+          data-key="{{item.key}}"
+          bindtap="onTabChange"
+          hover-class="btn-hover"
+        >
+          {{item.name}}
+          <view class="tab-bar"></view>
+        </view>
+      </view>
+
+      <!-- 家具:真实缩略图网格,多选 -->
+      <view wx:if="{{activeTab === 'furniture'}}" class="tab-panel rise">
+        <view class="grid">
+          <view
+            wx:for="{{furniture}}"
+            wx:key="key"
+            class="cell {{selectedFurniture.indexOf(item.key) >= 0 ? 'cell-on' : ''}}"
+            data-key="{{item.key}}"
+            bindtap="onToggleFurniture"
+            hover-class="btn-hover"
+          >
+            <image class="cell-icon" src="{{item.icon}}" mode="aspectFit" />
+            <text class="cell-name">{{item.name}}</text>
+            <view wx:if="{{selectedFurniture.indexOf(item.key) >= 0}}" class="cell-check">✓</view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 地板:色块 swatch 横排 -->
+      <view wx:if="{{activeTab === 'floor'}}" class="tab-panel rise">
+        <view class="swatches">
+          <view
+            wx:for="{{floors}}"
+            wx:key="key"
+            class="swatch-wrap"
+            data-key="{{item.key}}"
+            bindtap="onSelectFloor"
+            hover-class="btn-hover"
+          >
+            <view class="swatch {{selectedFloor === item.key ? 'swatch-on' : ''}}" style="background: {{item.color}};">
+              <text wx:if="{{selectedFloor === item.key}}" class="swatch-check">✓</text>
+            </view>
+            <text class="swatch-name">{{item.name}}{{selectedFloor === item.key ? ' · 使用中' : ''}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 灯光:色温滑杆 2700K—6000K,轨道左暖右冷,选中值大字 -->
+      <view wx:if="{{activeTab === 'light'}}" class="tab-panel rise">
+        <view class="light-head">
+          <view class="light-value-wrap">
+            <text class="light-value">{{lightTemp}}</text>
+            <text class="light-unit">K</text>
+          </view>
+          <text class="paper-sub">色温 · 暖黄到雪白</text>
+        </view>
+        <view class="light-track-wrap">
+          <view class="light-track"></view>
+          <slider
+            class="light-slider"
+            value="{{lightTemp}}"
+            min="2700"
+            max="6000"
+            step="100"
+            activeColor="rgba(0,0,0,0)"
+            backgroundColor="rgba(0,0,0,0)"
+            block-size="20"
+            bindchange="onLightChange"
+            bindchanging="onLightChanging"
+          />
+        </view>
+        <view class="light-ends">
+          <text class="light-end">暖黄 2700K</text>
+          <text class="light-end">雪白 6000K</text>
+        </view>
+      </view>
+
+      <view class="sheet-hint">已选家具 {{selectedFurniture.length}} 件 · {{lightTemp}}K 灯光</view>
+
+    </view>
+  </view>
+
+</view>

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="960" viewBox="0 0 1440 960">
+  <defs>
+    <!-- 四种音乐天空渐变（115°） -->
+    <linearGradient id="tok-sky-gold" x1="0%" y1="15%" x2="100%" y2="85%">
+      <stop offset="0%" stop-color="#F2D9A0"/>
+      <stop offset="100%" stop-color="#F6E8C8"/>
+    </linearGradient>
+    <linearGradient id="tok-sky-rain" x1="0%" y1="15%" x2="100%" y2="85%">
+      <stop offset="0%" stop-color="#6B7B8C"/>
+      <stop offset="100%" stop-color="#9AA8B2"/>
+    </linearGradient>
+    <linearGradient id="tok-sky-snow" x1="0%" y1="15%" x2="100%" y2="85%">
+      <stop offset="0%" stop-color="#DCE6EC"/>
+      <stop offset="100%" stop-color="#F2F4F4"/>
+    </linearGradient>
+    <linearGradient id="tok-sky-galaxy" x1="0%" y1="15%" x2="100%" y2="85%">
+      <stop offset="0%" stop-color="#232B3E"/>
+      <stop offset="100%" stop-color="#3A4A66"/>
+    </linearGradient>
+    <!-- L0 环境阴影：径向渐变 ink 15% → 0% -->
+    <radialGradient id="tok-l0-grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#3E3A32" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#3E3A32" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Elevation 投影（光源 35°，右下） -->
+    <filter id="tok-sh-l1" x="-40%" y="-40%" width="180%" height="200%">
+      <feDropShadow dx="4" dy="6" stdDeviation="4" flood-color="#3E3A32" flood-opacity="0.15"/>
+    </filter>
+    <filter id="tok-sh-l2" x="-40%" y="-40%" width="180%" height="200%">
+      <feDropShadow dx="5" dy="8" stdDeviation="6" flood-color="#3E3A32" flood-opacity="0.15"/>
+    </filter>
+    <filter id="tok-sh-l3" x="-40%" y="-40%" width="180%" height="200%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#3E3A32" flood-opacity="0.2"/>
+    </filter>
+    <clipPath id="tok-ratio-clip">
+      <rect x="64" y="458" width="1312" height="26" rx="13"/>
+    </clipPath>
+  </defs>
+
+  <!-- 基底 -->
+  <rect width="1440" height="960" fill="#F6F0E4"/>
+
+  <!-- ===== 页眉 ===== -->
+  <text x="64" y="46" font-family="MiSans" font-size="10" letter-spacing="3" fill="#7A7263">QQ MUSIC CONCEPT · DESIGN SYSTEM</text>
+  <text x="1376" y="46" text-anchor="end" font-family="MiSans" font-size="9" letter-spacing="1.5" fill="#7A7263">TOKENS STUDIO READY · V1.0</text>
+  <text x="62" y="94" font-family="Oranienbaum" font-size="44" fill="#3E3A32">Roomie · Design Tokens</text>
+  <text x="64" y="124" font-family="Noto Serif SC" font-size="15" fill="#7A7263">一座随音乐呼吸的小建筑 —— 设计令牌总览</text>
+  <line x1="64" y1="142" x2="1376" y2="142" stroke="#E7DCC8" stroke-width="1"/>
+
+  <!-- ===== 01 颜色 ===== -->
+  <text x="64" y="172" font-family="Oranienbaum" font-size="22" fill="#3E3A32">01</text>
+  <text x="104" y="172" font-family="Noto Serif SC" font-size="18" fill="#3E3A32">颜色</text>
+  <text x="146" y="172" font-family="MiSans" font-size="10" letter-spacing="2" fill="#7A7263">COLOR TOKENS · 14</text>
+
+  <!-- 色板 第一行 -->
+  <g font-family="Oranienbaum" font-size="12.5" fill="#3E3A32" text-anchor="middle">
+    <rect x="64" y="190" width="132" height="64" rx="12" fill="#F6F0E4" stroke="#C8BBA4" stroke-width="0.75"/>
+    <text x="130" y="276">cream-wall</text>
+    <rect x="251.4" y="190" width="132" height="64" rx="12" fill="#FBF8F1" stroke="#C8BBA4" stroke-width="0.75"/>
+    <text x="317.4" y="276">paper</text>
+    <rect x="438.9" y="190" width="132" height="64" rx="12" fill="#E7DCC8"/>
+    <text x="504.9" y="276">linen</text>
+    <rect x="626.3" y="190" width="132" height="64" rx="12" fill="#C8BBA4"/>
+    <text x="692.3" y="276">warm-stone</text>
+    <rect x="813.7" y="190" width="132" height="64" rx="12" fill="#A89A80"/>
+    <text x="879.7" y="276">stone-dark</text>
+    <rect x="1001.1" y="190" width="132" height="64" rx="12" fill="#C49A6C"/>
+    <text x="1067.1" y="276">oak</text>
+    <rect x="1188.6" y="190" width="132" height="64" rx="12" fill="#A87F52"/>
+    <text x="1254.6" y="276">oak-dark</text>
+  </g>
+  <g font-family="MiSans" font-size="9.5" fill="#7A7263" text-anchor="middle">
+    <text x="130" y="292">#F6F0E4 · 基底墙面</text>
+    <text x="317.4" y="292">#FBF8F1 · 卡片气泡</text>
+    <text x="504.9" y="292">#E7DCC8 · 亚麻软装</text>
+    <text x="692.3" y="292">#C8BBA4 · 岩石台阶</text>
+    <text x="879.7" y="292">#A89A80 · 石材暗面</text>
+    <text x="1067.1" y="292">#C49A6C · 地板家具</text>
+    <text x="1254.6" y="292">#A87F52 · 木材暗面</text>
+  </g>
+
+  <!-- 色板 第二行 -->
+  <g font-family="Oranienbaum" font-size="12.5" fill="#3E3A32" text-anchor="middle">
+    <rect x="64" y="310" width="132" height="64" rx="12" fill="#C4DED2"/>
+    <text x="130" y="396">mist-mint</text>
+    <rect x="251.4" y="310" width="132" height="64" rx="12" fill="#31C27C"/>
+    <text x="317.4" y="396">qq-green</text>
+    <rect x="438.9" y="310" width="132" height="64" rx="12" fill="#1F9E63"/>
+    <text x="504.9" y="396">qq-deep</text>
+    <rect x="626.3" y="310" width="132" height="64" rx="12" fill="#3E3A32"/>
+    <text x="692.3" y="396">ink</text>
+    <rect x="813.7" y="310" width="132" height="64" rx="12" fill="#7A7263"/>
+    <text x="879.7" y="396">ink-soft</text>
+    <rect x="1001.1" y="310" width="132" height="64" rx="12" fill="#E8B04B"/>
+    <text x="1067.1" y="396">gold</text>
+    <rect x="1188.6" y="310" width="132" height="64" rx="12" fill="#FFD98A"/>
+    <text x="1254.6" y="396">window-glow</text>
+  </g>
+  <g font-family="MiSans" font-size="9.5" fill="#7A7263" text-anchor="middle">
+    <text x="130" y="412">#C4DED2 · 雾气光晕</text>
+    <text x="317.4" y="412">#31C27C · 音乐正在发生</text>
+    <text x="504.9" y="412">#1F9E63 · 按压强调</text>
+    <text x="692.3" y="412">#3E3A32 · 主文字黑胶</text>
+    <text x="879.7" y="412">#7A7263 · 次要文字</text>
+    <text x="1067.1" y="412">#E8B04B · 黄昏光斑</text>
+    <text x="1254.6" y="412">#FFD98A · 窗光壁炉</text>
+  </g>
+
+  <!-- 用色比例条 -->
+  <text x="64" y="450" font-family="Noto Serif SC" font-size="13" fill="#3E3A32">用色比例</text>
+  <text x="132" y="450" font-family="MiSans" font-size="9" letter-spacing="1.5" fill="#7A7263">COLOR RATIO</text>
+  <g clip-path="url(#tok-ratio-clip)">
+    <rect x="64" y="458" width="590.4" height="26" fill="#F6F0E4"/>
+    <rect x="654.4" y="458" width="236.2" height="26" fill="#E7DCC8"/>
+    <rect x="890.6" y="458" width="196.8" height="26" fill="#C49A6C"/>
+    <rect x="1087.4" y="458" width="131.2" height="26" fill="#C8BBA4"/>
+    <rect x="1218.6" y="458" width="78.7" height="26" fill="#C4DED2"/>
+    <rect x="1297.3" y="458" width="52.5" height="26" fill="#31C27C"/>
+    <rect x="1349.8" y="458" width="26.2" height="26" fill="#3E3A32"/>
+  </g>
+  <rect x="64" y="458" width="1312" height="26" rx="13" fill="none" stroke="#C8BBA4" stroke-width="0.75"/>
+  <g font-family="MiSans" font-size="9" fill="#7A7263" text-anchor="middle">
+    <text x="359" y="502">Cream 45%</text>
+    <text x="989" y="502">Oak 15%</text>
+    <text x="1258" y="502">Mint 6%</text>
+    <text x="1363" y="502">Ink 2%</text>
+    <text x="772" y="520">Linen 18%</text>
+    <text x="1153" y="520">Stone 10%</text>
+    <text x="1323" y="520">QQ Green 4%</text>
+  </g>
+
+  <!-- 四种音乐天空 -->
+  <text x="64" y="556" font-family="Noto Serif SC" font-size="13" fill="#3E3A32">四种音乐天空</text>
+  <text x="158" y="556" font-family="MiSans" font-size="9" letter-spacing="1.5" fill="#7A7263">MUSICAL SKIES · 115°</text>
+  <g>
+    <rect x="64" y="568" width="310" height="40" rx="12" fill="url(#tok-sky-gold)"/>
+    <text x="80" y="593" font-family="Noto Serif SC" font-size="12" fill="#3E3A32">晴天 Golden Sunset</text>
+    <text x="358" y="593" text-anchor="end" font-family="MiSans" font-size="9" fill="#7A7263">青春 · 夏天 · 回忆</text>
+    <circle cx="340" y="578" r="3.5" fill="#FFD98A"/>
+
+    <rect x="398" y="568" width="310" height="40" rx="12" fill="url(#tok-sky-rain)"/>
+    <text x="414" y="593" font-family="Noto Serif SC" font-size="12" fill="#FBF8F1">Lo-fi Rainy Neon</text>
+    <text x="692" y="593" text-anchor="end" font-family="MiSans" font-size="9" fill="#DCE6EC">深夜陪伴</text>
+    <circle cx="674" y="578" r="3.5" fill="#FFC97A"/>
+
+    <rect x="732" y="568" width="310" height="40" rx="12" fill="url(#tok-sky-snow)"/>
+    <text x="748" y="593" font-family="Noto Serif SC" font-size="12" fill="#3E3A32">钢琴 Snow Silence</text>
+    <text x="1026" y="593" text-anchor="end" font-family="MiSans" font-size="9" fill="#7A7263">治愈 · 思考</text>
+    <circle cx="1008" y="578" r="3.5" fill="#FFE9C4"/>
+
+    <rect x="1066" y="568" width="310" height="40" rx="12" fill="url(#tok-sky-galaxy)"/>
+    <text x="1082" y="593" font-family="Noto Serif SC" font-size="12" fill="#FBF8F1">电子 Galaxy Night</text>
+    <text x="1360" y="593" text-anchor="end" font-family="MiSans" font-size="9" fill="#C4DED2">浪漫 · 未来</text>
+    <circle cx="1342" y="578" r="3.5" fill="#BFE8D2"/>
+  </g>
+
+  <line x1="64" y1="650" x2="1376" y2="650" stroke="#E7DCC8" stroke-width="1"/>
+
+  <!-- ===== 02 字阶 ===== -->
+  <text x="64" y="682" font-family="Oranienbaum" font-size="22" fill="#3E3A32">02</text>
+  <text x="104" y="682" font-family="Noto Serif SC" font-size="18" fill="#3E3A32">字阶</text>
+  <text x="146" y="682" font-family="MiSans" font-size="10" letter-spacing="2" fill="#7A7263">TYPE SCALE</text>
+
+  <g font-family="MiSans" font-size="9" letter-spacing="1.5" fill="#7A7263">
+    <text x="170" y="702">ORANIENBAUM · 英文展示</text>
+    <text x="420" y="702">NOTO SERIF SC · 中文标题</text>
+    <text x="665" y="702">MISANS · 正文界面</text>
+  </g>
+
+  <!-- 行间分隔线 -->
+  <g stroke="#E7DCC8" stroke-width="0.75">
+    <line x1="64" y1="710" x2="780" y2="710"/>
+    <line x1="64" y1="774" x2="780" y2="774"/>
+    <line x1="64" y1="824" x2="780" y2="824"/>
+    <line x1="64" y1="862" x2="780" y2="862"/>
+    <line x1="64" y1="892" x2="780" y2="892"/>
+    <line x1="64" y1="912" x2="780" y2="912"/>
+    <line x1="64" y1="930" x2="780" y2="930"/>
+    <line x1="64" y1="946" x2="780" y2="946"/>
+  </g>
+
+  <!-- 层级标签 -->
+  <g font-family="MiSans" font-size="9" letter-spacing="1.5" fill="#7A7263">
+    <text x="64" y="768">DISPLAY · 58</text>
+    <text x="64" y="818">H1 · 44</text>
+    <text x="64" y="856">H2 · 32</text>
+    <text x="64" y="886">H3 · 24</text>
+    <text x="64" y="906">BODY · 14</text>
+    <text x="64" y="924">CAPTION · 12</text>
+    <text x="64" y="940">MICRO · 10</text>
+  </g>
+
+  <!-- Oranienbaum 列 -->
+  <g font-family="Oranienbaum" fill="#3E3A32">
+    <text x="170" y="768" font-size="58">Roomie</text>
+    <text x="170" y="818" font-size="44">Roomie</text>
+    <text x="170" y="856" font-size="32">Roomie</text>
+    <text x="170" y="886" font-size="24">Roomie</text>
+    <text x="170" y="906" font-size="14">Roomie 0731</text>
+    <text x="170" y="924" font-size="12">Roomie 0731</text>
+    <text x="170" y="940" font-size="10" letter-spacing="1.5">ROOMIE 0731</text>
+  </g>
+
+  <!-- Noto Serif SC 列 -->
+  <g font-family="Noto Serif SC" fill="#3E3A32">
+    <text x="420" y="768" font-size="58">音乐小屋</text>
+    <text x="420" y="818" font-size="44">音乐小屋</text>
+    <text x="420" y="856" font-size="32">音乐小屋</text>
+    <text x="420" y="886" font-size="24">音乐小屋</text>
+    <text x="420" y="906" font-size="14">随音乐呼吸</text>
+    <text x="420" y="924" font-size="12" letter-spacing="1.5">随音乐呼吸</text>
+    <text x="420" y="940" font-size="10" letter-spacing="1.5">随音乐呼吸</text>
+  </g>
+
+  <!-- MiSans 列 -->
+  <g font-family="MiSans" fill="#3E3A32">
+    <text x="665" y="768" font-size="58">小屋</text>
+    <text x="665" y="818" font-size="44">小屋</text>
+    <text x="665" y="856" font-size="32">小屋</text>
+    <text x="665" y="886" font-size="24">正在播放</text>
+    <text x="665" y="906" font-size="14">正在播放 · 晴天</text>
+    <text x="665" y="924" font-size="12">正在播放 · 晴天</text>
+    <text x="665" y="940" font-size="10">正在播放 · 晴天</text>
+  </g>
+
+  <!-- 分区竖线 -->
+  <line x1="796" y1="666" x2="796" y2="946" stroke="#E7DCC8" stroke-width="0.75"/>
+  <line x1="1114" y1="666" x2="1114" y2="946" stroke="#E7DCC8" stroke-width="0.75"/>
+
+  <!-- ===== 03 Elevation ===== -->
+  <text x="810" y="682" font-family="Oranienbaum" font-size="22" fill="#3E3A32">03</text>
+  <text x="850" y="682" font-family="Noto Serif SC" font-size="18" fill="#3E3A32">投影</text>
+  <text x="892" y="682" font-family="MiSans" font-size="10" letter-spacing="2" fill="#7A7263">ELEVATION · 35°</text>
+
+  <!-- L0 -->
+  <ellipse cx="876" cy="776" rx="64" ry="10" fill="url(#tok-l0-grad)"/>
+  <rect x="810" y="710" width="132" height="60" rx="12" fill="#FBF8F1" stroke="#E7DCC8" stroke-width="0.75"/>
+  <text x="876" y="748" text-anchor="middle" font-family="Oranienbaum" font-size="18" fill="#3E3A32">L0</text>
+  <text x="810" y="792" font-family="MiSans" font-size="10" fill="#3E3A32">建筑本体</text>
+  <text x="810" y="806" font-family="MiSans" font-size="9" fill="#7A7263">岛下环境阴影 · ink 15% → 0%</text>
+
+  <!-- L1 -->
+  <rect x="966" y="710" width="132" height="60" rx="12" fill="#FBF8F1" filter="url(#tok-sh-l1)"/>
+  <text x="1032" y="748" text-anchor="middle" font-family="Oranienbaum" font-size="18" fill="#3E3A32">L1</text>
+  <text x="966" y="792" font-family="MiSans" font-size="10" fill="#3E3A32">家具</text>
+  <text x="966" y="806" font-family="MiSans" font-size="9" fill="#7A7263">offset (4, 6) · blur 8 · 15%</text>
+
+  <!-- L2 -->
+  <rect x="810" y="826" width="132" height="60" rx="12" fill="#FBF8F1" filter="url(#tok-sh-l2)"/>
+  <text x="876" y="864" text-anchor="middle" font-family="Oranienbaum" font-size="18" fill="#3E3A32">L2</text>
+  <text x="810" y="908" font-family="MiSans" font-size="10" fill="#3E3A32">角色</text>
+  <text x="810" y="922" font-family="MiSans" font-size="9" fill="#7A7263">offset (5, 8) · blur 12 · 15%</text>
+
+  <!-- L3 -->
+  <rect x="966" y="826" width="132" height="60" rx="12" fill="#FBF8F1" filter="url(#tok-sh-l3)"/>
+  <text x="1032" y="864" text-anchor="middle" font-family="Oranienbaum" font-size="18" fill="#3E3A32">L3</text>
+  <text x="966" y="908" font-family="MiSans" font-size="10" fill="#3E3A32">悬浮 UI · 气泡 / 播放器</text>
+  <text x="966" y="922" font-family="MiSans" font-size="9" fill="#7A7263">offset (0, 10) · blur 20 · 20%</text>
+
+  <!-- ===== 04 Motion ===== -->
+  <text x="1130" y="682" font-family="Oranienbaum" font-size="22" fill="#3E3A32">04</text>
+  <text x="1170" y="682" font-family="Noto Serif SC" font-size="18" fill="#3E3A32">动效</text>
+  <text x="1212" y="682" font-family="MiSans" font-size="10" letter-spacing="2" fill="#7A7263">MOTION · MS</text>
+
+  <g font-family="MiSans" font-size="9.5" fill="#3E3A32">
+    <text x="1130" y="726">聊天气泡 · 200ms</text>
+    <rect x="1130" y="734" width="8" height="12" rx="6" fill="#C8BBA4"/>
+
+    <text x="1130" y="770">角色步态 · 240ms</text>
+    <rect x="1130" y="778" width="10" height="12" rx="5" fill="#C8BBA4"/>
+
+    <text x="1130" y="814">灯光变化 · 600ms</text>
+    <rect x="1130" y="822" width="22" height="12" rx="6" fill="#A89A80"/>
+
+    <text x="1130" y="858">天气切换 · 1200ms</text>
+    <rect x="1130" y="866" width="44" height="12" rx="6" fill="#C49A6C"/>
+
+    <text x="1130" y="902">Room AI 隐去 · 6000ms</text>
+    <rect x="1130" y="910" width="200" height="12" rx="6" fill="#C4DED2"/>
+    <text x="1338" y="920" font-family="MiSans" font-size="9" fill="#7A7263">永远不打断</text>
+  </g>
+  <text x="1130" y="942" font-family="MiSans" font-size="9" letter-spacing="1.5" fill="#7A7263">时长 · 线性比例 6000MS → 200PX</text>
+</svg>

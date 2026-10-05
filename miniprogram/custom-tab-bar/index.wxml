@@ -1,0 +1,31 @@
+<view class="tabbar">
+  <view
+    wx:for="{{list}}"
+    wx:key="pagePath"
+    class="tab {{selected === index ? 'tab-on' : ''}} {{item.glyph === 'create' ? 'tab-create' : ''}}"
+    data-path="{{item.pagePath}}"
+    data-index="{{index}}"
+    bindtap="onTap"
+  >
+    <block wx:if="{{item.glyph === 'home'}}">
+      <view class="ic ic-home"></view>
+      <text class="tab-label">{{item.text}}</text>
+    </block>
+    <block wx:elif="{{item.glyph === 'friends'}}">
+      <view class="ic ic-friends"></view>
+      <text class="tab-label">{{item.text}}</text>
+    </block>
+    <block wx:elif="{{item.glyph === 'msg'}}">
+      <view class="ic ic-msg"></view>
+      <view wx:if="{{badge > 0}}" class="badge">{{badge}}</view>
+      <text class="tab-label">{{item.text}}</text>
+    </block>
+    <block wx:elif="{{item.glyph === 'me'}}">
+      <view class="ic ic-me"></view>
+      <text class="tab-label">{{item.text}}</text>
+    </block>
+    <view wx:else class="create-btn">
+      <text class="create-plus">+</text>
+    </view>
+  </view>
+</view>

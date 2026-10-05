@@ -1,0 +1,58 @@
+.page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--night-950) 0%, var(--night-900) 55%, var(--night-950) 100%);
+  padding-bottom: 200rpx;
+}
+
+/* ---- 入场动效:与 home 同一 rise-in 语言;backwards 填充,动画结束后还原本样,保住 btn-hover 按压反馈 ---- */
+.anim-in { animation: rise-in 0.24s ease-out backwards; }
+.anim-d1 { animation-delay: 0.05s; }
+.anim-d2 { animation-delay: 0.10s; }
+.anim-d3 { animation-delay: 0.15s; }
+.anim-d4 { animation-delay: 0.20s; }
+@keyframes rise-in { from { opacity: 0; transform: translateY(16rpx); } }
+
+/* ---- 入口卡(paper-card 由 app.wxss 提供) ---- */
+.entry {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 32rpx 28rpx;
+  margin-bottom: 24rpx;
+}
+
+.entry-glyph {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: var(--r-card-sm);
+  background: var(--amber-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48rpx;
+  flex-shrink: 0;
+}
+
+.entry-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.entry-title {
+  font-size: var(--fs-body);
+  font-weight: 700;
+  color: var(--ink-900);
+}
+
+.entry-desc {
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+}
+
+.entry-arrow {
+  font-size: var(--fs-title);
+  color: var(--ink-500);
+}

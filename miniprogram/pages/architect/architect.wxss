@@ -1,0 +1,367 @@
+.page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--night-950) 0%, var(--night-900) 55%, var(--night-950) 100%);
+  padding: 24rpx 0 96rpx;
+}
+
+/* ---- 入场动效(克制 rise-in,错峰) ---- */
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(16rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.rise { animation: rise-in 0.24s ease-out both; }
+.rise-1 { animation-delay: 0.06s; }
+.rise-2 { animation-delay: 0.12s; }
+
+/* ---- 刊头 ---- */
+.head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28rpx;
+}
+
+.head-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.masthead {
+  font-size: var(--fs-title);
+  font-weight: 700;
+  color: var(--night-text);
+}
+
+.head-en {
+  font-size: var(--fs-micro);
+  color: var(--night-sub);
+}
+
+.save-btn {
+  padding: 16rpx 48rpx;
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  text-align: center;
+  border-radius: var(--r-pill);
+}
+
+/* ---- 房间预览 ---- */
+.preview {
+  position: relative;
+}
+
+.preview-frame {
+  position: relative;
+  border-radius: var(--r-image);
+  overflow: hidden;
+  border: 1rpx solid var(--night-line);
+  box-shadow: var(--shadow-float);
+}
+
+.preview-img {
+  width: 108%;
+  height: calc(100vw - 56rpx);
+  margin-left: -4%;
+  display: block;
+}
+
+.preview-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.preview-plate {
+  position: absolute;
+  z-index: 350;
+  pointer-events: none;
+}
+
+.preview-tint {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 950;
+  pointer-events: none;
+}
+
+.preview-floor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  opacity: 0.45;
+  pointer-events: none;
+  clip-path: polygon(16.9% 67.4%, 50% 50%, 83.1% 67.4%, 50% 85.75%);
+}
+
+.preview-tag {
+  position: absolute;
+  left: 24rpx;
+  bottom: 96rpx;
+  z-index: 960;
+}
+
+/* 右侧悬浮圆形工具钮:深夜半透明 pill-dark,选中转主 CTA 绿 */
+.tools {
+  position: absolute;
+  right: 24rpx;
+  top: 88rpx;
+  z-index: 970;
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.tool {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-float);
+}
+
+.tool-on {
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--white);
+  box-shadow: var(--shadow-green);
+}
+
+/* ---- 工作台纸张 sheet(叠上预览下缘) ---- */
+.panel {
+  position: relative;
+  z-index: 980;
+  margin-top: -86rpx;
+}
+
+.bench {
+  padding: 14rpx 30rpx 34rpx;
+}
+
+.grabber {
+  width: 72rpx;
+  height: 8rpx;
+  border-radius: var(--r-pill);
+  background: var(--line);
+  margin: 8rpx auto 12rpx;
+}
+
+/* 分段标签:选中项下划绿色指示 */
+.tabs {
+  display: flex;
+  gap: 56rpx;
+  border-bottom: 2rpx solid var(--line);
+}
+
+.tab {
+  position: relative;
+  padding: 16rpx 4rpx 20rpx;
+  font-size: var(--fs-body);
+  color: var(--ink-500);
+}
+
+.tab-on {
+  color: var(--ink-900);
+  font-weight: 700;
+}
+
+.tab-bar {
+  position: absolute;
+  left: 50%;
+  bottom: -2rpx;
+  transform: translateX(-50%);
+  width: 0;
+  height: 6rpx;
+  border-radius: var(--r-pill);
+  background: var(--green);
+  transition: width 0.2s ease-out;
+}
+
+.tab-on .tab-bar {
+  width: 48rpx;
+}
+
+.tab-panel {
+  padding-top: 32rpx;
+}
+
+/* 家具网格:真实缩略图,选中=绿描边 + 浅绿底 */
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+}
+
+.cell {
+  position: relative;
+  width: calc((100% - 60rpx) / 4);
+  background: rgba(237, 227, 209, 0.92);
+  border-radius: var(--r-card-sm);
+  border: 2rpx solid transparent;
+  padding: 20rpx 0 16rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  box-sizing: border-box;
+}
+
+.cell-on {
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+
+.cell-icon {
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.cell-name {
+  font-size: var(--fs-micro);
+  color: var(--ink-500);
+}
+
+.cell-check {
+  position: absolute;
+  right: 10rpx;
+  top: 10rpx;
+  width: 32rpx;
+  height: 32rpx;
+  border-radius: 50%;
+  background: var(--green);
+  color: var(--white);
+  font-size: var(--fs-micro);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 地板色板:选中绿色描边 */
+.swatches {
+  display: flex;
+  gap: 40rpx;
+}
+
+.swatch-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.swatch {
+  width: 104rpx;
+  height: 104rpx;
+  border-radius: var(--r-card-sm);
+  border: 4rpx solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.swatch-on {
+  border-color: var(--green);
+}
+
+.swatch-check {
+  color: var(--white);
+  font-size: var(--fs-body);
+  font-weight: 700;
+}
+
+.swatch-name {
+  font-size: var(--fs-micro);
+  color: var(--ink-500);
+}
+
+/* 灯光色温:选中值大字 + 左暖右冷渐变轨道(材料质感色,对齐 JS tint) */
+.light-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 16rpx;
+}
+
+.light-value-wrap {
+  display: flex;
+  align-items: baseline;
+}
+
+.light-value {
+  font-size: var(--fs-display);
+  font-weight: 700;
+  color: var(--ink-900);
+  line-height: 1.1;
+}
+
+.light-unit {
+  font-size: var(--fs-section);
+  color: var(--ink-500);
+  margin-left: 8rpx;
+}
+
+.light-track-wrap {
+  position: relative;
+  padding: 8rpx 0;
+}
+
+.light-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 12rpx;
+  border-radius: var(--r-pill);
+  background: linear-gradient(90deg, var(--warm-light) 0%, rgb(190, 220, 255) 100%);
+  pointer-events: none;
+}
+
+.light-slider {
+  position: relative;
+  margin: 0;
+}
+
+.light-ends {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4rpx;
+}
+
+.light-end {
+  font-size: var(--fs-micro);
+  color: var(--ink-500);
+}
+
+/* sheet 底部状态行 */
+.sheet-hint {
+  margin-top: 36rpx;
+  text-align: center;
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+}
+
+/* Visual reset: architect preview reads like a showroom window. */
+.preview-frame {
+  background: #0B1624;
+  box-shadow: 0 18rpx 48rpx rgba(2,8,15,0.34);
+}
+
+.preview-tag { box-shadow: 0 6rpx 14rpx rgba(43,201,107,0.18); }

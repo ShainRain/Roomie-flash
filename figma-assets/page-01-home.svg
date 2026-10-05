@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+<defs>
+<linearGradient id="p01-sky" x1="5%" y1="29%" x2="95%" y2="71%"><stop offset="0" stop-color="#F2D9A0"/><stop offset="1" stop-color="#F6E8C8"/></linearGradient>
+<radialGradient id="p01-shadow"><stop offset="0" stop-color="#3E3A32" stop-opacity="0.15"/><stop offset="1" stop-color="#3E3A32" stop-opacity="0"/></radialGradient>
+<radialGradient id="p01-sun"><stop offset="0" stop-color="#E8B04B" stop-opacity="0.55"/><stop offset="1" stop-color="#E8B04B" stop-opacity="0"/></radialGradient>
+<radialGradient id="p01-winGlow"><stop offset="0" stop-color="#FFD98A" stop-opacity="0.65"/><stop offset="1" stop-color="#FFD98A" stop-opacity="0"/></radialGradient>
+<filter id="p01-btn" x="-40%" y="-60%" width="180%" height="260%"><feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#3E3A32" flood-opacity="0.2"/></filter>
+</defs>
+<rect width="390" height="844" fill="#F6F0E4"/>
+<ellipse cx="195" cy="398" rx="168" ry="188" fill="url(#p01-sky)"/>
+<circle cx="112" cy="210" r="32" fill="url(#p01-sun)"/>
+<circle cx="112" cy="210" r="16" fill="#E8B04B" opacity="0.85"/>
+<g fill="#E8B04B" opacity="0.5"><circle cx="300" cy="210" r="2.2"/><circle cx="330" cy="300" r="1.6"/><circle cx="70" cy="330" r="1.8"/><circle cx="255" cy="170" r="1.5"/></g>
+<g fill="#FBF8F1" opacity="0.6"><ellipse cx="30.0" cy="180.0" rx="18.6" ry="8.7"/><ellipse cx="46.7" cy="173.8" rx="14.9" ry="9.9"/><ellipse cx="64.1" cy="180.0" rx="16.7" ry="8.1"/></g>
+<g fill="#FBF8F1" opacity="0.5"><ellipse cx="270.0" cy="140.0" rx="15.0" ry="7.0"/><ellipse cx="283.5" cy="135.0" rx="12.0" ry="8.0"/><ellipse cx="297.5" cy="140.0" rx="13.5" ry="6.5"/></g>
+<text x="195" y="92" text-anchor="middle" font-family="Oranienbaum" font-size="10" letter-spacing="2" fill="#7A7263">ROOMIE · A LITTLE FLOATING ROOM</text>
+<text x="195" y="148" text-anchor="middle" font-family="Noto Serif SC" font-size="44" fill="#3E3A32">随音乐呼吸</text>
+<text x="195" y="182" text-anchor="middle" font-family="Noto Serif SC" font-size="14" letter-spacing="1" fill="#7A7263">把喜欢的歌，都住进来</text>
+<ellipse cx="64.0" cy="325.2" rx="34.6" ry="5.4" fill="url(#p01-shadow)" opacity="0.55"/>
+<polygon points="32.0,256.0 64.0,272.0 64.0,299.2" fill="#C8BBA4"/>
+<polygon points="64.0,272.0 96.0,256.0 64.0,299.2" fill="#A89A80"/>
+<polygon points="64.0,272.0 43.2,261.6 64.0,284.2" fill="#B4A892" opacity="0.55"/>
+<line x1="64.0" y1="272.0" x2="64.0" y2="299.2" stroke="#3E3A32" stroke-opacity="0.12" stroke-width="1"/>
+<polygon points="32.0,256.0 64.0,272.0 96.0,256.0 64.0,240.0" fill="#C49A6C"/>
+<polygon points="32.0,256.0 64.0,272.0 64.0,244.0 32.0,228.0" fill="#F8F2E6"/>
+<polygon points="64.0,272.0 96.0,256.0 96.0,228.0 64.0,244.0" fill="#EDE4D0"/>
+<polygon points="32.0,228.0 64.0,244.0 64.0,210.4" fill="#A87F52"/>
+<polygon points="64.0,244.0 96.0,228.0 64.0,210.4" fill="#8F6B42"/>
+<polygon points="42.2,253.3 53.1,258.7 53.1,247.5 42.2,242.1" fill="#FFD98A"/>
+<text x="64.0" y="319.2" text-anchor="middle" font-family="MiSans" font-size="11" fill="#7A7263" letter-spacing="1">MOMO 的家</text>
+<ellipse cx="316.0" cy="312.5" rx="32.4" ry="5.1" fill="url(#p01-shadow)" opacity="0.55"/>
+<polygon points="286.0,246.0 316.0,261.0 316.0,286.5" fill="#C8BBA4"/>
+<polygon points="316.0,261.0 346.0,246.0 316.0,286.5" fill="#A89A80"/>
+<polygon points="316.0,261.0 296.5,251.2 316.0,272.5" fill="#B4A892" opacity="0.55"/>
+<line x1="316.0" y1="261.0" x2="316.0" y2="286.5" stroke="#3E3A32" stroke-opacity="0.12" stroke-width="1"/>
+<polygon points="286.0,246.0 316.0,261.0 346.0,246.0 316.0,231.0" fill="#C49A6C"/>
+<polygon points="286.0,246.0 316.0,261.0 316.0,235.0 286.0,220.0" fill="#F8F2E6"/>
+<polygon points="316.0,261.0 346.0,246.0 346.0,220.0 316.0,235.0" fill="#EDE4D0"/>
+<polygon points="286.0,220.0 316.0,235.0 316.0,203.5" fill="#A87F52"/>
+<polygon points="316.0,235.0 346.0,220.0 316.0,203.5" fill="#8F6B42"/>
+<polygon points="295.6,243.5 305.8,248.6 305.8,238.2 295.6,233.1" fill="#FFD98A"/>
+<text x="316.0" y="306.5" text-anchor="middle" font-family="MiSans" font-size="11" fill="#7A7263" letter-spacing="1">KIKI 的家</text>
+<ellipse cx="322.0" cy="502.3" rx="19.4" ry="3.1" fill="url(#p01-shadow)" opacity="0.55"/>
+<polygon points="304.0,452.0 322.0,461.0 322.0,476.3" fill="#C8BBA4"/>
+<polygon points="322.0,461.0 340.0,452.0 322.0,476.3" fill="#A89A80"/>
+<polygon points="322.0,461.0 310.3,455.1 322.0,467.9" fill="#B4A892" opacity="0.55"/>
+<line x1="322.0" y1="461.0" x2="322.0" y2="476.3" stroke="#3E3A32" stroke-opacity="0.12" stroke-width="1"/>
+<polygon points="304.0,452.0 322.0,461.0 340.0,452.0 322.0,443.0" fill="#C49A6C"/>
+<polygon points="304.0,452.0 322.0,461.0 322.0,446.0 304.0,437.0" fill="#F8F2E6"/>
+<polygon points="322.0,461.0 340.0,452.0 340.0,437.0 322.0,446.0" fill="#EDE4D0"/>
+<polygon points="304.0,437.0 322.0,446.0 322.0,427.1" fill="#A87F52"/>
+<polygon points="322.0,446.0 340.0,437.0 322.0,427.1" fill="#8F6B42"/>
+<polygon points="309.8,450.7 315.9,453.7 315.9,447.7 309.8,444.7" fill="#FFD98A"/>
+<text x="322.0" y="496.3" text-anchor="middle" font-family="MiSans" font-size="9" fill="#7A7263" letter-spacing="1">NANA 的家</text>
+<g fill="#FBF8F1" opacity="0.95"><ellipse cx="46.0" cy="462.0" rx="30.0" ry="14.0"/><ellipse cx="73.0" cy="452.0" rx="24.0" ry="16.0"/><ellipse cx="101.0" cy="462.0" rx="27.0" ry="13.0"/></g>
+<ellipse cx="195.0" cy="604.5" rx="118.8" ry="18.7" fill="url(#p01-shadow)" opacity="0.9"/>
+<polygon points="85.0,430.0 195.0,485.0 195.0,578.5" fill="#C8BBA4"/>
+<polygon points="195.0,485.0 305.0,430.0 195.0,578.5" fill="#A89A80"/>
+<polygon points="195.0,485.0 123.5,449.2 195.0,527.1" fill="#B4A892" opacity="0.55"/>
+<line x1="195.0" y1="485.0" x2="195.0" y2="578.5" stroke="#3E3A32" stroke-opacity="0.12" stroke-width="1"/>
+<polygon points="85.0,430.0 195.0,375.0 305.0,430.0 195.0,485.0" fill="#C49A6C"/>
+<g stroke="#C8BBA4" stroke-width="0.75" opacity="0.85"><line x1="98.8" y1="436.9" x2="208.8" y2="381.9"/><line x1="98.8" y1="423.1" x2="208.8" y2="478.1"/><line x1="112.5" y1="443.8" x2="222.5" y2="388.8"/><line x1="112.5" y1="416.2" x2="222.5" y2="471.2"/><line x1="126.2" y1="450.6" x2="236.2" y2="395.6"/><line x1="126.2" y1="409.4" x2="236.2" y2="464.4"/><line x1="140.0" y1="457.5" x2="250.0" y2="402.5"/><line x1="140.0" y1="402.5" x2="250.0" y2="457.5"/><line x1="153.8" y1="464.4" x2="263.8" y2="409.4"/><line x1="153.8" y1="395.6" x2="263.8" y2="450.6"/><line x1="167.5" y1="471.2" x2="277.5" y2="416.2"/><line x1="167.5" y1="388.8" x2="277.5" y2="443.8"/><line x1="181.2" y1="478.1" x2="291.2" y2="423.1"/><line x1="181.2" y1="381.9" x2="291.2" y2="436.9"/></g>
+<polygon points="85.0,430.0 195.0,375.0 195.0,287.0 85.0,342.0" fill="#F8F2E6"/>
+<polygon points="195.0,375.0 305.0,430.0 305.0,342.0 195.0,287.0" fill="#EDE4D0"/>
+<path d="M85.0,342.0 L195.0,287.0 L305.0,342.0" fill="none" stroke="#A87F52" stroke-width="3" stroke-linejoin="round"/>
+<ellipse cx="141.1" cy="352.7" rx="46.2" ry="37.4" fill="url(#p01-winGlow)"/>
+<polygon points="118.0,387.1 164.2,364.0 164.2,318.2 118.0,341.3" fill="#FFD98A" stroke="#A87F52" stroke-width="2.5" stroke-linejoin="round"/>
+<line x1="141.1" y1="375.6" x2="141.1" y2="329.8" stroke="#A87F52" stroke-width="1.6"/>
+<line x1="118.0" y1="364.2" x2="164.2" y2="341.1" stroke="#A87F52" stroke-width="1.6"/>
+<polygon points="118.0,411.5 164.2,388.4 187.3,423.0 141.1,446.1" fill="#FFD98A" opacity="0.28"/>
+<ellipse cx="187.0" cy="453.1" rx="33.0" ry="16.5" fill="#E7DCC8" opacity="0.9"/>
+<ellipse cx="187.0" cy="453.1" rx="22.0" ry="11.0" fill="none" stroke="#C8BBA4" stroke-width="1"/>
+<rect x="192.5" y="381.6" width="5" height="48.4" fill="#A87F52"/>
+<polygon points="241.2,349.7 195.0,381.6 195.0,387.6 241.2,355.7" fill="#A87F52"/>
+<polygon points="195.0,381.6 247.8,410.2 247.8,416.2 195.0,387.6" fill="#8F6B42"/>
+<polygon points="241.2,349.7 305.0,381.6 247.8,410.2 195.0,381.6" fill="#C49A6C"/>
+<polygon points="246.5,367.9 284.1,387.1 252.0,403.6 218.3,385.5" fill="#E7DCC8"/>
+<polygon points="245.5,368.5 264.8,378.4 236.7,394.3 219.3,384.9" fill="#C4DED2"/>
+<polygon points="265.4,383.3 277.3,389.4 263.8,396.3 252.4,390.4" fill="#FBF8F1"/>
+<g stroke="#A87F52" stroke-width="2.4" stroke-linecap="round"><line x1="213.1" y1="365.7" x2="213.1" y2="414.1"/><line x1="223.1" y1="365.7" x2="223.1" y2="414.1"/>
+<line x1="213.1" y1="375.3" x2="223.1" y2="375.3"/>
+<line x1="213.1" y1="385.0" x2="223.1" y2="385.0"/>
+<line x1="213.1" y1="394.7" x2="223.1" y2="394.7"/>
+<line x1="213.1" y1="404.4" x2="223.1" y2="404.4"/>
+</g>
+<g><rect x="123.5" y="433.3" width="28.6" height="13.2" fill="#AECFC0"/><ellipse cx="137.8" cy="433.3" rx="14.3" ry="7.2" fill="#C4DED2"/><ellipse cx="137.8" cy="446.5" rx="14.3" ry="7.2" fill="#AECFC0"/></g>
+<g><polygon points="119.8,461.6 133.8,461.6 131.8,473.6 121.8,473.6" fill="#C8BBA4"/><path d="M126.8 461.6 q-9 -10 -4 -18 M126.8 461.6 q0 -14 6 -19 M126.8 461.6 q9 -8 8 -17" stroke="#8FB8A4" stroke-width="2.4" fill="none" stroke-linecap="round"/></g>
+<g><line x1="228.0" y1="460.2" x2="228.0" y2="405.7" stroke="#A87F52" stroke-width="2.4"/><circle cx="228.0" cy="405.7" r="22.0" fill="url(#p01-winGlow)" opacity="0.85"/><polygon points="219.0,405.7 237.0,405.7 233.0,393.7 223.0,393.7" fill="#E7DCC8"/></g>
+<g fill="#FBF8F1" opacity="0.97"><ellipse cx="238.0" cy="545.0" rx="33.6" ry="15.7"/><ellipse cx="268.2" cy="533.8" rx="26.9" ry="17.9"/><ellipse cx="299.6" cy="545.0" rx="30.2" ry="14.6"/></g>
+<g fill="#FBF8F1" opacity="0.9"><ellipse cx="96.0" cy="580.0" rx="21.0" ry="9.8"/><ellipse cx="114.9" cy="573.0" rx="16.8" ry="11.2"/><ellipse cx="134.5" cy="580.0" rx="18.9" ry="9.1"/></g>
+<text x="195" y="700" text-anchor="middle" font-family="MiSans" font-size="11" fill="#7A7263" letter-spacing="0.5">打开就是漂浮房间，好友的家漂浮在一旁</text>
+<g filter="url(#p01-btn)"><rect x="59" y="716" width="272" height="52" rx="26" fill="#31C27C"/></g>
+<text x="195" y="748" text-anchor="middle" font-family="MiSans" font-size="15" font-weight="500" letter-spacing="1" fill="#FBF8F1">进入我的房间</text>
+<text x="30" y="30" font-family="MiSans" font-size="12.5" font-weight="500" fill="#3E3A32">9:41</text>
+<g fill="#3E3A32" opacity="0.85"><rect x="304" y="22" width="3" height="6" rx="1"/><rect x="309" y="20" width="3" height="8" rx="1"/><rect x="314" y="18" width="3" height="10" rx="1"/><rect x="319" y="16" width="3" height="12" rx="1"/></g>
+<g><rect x="334" y="17" width="24" height="12" rx="3.5" fill="none" stroke="#3E3A32" stroke-width="1"/><rect x="336" y="19" width="15" height="8" rx="2" fill="#3E3A32"/><rect x="359.5" y="20.5" width="2.5" height="5" rx="1.2" fill="#3E3A32"/></g>
+<rect x="128" y="830" width="134" height="5" rx="2.5" fill="#3E3A32" opacity="0.25"/>
+</svg>

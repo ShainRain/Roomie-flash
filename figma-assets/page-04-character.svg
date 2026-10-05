@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <defs>
+    <filter id="p04-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="5" dy="8" stdDeviation="6" flood-color="#3E3A32" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- 奶油基底 -->
+  <rect width="390" height="844" fill="#F6F0E4"/>
+  <circle cx="195" cy="330" r="158" fill="none" stroke="#E7DCC8" stroke-width="1" stroke-dasharray="2 6"/>
+  <circle cx="195" cy="330" r="176" fill="none" stroke="#E7DCC8" stroke-width="1" opacity="0.6"/>
+
+  <!-- 状态栏 -->
+  <g fill="#3E3A32" font-family="MiSans">
+    <text x="24" y="32" font-size="12">9:41</text>
+    <rect x="322" y="26" width="3.5" height="6" rx="1"/>
+    <rect x="327.5" y="24" width="3.5" height="8" rx="1"/>
+    <rect x="333" y="22" width="3.5" height="10" rx="1"/>
+    <rect x="352" y="22" width="22" height="11" rx="3.5" fill="none" stroke="#3E3A32" stroke-width="1"/>
+    <rect x="354.5" y="24.5" width="14" height="6" rx="2"/>
+  </g>
+
+  <!-- 标题 -->
+  <text x="24" y="86" font-family="Noto Serif SC" font-size="26" fill="#3E3A32">角色展台</text>
+  <text x="24" y="108" font-family="Oranienbaum" font-size="11" letter-spacing="3" fill="#7A7263">CHARACTER STAGE</text>
+  <!-- 编辑按钮 -->
+  <circle cx="346" cy="78" r="18" fill="#FBF8F1" stroke="#E7DCC8" stroke-width="1"/>
+  <g stroke="#3E3A32" stroke-width="1.5" stroke-linecap="round" fill="none">
+    <line x1="340" y1="84" x2="351" y2="73"/>
+    <path d="M349,71 l4,4 -2,2 -4,-4 z" fill="#3E3A32" stroke="none"/>
+  </g>
+
+  <!-- 圆形旋转展台 -->
+  <g>
+    <ellipse cx="202" cy="452" rx="98" ry="16" fill="#3E3A32" opacity="0.12"/>
+    <path d="M90,398 A105,42 0 0 0 300,398 L300,424 A105,42 0 0 1 90,424 Z" fill="#A89A80"/>
+    <ellipse cx="195" cy="398" rx="105" ry="42" fill="#C8BBA4"/>
+    <ellipse cx="195" cy="398" rx="88" ry="34.5" fill="#E7DCC8" opacity="0.55"/>
+    <ellipse cx="195" cy="398" rx="94" ry="37.5" fill="none" stroke="#7A7263" stroke-width="1" stroke-dasharray="3 5" opacity="0.55"/>
+    <!-- 旋转方向指示 -->
+    <path d="M148,430 A95,37 0 0 0 242,430" fill="none" stroke="#E8B04B" stroke-width="2" stroke-linecap="round"/>
+    <polygon points="248,430 240,426.5 241.5,434" fill="#E8B04B"/>
+  </g>
+
+  <!-- 角色投影 L2 -->
+  <ellipse cx="203" cy="402" rx="32" ry="9" fill="#3E3A32" opacity="0.18"/>
+
+  <!-- MOMO · 2.5 头身 Low-Poly -->
+  <g filter="url(#p04-shadow)">
+    <!-- 腿与鞋 -->
+    <rect x="180" y="342" width="11" height="46" rx="5" fill="#A89A80"/>
+    <rect x="199" y="342" width="11" height="46" rx="5" fill="#A89A80"/>
+    <rect x="178" y="384" width="15" height="8" rx="4" fill="#3E3A32"/>
+    <rect x="197" y="384" width="15" height="8" rx="4" fill="#3E3A32"/>
+    <!-- 黄昏金身体（低多边形分面） -->
+    <polygon points="172,300 218,300 212,348 178,348" fill="#E8B04B"/>
+    <polygon points="172,300 195,300 186,348 178,348" fill="#F0BE6A"/>
+    <polygon points="218,300 212,348 200,348 206,300" fill="#DBA23F"/>
+    <!-- 手臂 -->
+    <path d="M172,304 L162,336 q-2,6 4,7 l6,-2 8,-30 z" fill="#DBA23F"/>
+    <path d="M218,304 L228,334 q2,6 -4,7 l-6,-2 -8,-28 z" fill="#E8B04B"/>
+    <!-- 亚麻围巾领 -->
+    <rect x="180" y="294" width="30" height="10" rx="5" fill="#E7DCC8"/>
+    <!-- 头 -->
+    <circle cx="195" cy="262" r="30" fill="#F4DEC0"/>
+    <path d="M165,262 a30,30 0 0 1 30,-30 l0,60 z" fill="#F8E7CE" opacity="0.8"/>
+    <!-- 头发与发髻 -->
+    <path d="M165,260 a30,30 0 0 1 60,0 l-6,2 q-24,-14 -48,0 z" fill="#3E3A32"/>
+    <circle cx="166" cy="238" r="8" fill="#3E3A32"/>
+    <circle cx="224" cy="238" r="8" fill="#3E3A32"/>
+    <circle cx="166" cy="245" r="2.5" fill="#E8B04B"/>
+    <circle cx="224" cy="245" r="2.5" fill="#E8B04B"/>
+    <!-- 五官 -->
+    <circle cx="185" cy="264" r="2.2" fill="#3E3A32"/>
+    <circle cx="205" cy="264" r="2.2" fill="#3E3A32"/>
+    <circle cx="178" cy="272" r="3.5" fill="#E8B04B" opacity="0.45"/>
+    <circle cx="212" cy="272" r="3.5" fill="#E8B04B" opacity="0.45"/>
+    <path d="M191,273 q4,4 8,0" fill="none" stroke="#3E3A32" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- 角色名 -->
+  <text x="195" y="494" text-anchor="middle">
+    <tspan font-family="Oranienbaum" font-size="24" fill="#3E3A32">MOMO</tspan>
+    <tspan font-family="Oranienbaum" font-size="14" fill="#E8B04B"> · LV.7 · </tspan>
+    <tspan font-family="Noto Serif SC" font-size="14" fill="#7A7263">建筑师</tspan>
+  </text>
+
+  <!-- 动作姿态网格 -->
+  <text x="195" y="532" text-anchor="middle">
+    <tspan font-family="Noto Serif SC" font-size="12" fill="#3E3A32">九种姿态</tspan>
+    <tspan font-family="Oranienbaum" font-size="9" letter-spacing="2" fill="#7A7263"> · POSE LIBRARY</tspan>
+  </text>
+  <g font-family="MiSans" font-size="10" fill="#7A7263" text-anchor="middle">
+    <!-- 行走 -->
+    <circle cx="75" cy="570" r="25" fill="#FBF8F1" stroke="#E7DCC8"/>
+    <g stroke="#3E3A32" stroke-width="1.6" stroke-linecap="round" fill="none">
+      <circle cx="75" cy="559" r="3.5" fill="#3E3A32" stroke="none"/>
+      <line x1="75" y1="564" x2="75" y2="573"/>
+      <line x1="75" y1="573" x2="70" y2="581"/>
+      <line x1="75" y1="573" x2="81" y2="580"/>
+      <line x1="75" y1="567" x2="70" y2="571"/>
+      <line x1="75" y1="567" x2="80" y2="570"/>
+    </g>
+    <text x="75" y="608">行走</text>
+    <!-- 坐下 -->
+    <circle cx="195" cy="570" r="25" fill="#FBF8F1" stroke="#E7DCC8"/>
+    <g stroke="#3E3A32" stroke-width="1.6" stroke-linecap="round" fill="none">
+      <circle cx="192" cy="558" r="3.5" fill="#3E3A32" stroke="none"/>
+      <line x1="192" y1="563" x2="192" y2="570"/>
+      <line x1="192" y1="570" x2="201" y2="570"/>
+      <line x1="201" y1="570" x2="201" y2="578"/>
+      <line x1="186" y1="578" x2="206" y2="578"/>
+      <line x1="192" y1="566" x2="198" y2="568"/>
+    </g>
+    <text x="195" y="608">坐下</text>
+    <!-- 望窗外 -->
+    <circle cx="315" cy="570" r="25" fill="#FBF8F1" stroke="#E7DCC8"/>
+    <g stroke="#3E3A32" stroke-width="1.6" stroke-linecap="round" fill="none">
+      <circle cx="308" cy="560" r="3.5" fill="#3E3A32" stroke="none"/>
+      <line x1="308" y1="565" x2="308" y2="574"/>
+      <line x1="308" y1="574" x2="304" y2="580"/>
+      <line x1="308" y1="574" x2="312" y2="580"/>
+      <rect x="317" y="556" width="10" height="12" stroke="#E8B04B"/>
+      <line x1="322" y1="556" x2="322" y2="568" stroke="#E8B04B" stroke-width="1"/>
+    </g>
+    <text x="315" y="608">望窗外</text>
+    <!-- 摸猫 -->
+    <circle cx="75" cy="646" r="25" fill="#FBF8F1" stroke="#E7DCC8"/>
+    <g stroke="#3E3A32" stroke-width="1.6" stroke-linecap="round" fill="none">
+      <circle cx="67" cy="636" r="3.5" fill="#3E3A32" stroke="none"/>
+      <line x1="67" y1="641" x2="67" y2="652"/>
+      <line x1="67" y1="652" x2="63" y2="659"/>
+      <line x1="67" y1="652" x2="71" y2="659"/>
+      <line x1="67" y1="645" x2="76" y2="649"/>
+    </g>
+    <ellipse cx="83" cy="654" rx="6" ry="4" fill="#E8B04B"/>
+    <polygon points="79,651 80.5,647 82,651" fill="#E8B04B"/>
+    <polygon points="84,651 85.5,647 87,651" fill="#E8B04B"/>
+    <text x="75" y="684">摸猫</text>
+    <!-- 听黑胶 -->
+    <circle cx="195" cy="646" r="25" fill="#FBF8F1" stroke="#E7DCC8"/>
+    <g stroke="#3E3A32" stroke-width="1.6" stroke-linecap="round" fill="none">
+      <circle cx="188" cy="638" r="3.5" fill="#3E3A32" stroke="none"/>
+      <path d="M183,637 a5.5,5.5 0 0 1 11,0" stroke="#E8B04B" stroke-width="2"/>
+      <line x1="188" y1="643" x2="188" y2="653"/>
+      <line x1="188" y1="653" x2="184" y2="659"/>
+      <line x1="188" y1="653" x2="192" y2="659"/>
+      <circle cx="204" cy="650" r="7"/>
+      <circle cx="204" cy="650" r="2.2" fill="#E8B04B" stroke="none"/>
+    </g>
+    <text x="195" y="684">听黑胶</text>
+    <!-- 拥抱 -->
+    <circle cx="315" cy="646" r="25" fill="#FBF8F1" stroke="#E7DCC8"/>
+    <g stroke="#3E3A32" stroke-width="1.6" stroke-linecap="round" fill="none">
+      <circle cx="308" cy="638" r="3" fill="#3E3A32" stroke="none"/>
+      <circle cx="322" cy="638" r="3" fill="#E8B04B" stroke="none"/>
+      <path d="M308,643 q-1,12 7,13" />
+      <path d="M322,643 q1,12 -7,13" stroke="#E8B04B"/>
+      <path d="M309,646 q6,-4 12,0" stroke-width="1.3"/>
+    </g>
+    <text x="315" y="684">拥抱</text>
+    <!-- 挥手 -->
+    <circle cx="75" cy="722" r="25" fill="#FBF8F1" stroke="#E7DCC8"/>
+    <g stroke="#3E3A32" stroke-width="1.6" stroke-linecap="round" fill="none">
+      <circle cx="74" cy="712" r="3.5" fill="#3E3A32" stroke="none"/>
+      <line x1="74" y1="717" x2="74" y2="727"/>
+      <line x1="74" y1="727" x2="70" y2="734"/>
+      <line x1="74" y1="727" x2="78" y2="734"/>
+      <line x1="74" y1="720" x2="69" y2="724"/>
+      <line x1="74" y1="720" x2="82" y2="712"/>
+      <path d="M85,707 a8,8 0 0 1 3,7" stroke="#E8B04B"/>
+    </g>
+    <text x="75" y="760">挥手</text>
+    <!-- 击掌 -->
+    <circle cx="195" cy="722" r="25" fill="#FBF8F1" stroke="#E7DCC8"/>
+    <g stroke="#3E3A32" stroke-width="1.6" stroke-linecap="round" fill="none">
+      <circle cx="187" cy="714" r="3" fill="#3E3A32" stroke="none"/>
+      <circle cx="203" cy="714" r="3" fill="#E8B04B" stroke="none"/>
+      <line x1="187" y1="719" x2="185" y2="730"/>
+      <line x1="203" y1="719" x2="205" y2="730" stroke="#E8B04B"/>
+      <line x1="187" y1="721" x2="194" y2="716"/>
+      <line x1="203" y1="721" x2="196" y2="716" stroke="#E8B04B"/>
+      <path d="M195,707 l1,2.4 2.6,.2 -2,1.8 .6,2.6 -2.2,-1.4 -2.2,1.4 .6,-2.6 -2,-1.8 2.6,-.2 z" fill="#E8B04B" stroke="none"/>
+    </g>
+    <text x="195" y="760">击掌</text>
+    <!-- 请喝咖啡 -->
+    <circle cx="315" cy="722" r="25" fill="#FBF8F1" stroke="#E7DCC8"/>
+    <g stroke="#3E3A32" stroke-width="1.6" stroke-linecap="round" fill="none">
+      <circle cx="306" cy="714" r="3.5" fill="#3E3A32" stroke="none"/>
+      <line x1="306" y1="719" x2="306" y2="729"/>
+      <line x1="306" y1="729" x2="302" y2="735"/>
+      <line x1="306" y1="729" x2="310" y2="735"/>
+      <line x1="306" y1="722" x2="314" y2="724"/>
+      <rect x="316" y="722" width="8" height="6" rx="1.5" fill="#E8B04B" stroke="none"/>
+      <path d="M319,718 q1.5,-2 0,-4 M322,718 q1.5,-2 0,-4" stroke="#7A7263" stroke-width="1.2"/>
+    </g>
+    <text x="315" y="760">请喝咖啡</text>
+  </g>
+
+  <!-- 邀请好友 · QQ 绿 -->
+  <rect x="24" y="776" width="342" height="48" rx="24" fill="#31C27C"/>
+  <g fill="#FBF8F1">
+    <ellipse cx="112" cy="804" rx="3.4" ry="2.6" transform="rotate(-20 112 804)"/>
+    <rect x="114.6" y="794" width="1.6" height="11" rx="0.8"/>
+    <path d="M114.6,794 q5,1 5,5 q-3,-2 -5,-2.5 z"/>
+  </g>
+  <text x="203" y="806" text-anchor="middle" font-family="MiSans" font-size="15" fill="#FBF8F1">邀请好友来家里</text>
+</svg>

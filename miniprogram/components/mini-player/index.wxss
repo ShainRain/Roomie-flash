@@ -1,0 +1,179 @@
+.mp-card {
+  background: var(--night-900);
+  border: 1rpx solid var(--night-line);
+  border-radius: var(--r-card);
+  box-shadow: 0 12rpx 32rpx rgba(4, 8, 18, 0.5);
+  padding: 24rpx 28rpx;
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.mp-vinyl {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  background-color: #23262b;
+  background-image: repeating-radial-gradient(circle at center, #23262b 0rpx, #23262b 4rpx, #33373d 4rpx, #33373d 8rpx);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mp-vinyl-hole {
+  width: 26rpx;
+  height: 26rpx;
+  border-radius: 50%;
+  background: var(--amber);
+  border: 6rpx solid var(--paper-100);
+}
+
+.mp-vinyl-spin {
+  animation: mp-spin 4s linear infinite;
+}
+
+@keyframes mp-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.mp-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.mp-title {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--night-text);
+}
+
+.mp-subtitle {
+  font-size: 22rpx;
+  color: var(--night-sub);
+}
+
+.mp-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-top: 8rpx;
+}
+
+.mp-time {
+  font-size: 20rpx;
+  color: var(--night-sub);
+  font-variant-numeric: tabular-nums;
+}
+
+.mp-track {
+  flex: 1;
+  height: 8rpx;
+  border-radius: 999rpx;
+  background: var(--night-line);
+  overflow: hidden;
+}
+
+.mp-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 999rpx;
+}
+
+.mp-ctrl {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  flex-shrink: 0;
+}
+
+.mp-ctrl-sm {
+  width: 48rpx;
+  height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--night-sub);
+}
+
+/* ---- 纯 CSS 播放控制图标 ---- */
+.ic-play {
+  width: 0;
+  height: 0;
+  border-top: 15rpx solid transparent;
+  border-bottom: 15rpx solid transparent;
+  border-left: 24rpx solid #ffffff;
+  margin-left: 6rpx;
+}
+
+.ic-pause {
+  width: 22rpx;
+  height: 28rpx;
+  border-left: 8rpx solid #ffffff;
+  border-right: 8rpx solid #ffffff;
+}
+
+.ic-prev,
+.ic-next {
+  position: relative;
+  width: 0;
+  height: 0;
+  border-top: 12rpx solid transparent;
+  border-bottom: 12rpx solid transparent;
+}
+
+.ic-prev {
+  border-right: 18rpx solid currentColor;
+}
+
+.ic-prev::before {
+  content: '';
+  position: absolute;
+  left: -8rpx;
+  top: -12rpx;
+  width: 5rpx;
+  height: 24rpx;
+  background: currentColor;
+  border-radius: 2rpx;
+}
+
+.ic-next {
+  border-left: 18rpx solid currentColor;
+}
+
+.ic-next::before {
+  content: '';
+  position: absolute;
+  right: -8rpx;
+  top: -12rpx;
+  width: 5rpx;
+  height: 24rpx;
+  background: currentColor;
+  border-radius: 2rpx;
+}
+
+.mp-ctrl-play {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  background: var(--green);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  box-shadow: 0 8rpx 20rpx rgba(34, 197, 94, 0.38), inset 0 2rpx 0 rgba(255, 255, 255, 0.28);
+}
+
+/* Visual reset: player should read as a quiet Hi-Fi console, not a generic dashboard card. */
+.mp-card {
+  border-radius: 28rpx;
+  background: #101A28;
+  border-color: rgba(247,243,234,0.10);
+}
+
+.mp-title { letter-spacing: 0.5rpx; }

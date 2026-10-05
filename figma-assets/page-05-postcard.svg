@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <defs>
+    <linearGradient id="p05-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#EDE3CE"/>
+      <stop offset="1" stop-color="#DFD1B4"/>
+    </linearGradient>
+    <filter id="p05-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="4" dy="8" stdDeviation="10" flood-color="#3E3A32" flood-opacity="0.18"/>
+    </filter>
+    <clipPath id="p05-photoClip">
+      <rect x="63" y="214" width="264" height="246"/>
+    </clipPath>
+    <clipPath id="p05-floor">
+      <polygon points="195,285 305,340 195,395 85,340"/>
+    </clipPath>
+  </defs>
+
+  <!-- 深奶油纸质背景 -->
+  <rect width="390" height="844" fill="url(#p05-bg)"/>
+  <ellipse cx="195" cy="380" rx="220" ry="280" fill="#F6F0E4" opacity="0.35"/>
+
+  <!-- 页眉 -->
+  <line x1="88" y1="73" x2="132" y2="73" stroke="#A89A80" stroke-width="0.75"/>
+  <line x1="258" y1="73" x2="302" y2="73" stroke="#A89A80" stroke-width="0.75"/>
+  <text x="195" y="79" text-anchor="middle" font-family="Noto Serif SC" font-size="18" fill="#3E3A32">建筑明信片</text>
+  <text x="195" y="100" text-anchor="middle" font-family="Oranienbaum" font-size="10" letter-spacing="3" fill="#7A7263">ARCHITECTURE POSTCARD</text>
+
+  <!-- 明信片投影 -->
+  <ellipse cx="202" cy="592" rx="140" ry="14" fill="#3E3A32" opacity="0.13"/>
+
+  <!-- 拍立得明信片 -->
+  <g transform="rotate(-2.5 195 382)">
+    <rect x="45" y="196" width="300" height="372" rx="6" fill="#FBF8F1" filter="url(#p05-shadow)"/>
+
+    <!-- 照片 · 俯视等距房间 -->
+    <g clip-path="url(#p05-photoClip)">
+      <rect x="63" y="214" width="264" height="246" fill="#E9EEF1"/>
+      <g fill="#FFFFFF">
+        <circle cx="100" cy="240" r="1.6" opacity="0.9"/>
+        <circle cx="290" cy="250" r="1.3" opacity="0.8"/>
+        <circle cx="90" cy="420" r="1.5" opacity="0.85"/>
+        <circle cx="300" cy="430" r="1.6" opacity="0.9"/>
+        <circle cx="122" cy="436" r="1.2" opacity="0.7"/>
+        <circle cx="268" cy="226" r="1.2" opacity="0.7"/>
+      </g>
+      <!-- 橡木地板 -->
+      <polygon points="195,285 305,340 195,395 85,340" fill="#C49A6C"/>
+      <g clip-path="url(#p05-floor)" stroke="#A87F52" stroke-width="1" opacity="0.45">
+        <line x1="85" y1="296" x2="305" y2="296"/>
+        <line x1="85" y1="307" x2="305" y2="307"/>
+        <line x1="85" y1="318" x2="305" y2="318"/>
+        <line x1="85" y1="329" x2="305" y2="329"/>
+        <line x1="85" y1="340" x2="305" y2="340"/>
+        <line x1="85" y1="351" x2="305" y2="351"/>
+        <line x1="85" y1="362" x2="305" y2="362"/>
+        <line x1="85" y1="373" x2="305" y2="373"/>
+        <line x1="85" y1="384" x2="305" y2="384"/>
+      </g>
+      <!-- 背墙两面 -->
+      <polygon points="85,340 195,285 195,251 85,306" fill="#F6F0E4"/>
+      <polygon points="305,340 195,285 195,251 305,306" fill="#E7DCC8"/>
+      <!-- 左墙窗 · 窗光 -->
+      <polygon points="123.5,317 156.5,299.5 156.5,275.5 123.5,293" fill="#FFD98A" stroke="#A87F52" stroke-width="1"/>
+      <line x1="140" y1="308.25" x2="140" y2="284.25" stroke="#A87F52" stroke-width="0.75"/>
+      <!-- 右墙书架 -->
+      <polygon points="256,310 286,295 286,281 256,296" fill="#A87F52"/>
+      <g stroke="#E7DCC8" stroke-width="2">
+        <line x1="262" y1="299" x2="262" y2="290"/>
+        <line x1="269" y1="295.5" x2="269" y2="286.5"/>
+        <line x1="276" y1="292" x2="276" y2="283"/>
+      </g>
+      <!-- 亚麻地毯 -->
+      <polygon points="195,334 233,352 195,370 157,352" fill="#E7DCC8"/>
+      <!-- 薄荷沙发 -->
+      <polygon points="122,361 140,352 158,361 140,370" fill="#C4DED2"/>
+      <polygon points="122,361 140,370 140,377 122,368" fill="#AECFC1"/>
+      <polygon points="140,370 158,361 158,368 140,377" fill="#9FC3B4"/>
+      <!-- 黑胶机 -->
+      <polygon points="236,326 252,318 268,326 252,334" fill="#A87F52"/>
+      <circle cx="252" cy="324" r="9" fill="#3E3A32"/>
+      <circle cx="252" cy="324" r="5.5" fill="none" stroke="#E8B04B" stroke-width="1.5"/>
+      <circle cx="252" cy="324" r="2" fill="#FBF8F1"/>
+      <!-- 猫 -->
+      <ellipse cx="206" cy="382" rx="7" ry="4.5" fill="#7A7263"/>
+      <polygon points="201,379 203,374 205,379" fill="#7A7263"/>
+      <polygon points="207,379 209,374 211,379" fill="#7A7263"/>
+      <path d="M213,382 q5,-2 4,-7" fill="none" stroke="#7A7263" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- 落地灯 -->
+      <line x1="150" y1="330" x2="150" y2="314" stroke="#3E3A32" stroke-width="1.5"/>
+      <circle cx="150" cy="311" r="7" fill="#FFD98A" opacity="0.3"/>
+      <circle cx="150" cy="311" r="4" fill="#FFD98A"/>
+    </g>
+    <rect x="63" y="214" width="264" height="246" fill="none" stroke="#E7DCC8" stroke-width="1"/>
+
+    <!-- 手写感文字 -->
+    <g>
+      <ellipse cx="70" cy="520" rx="3.2" ry="2.4" transform="rotate(-20 70 520)" fill="#E8B04B"/>
+      <rect x="72.6" y="509" width="1.5" height="11" rx="0.75" fill="#E8B04B"/>
+      <text x="201" y="524" text-anchor="middle" font-family="Noto Serif SC" font-size="15" letter-spacing="1" fill="#3E3A32">有音乐的房间，抵千万句寒暄。</text>
+    </g>
+  </g>
+
+  <!-- ROOM ID 小票牌 -->
+  <g transform="rotate(7 293 200)">
+    <rect x="240" y="184" width="106" height="32" rx="5" fill="#FBF8F1" stroke="#3E3A32" stroke-width="1.2"/>
+    <rect x="245" y="189" width="96" height="22" rx="3" fill="none" stroke="#3E3A32" stroke-width="0.6" stroke-dasharray="2 2"/>
+    <circle cx="240" cy="200" r="4" fill="#E9DFC9" stroke="#3E3A32" stroke-width="0.8"/>
+    <circle cx="346" cy="200" r="4" fill="#E9DFC9" stroke="#3E3A32" stroke-width="0.8"/>
+    <text x="293" y="205" text-anchor="middle" font-family="Oranienbaum" fill="#3E3A32">
+      <tspan font-size="9.5" letter-spacing="1.5">ROOM ID </tspan>
+      <tspan font-size="14">0731</tspan>
+    </text>
+  </g>
+
+  <!-- 分享操作行 -->
+  <g>
+    <rect x="24" y="640" width="164" height="46" rx="23" fill="#3E3A32"/>
+    <g stroke="#FBF8F1" stroke-width="1.6" stroke-linecap="round" fill="none">
+      <line x1="62" y1="657" x2="62" y2="667"/>
+      <path d="M57.5,662.5 l4.5,4.5 4.5,-4.5"/>
+      <path d="M55,670 v3 h14 v-3"/>
+    </g>
+    <text x="116" y="668" text-anchor="middle" font-family="MiSans" font-size="14" fill="#FBF8F1">保存图片</text>
+
+    <rect x="202" y="640" width="164" height="46" rx="23" fill="none" stroke="#3E3A32" stroke-width="1.2"/>
+    <g stroke="#3E3A32" stroke-width="1.4" fill="#3E3A32">
+      <line x1="240" y1="659" x2="248" y2="653"/>
+      <line x1="240" y1="663" x2="248" y2="669"/>
+      <circle cx="238" cy="661" r="2.6"/>
+      <circle cx="250" cy="652" r="2.6"/>
+      <circle cx="250" cy="670" r="2.6"/>
+    </g>
+    <text x="296" y="668" text-anchor="middle" font-family="MiSans" font-size="14" fill="#3E3A32">分享给好友</text>
+  </g>
+
+  <!-- 底部小字 -->
+  <line x1="48" y1="744" x2="104" y2="744" stroke="#A89A80" stroke-width="0.75"/>
+  <line x1="286" y1="744" x2="342" y2="744" stroke="#A89A80" stroke-width="0.75"/>
+  <text x="195" y="748" text-anchor="middle" font-family="MiSans" font-size="11" letter-spacing="1.5" fill="#7A7263">一张建筑摄影艺术品 · Monocle 杂志风</text>
+</svg>

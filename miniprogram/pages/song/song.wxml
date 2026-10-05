@@ -1,0 +1,105 @@
+<view class="page">
+
+  <!-- 顶部栏(对齐 room 页 topbar,统一令牌) -->
+  <view class="topbar rise-in" style="padding-top: {{statusBarH}}px;">
+    <view class="nav-ic" bindtap="onBack" hover-class="btn-hover">‹</view>
+    <view class="topbar-title">
+      <text class="tt-brand en-serif">Roomie</text>
+      <text class="tt-sub">从放映室取出一张唱片</text>
+    </view>
+    <view class="nav-ic" bindtap="onShare" hover-class="btn-hover">↗</view>
+  </view>
+
+  <!-- Hero:台灯下的黑胶微场景(旋转仅在播放时) -->
+  <view class="turntable rise-in rise-d1">
+    <view class="turntable-glow"></view>
+    <view class="turntable-shadow"></view>
+    <view class="disc {{snap.playing ? 'disc-spin' : ''}}">
+      <view class="disc-label">
+        <view class="disc-sunset"></view>
+        <view class="disc-hole"></view>
+        <text class="disc-label-text">{{snap.track.title}}</text>
+      </view>
+    </view>
+    <view class="disc-sheen"></view>
+    <view class="tonearm {{snap.playing ? 'tonearm-on' : ''}}"></view>
+  </view>
+
+  <!-- 纸张卡片:歌曲信息 + 进度 + 控制 + 歌词/评论 -->
+  <view class="card song-card rise-in rise-d2">
+
+    <view class="song-head">
+      <view class="song-names">
+        <text class="song-kicker en-serif">Now Spinning</text>
+        <text class="song-title">{{snap.track.title}}</text>
+        <text class="song-artist">{{snap.track.artist}} · MOMO 的收藏</text>
+      </view>
+      <view class="pill pill-green-soft" bindtap="onLike" hover-class="btn-hover">收藏中</view>
+    </view>
+
+    <!-- 进度条 -->
+    <view class="seek-row">
+      <text class="time">{{snap.positionText}}</text>
+      <slider
+        class="seek"
+        value="{{dragging ? dragValue : snap.progress}}"
+        max="100"
+        block-size="14"
+        activeColor="#22C55E"
+        backgroundColor="#ECE7DA"
+        bindchanging="onSeekChanging"
+        bindchange="onSeek"
+      />
+      <text class="time">{{snap.durationText}}</text>
+    </view>
+
+    <!-- 传输控制(纯 CSS 图标) -->
+    <view class="controls">
+      <view class="ctl-side" data-name="随机播放" bindtap="onAction" hover-class="btn-hover">
+        <view class="ic-shuffle">
+          <view class="ic-shuffle-a"></view>
+          <view class="ic-shuffle-b"></view>
+        </view>
+      </view>
+      <view class="ctl-skip" bindtap="onPrev" hover-class="btn-hover"><view class="ic-prev"></view></view>
+      <view class="ctl-play" bindtap="onTogglePlay" hover-class="btn-hover">
+        <view class="{{snap.playing ? 'ic-pause-lg' : 'ic-play-lg'}}"></view>
+      </view>
+      <view class="ctl-skip" bindtap="onNext" hover-class="btn-hover"><view class="ic-next"></view></view>
+      <view class="ctl-side" data-name="循环播放" bindtap="onAction" hover-class="btn-hover"><view class="ic-loop"></view></view>
+    </view>
+
+    <!-- 歌词 / 评论 分段切换 -->
+    <view class="tabs">
+      <view class="tab-item {{tab === 'lyric' ? 'tab-on' : ''}}" data-tab="lyric" bindtap="onSwitchTab" hover-class="btn-hover">歌词</view>
+      <view class="tab-item {{tab === 'comment' ? 'tab-on' : ''}}" data-tab="comment" bindtap="onSwitchTab" hover-class="btn-hover">评论</view>
+    </view>
+
+    <scroll-view
+      wx:if="{{tab === 'lyric'}}"
+      class="lyrics"
+      scroll-y
+      scroll-into-view="{{lyricAnchor}}"
+      scroll-with-animation
+    >
+      <view
+        wx:for="{{snap.track.lyrics}}"
+        wx:key="t"
+        id="lyric-{{index}}"
+        class="lyric-line {{index === snap.lyricIndex ? 'lyric-on' : ''}}"
+      >{{item.text}}</view>
+      <view class="lyrics-tail"></view>
+    </scroll-view>
+
+    <scroll-view wx:else class="comments" scroll-y>
+      <view class="comment" wx:for="{{comments}}" wx:key="user">
+        <view class="comment-head">
+          <text class="comment-user">{{item.user}}</text>
+          <text class="comment-likes">{{item.likes}} 赞</text>
+        </view>
+        <text class="comment-text">{{item.text}}</text>
+      </view>
+    </scroll-view>
+
+  </view>
+</view>

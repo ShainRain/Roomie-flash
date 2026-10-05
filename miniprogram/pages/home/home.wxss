@@ -1,0 +1,206 @@
+.page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--night-950) 0%, var(--night-900) 55%, var(--night-950) 100%);
+  padding-bottom: 220rpx;
+}
+
+/* ---- 入场动效: opacity 0→1, translateY 8px→0, 错峰 ---- */
+.anim-in {
+  opacity: 0;
+  transform: translateY(16rpx);
+  animation: rise-in 0.24s ease-out forwards;
+}
+.anim-d1 { animation-delay: 0.05s; }
+.anim-d2 { animation-delay: 0.10s; }
+.anim-d3 { animation-delay: 0.15s; }
+.anim-d4 { animation-delay: 0.20s; }
+
+@keyframes rise-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- 今晚状态 ---- */
+.tonight {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30rpx;
+  max-width: 660rpx;
+}
+
+.tonight-hi {
+  font-size: var(--fs-body);
+  color: var(--night-sub);
+}
+
+.tonight-title {
+  font-size: 54rpx;
+  font-weight: 700;
+  color: var(--night-text);
+  line-height: 1.10;
+  margin-top: 8rpx;
+  letter-spacing: -1rpx;
+}
+
+.tonight-name {
+  color: var(--amber);
+}
+
+.tonight-sub {
+  font-size: var(--fs-caption);
+  color: var(--night-sub);
+  margin-top: 8rpx;
+}
+
+/* ---- 房间主视觉: 正方形大图, 状态悬浮 ---- */
+.hero-wrap {
+  position: relative;
+  margin: -6rpx -20rpx 0;
+  height: 760rpx;
+  overflow: visible;
+}
+
+.hero-wrap::after {
+  content: '';
+  position: absolute;
+  left: 14%;
+  right: 14%;
+  bottom: 56rpx;
+  height: 120rpx;
+  background: radial-gradient(ellipse, rgba(216, 148, 64, 0.22), rgba(216, 148, 64, 0) 68%);
+  filter: blur(10rpx);
+  pointer-events: none;
+}
+
+.hero {
+  position: absolute;
+  left: -6%;
+  top: -18rpx;
+  width: 112%;
+  height: 760rpx;
+  object-fit: contain;
+}
+
+.hero-pill {
+  position: absolute;
+  z-index: 10;
+  backdrop-filter: blur(6rpx);
+}
+
+.hero-pill-tl {
+  left: 22rpx;
+  top: 88rpx;
+}
+
+.hero-pill-tr {
+  right: 22rpx;
+  top: 88rpx;
+}
+
+.live-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: var(--green);
+  margin-right: 10rpx;
+}
+
+.hero-chip {
+  position: absolute;
+  left: 32rpx;
+  bottom: 88rpx;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  background: var(--paper-95);
+  border-radius: var(--r-pill);
+  padding: 10rpx 24rpx 10rpx 12rpx;
+  box-shadow: var(--shadow-float);
+}
+
+.chip-avatar {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  background: var(--amber);
+  color: var(--white);
+  font-size: 22rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chip-text {
+  font-size: var(--fs-caption);
+  color: var(--ink-900);
+  font-weight: 600;
+}
+
+/* ---- 放映任务(与 hero 轻微叠层) ---- */
+.task-card {
+  margin-top: -72rpx;
+  position: relative;
+  z-index: 12;
+  padding: 24rpx 28rpx;
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.task-plus {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  background: var(--green);
+  color: var(--white);
+  font-size: 44rpx;
+  font-weight: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-green);
+}
+
+.task-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rpx;
+}
+
+.task-sub {
+  font-size: var(--fs-micro);
+  color: var(--ink-500);
+}
+
+.task-title {
+  font-size: var(--fs-body);
+  font-weight: 700;
+  color: var(--ink-900);
+}
+
+/* ---- 内嵌播放器(mini-player 组件) ---- */
+.player-wrap {
+  margin-top: 20rpx;
+  display: block;
+}
+
+/* ---- 进入放映室 CTA ---- */
+.cta {
+  margin-top: 24rpx;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16rpx;
+  font-size: 32rpx;
+  letter-spacing: 2rpx;
+}
+
+.cta-arrow {
+  font-size: 34rpx;
+  font-weight: 400;
+}

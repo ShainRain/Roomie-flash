@@ -1,0 +1,105 @@
+.rh {
+  display: flex;
+  flex-direction: column;
+  padding: 28rpx 40rpx 8rpx;
+}
+
+.rh-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rh-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2rpx;
+}
+
+/* 刊头品牌字:小字号 + 宽字距 */
+.rh-brand {
+  font-size: 23rpx;
+  color: var(--night-text);
+  letter-spacing: 12rpx;
+  line-height: 1.2;
+}
+
+.rh-sub {
+  font-size: 22rpx;
+  color: var(--night-sub);
+  letter-spacing: 2rpx;
+}
+
+.rh-right {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.rh-live {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 7rpx 18rpx;
+  border-radius: var(--r-pill);
+  background: rgba(43, 201, 107, 0.94);
+  color: #fffaf0;
+  font-size: 20rpx;
+  font-weight: 650;
+  letter-spacing: 1rpx;
+  box-shadow: 0 5rpx 14rpx rgba(43, 201, 107, 0.18);
+}
+
+.rh-live-dot {
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.rh-share {
+  width: 52rpx;
+  height: 52rpx;
+  border-radius: 50%;
+  background: rgba(247, 243, 234, 0.10);
+  border: 1rpx solid var(--night-line);
+  color: var(--night-text);
+  font-size: 26rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rh-avatar {
+  width: 52rpx;
+  height: 52rpx;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 24rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3rpx solid rgba(247, 243, 234, 0.35);
+}
+
+/* 页面刊头:中文大标题 + 英文小标(编辑式 masthead) */
+.rh-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 16rpx;
+  margin-top: 20rpx;
+}
+
+.rh-title {
+  font-size: var(--fs-title);
+  font-weight: 700;
+  color: var(--night-text);
+  line-height: 1.25;
+}
+
+.rh-title-en {
+  font-size: 22rpx;
+  color: var(--night-sub);
+  letter-spacing: 4rpx;
+}

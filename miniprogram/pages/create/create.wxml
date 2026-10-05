@@ -1,0 +1,22 @@
+<view class="page">
+  <roomie-header custom-nav subtitle="深夜放映室 · 0731" avatar="M" pageTitle="创建" pageSubtitle="Create" />
+  <view class="page-pad">
+
+    <view
+      class="paper-card entry anim-in anim-d{{index + 1}}"
+      hover-class="btn-hover"
+      wx:for="{{entries}}"
+      wx:key="key"
+      data-url="{{item.url}}"
+      bindtap="onEntry"
+    >
+      <view class="entry-glyph">{{item.glyph}}</view>
+      <view class="entry-info">
+        <text class="entry-title">{{item.title}}</text>
+        <text class="entry-desc">{{item.desc}}</text>
+      </view>
+      <view class="entry-arrow">›</view>
+    </view>
+
+  </view>
+</view>

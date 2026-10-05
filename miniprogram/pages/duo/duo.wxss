@@ -1,0 +1,222 @@
+.page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--night-950) 0%, var(--night-900) 55%, var(--night-950) 100%);
+  padding: 0 40rpx calc(32rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+
+/* ---- 入场:克制的 rise-in,错峰 delay ---- */
+.rise-in { opacity: 0; animation: rise-in 0.24s ease-out forwards; }
+.rise-1 { animation-delay: 0.05s; }
+.rise-2 { animation-delay: 0.1s; }
+.rise-3 { animation-delay: 0.15s; }
+.rise-4 { animation-delay: 0.2s; }
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(16rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- 自绘顶栏 ---- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16rpx;
+}
+
+.nav-ic {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  background: var(--night-850);
+  border: 1rpx solid var(--night-line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  color: var(--night-text);
+  box-shadow: var(--shadow-float);
+}
+
+.nav-ic-ghost {
+  visibility: hidden;
+}
+
+/* ---- 刊头 ---- */
+.title-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: 28rpx;
+}
+
+.title-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.page-title {
+  font-size: var(--fs-display);
+  font-weight: 700;
+  color: var(--night-text);
+  letter-spacing: 2rpx;
+}
+
+.page-title-en {
+  margin-top: 6rpx;
+  font-size: var(--fs-caption);
+  color: var(--night-sub);
+}
+
+/* 同频状态:低幅度呼吸 */
+.pill-breathe {
+  animation: pill-breathe 2.4s ease-in-out infinite;
+}
+
+@keyframes pill-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+/* ---- 双人房间场景(全幅正方形画框,百分比坐标与底图一一对应) ---- */
+.art-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 8rpx -56rpx 0;
+  height: 850rpx;
+}
+
+.duo-stage { position: relative; width: 100%; height: 100vw; transform: scale(1.12); transform-origin: center top; }
+.duo-stage .art { position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; }
+.furn-layer { position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; pointer-events: none; }
+.record-plate { position: absolute; z-index: 350; pointer-events: none; }
+.stage-player, .stage-peer { position: absolute; }
+.stage-sprite { width: 66rpx; filter: drop-shadow(0 5rpx 7rpx rgba(4, 8, 18, 0.4)); }
+.stage-sprite.direction-left { transform: scaleX(-1); }
+.sprite-idle { animation: breathe 2.6s ease-in-out infinite; transform-origin: 50% 100%; }
+.sprite-walk-a { animation: bob-a 0.22s ease-in-out infinite; }
+.sprite-walk-b { animation: bob-b 0.22s ease-in-out infinite; }
+@keyframes breathe { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.025); } }
+@keyframes bob-a { 0%, 100% { transform: translateY(0) rotate(-1.2deg); } 50% { transform: translateY(-5rpx) rotate(0); } }
+@keyframes bob-b { 0%, 100% { transform: translateY(0) rotate(1.2deg); } 50% { transform: translateY(-5rpx) rotate(0); } }
+
+/* 互动提示:深夜情报条,不抢戏 */
+.interaction {
+  position: absolute;
+  z-index: 1000;
+  left: 50%;
+  bottom: 16rpx;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 10rpx 24rpx;
+  border-radius: var(--r-pill);
+  background: rgba(16, 27, 42, 0.88);
+  border: 1rpx solid var(--night-line);
+  color: var(--night-text);
+  font-size: var(--fs-micro);
+}
+
+/* ---- 米白纸张共享播放卡 ---- */
+.play-card {
+  margin-top: -26rpx;
+  padding: 28rpx 28rpx 20rpx;
+}
+
+.play-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20rpx;
+  margin-bottom: 4rpx;
+  border-bottom: 1rpx solid var(--line);
+}
+
+.play-head-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+  min-width: 0;
+}
+
+.duo-names {
+  font-size: var(--fs-body);
+  font-weight: 700;
+  color: var(--ink-900);
+}
+
+.duo-sync {
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  color: var(--green-deep);
+}
+
+/* 绿色 CSS 波形:4 根竖条高低错落,轻微律动 */
+.sync-wave {
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+  height: 48rpx;
+  flex-shrink: 0;
+}
+
+.wave-bar {
+  width: 8rpx;
+  border-radius: var(--r-pill);
+  background: var(--green);
+  animation: wave 1.2s ease-in-out infinite;
+}
+
+.wave-bar:nth-child(1) { height: 18rpx; }
+.wave-bar:nth-child(2) { height: 36rpx; animation-delay: 0.15s; }
+.wave-bar:nth-child(3) { height: 26rpx; animation-delay: 0.3s; }
+.wave-bar:nth-child(4) { height: 42rpx; animation-delay: 0.45s; }
+
+@keyframes wave {
+  0%, 100% { transform: scaleY(0.6); }
+  50% { transform: scaleY(1); }
+}
+
+/* 纸张内的 mini-player:去掉深夜卡壳,融入纸面(组件 addGlobalClass,作用域覆盖) */
+.play-card .mp-card {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 20rpx 0 8rpx;
+}
+
+.play-card .mp-title { color: var(--ink-900); }
+.play-card .mp-subtitle { color: var(--ink-500); }
+.play-card .mp-time { color: var(--ink-500); }
+.play-card .mp-track { background: var(--line); }
+.play-card .mp-ctrl-sm { color: var(--ink-700); }
+
+/* ---- 退出双人房(柔和描边警示) ---- */
+.exit-btn {
+  margin-top: 20rpx;
+  height: 96rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-body);
+  font-weight: 600;
+}
+
+/* Visual reset: the shared room should dominate the page. */
+.art-wrap {
+  position: relative;
+}
+
+.art-wrap::after {
+  content: '';
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: 110rpx;
+  height: 160rpx;
+  background: radial-gradient(ellipse, rgba(219,146,67,0.20), rgba(219,146,67,0) 70%);
+  filter: blur(12rpx);
+  pointer-events: none;
+}
+
+.play-card { box-shadow: 0 14rpx 38rpx rgba(5,10,18,0.20); }

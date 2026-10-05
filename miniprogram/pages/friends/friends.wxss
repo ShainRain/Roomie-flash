@@ -1,0 +1,229 @@
+.page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--night-950) 0%, var(--night-900) 55%, var(--night-950) 100%);
+  padding-bottom: 220rpx;
+}
+
+/* ---- 入场动效: opacity 0→1, translateY 16rpx→0, 0.24s 错峰 ---- */
+.anim-in {
+  opacity: 0;
+  transform: translateY(16rpx);
+  animation: rise-in 0.24s ease-out forwards;
+}
+.anim-d1 { animation-delay: 0.05s; }
+.anim-d2 { animation-delay: 0.10s; }
+.anim-d3 { animation-delay: 0.15s; }
+.anim-d4 { animation-delay: 0.20s; }
+
+@keyframes rise-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- 刊头副行(中文大标题 + en-serif 英文小标由 roomie-header 渲染) ---- */
+.head {
+  margin-top: 6rpx;
+}
+
+.head-sub {
+  font-size: var(--fs-caption);
+  color: var(--night-sub);
+}
+
+/* ---- 夜色房间群落 ---- */
+.village {
+  position: relative;
+  margin-top: 20rpx;
+}
+
+.village-img {
+  width: 116%;
+  height: 560rpx;
+  margin-left: -8%;
+  object-fit: contain;
+}
+
+.v-tag {
+  position: absolute;
+  z-index: 6;
+  box-shadow: var(--shadow-float);
+  backdrop-filter: blur(6rpx);
+}
+
+.v-tag-1 { left: 10%; top: 20%; }
+.v-tag-2 { right: 8%; top: 36%; }
+.v-tag-3 { left: 13%; top: 64%; }
+
+.v-tag-off {
+  opacity: 0.55;
+}
+
+.v-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: var(--green);
+  margin-right: 10rpx;
+  flex-shrink: 0;
+}
+
+.v-dot-off {
+  background: var(--night-sub);
+}
+
+/* ---- 好友纸张卡(负 margin 叠上群落插画下缘) ---- */
+.friend-card {
+  position: relative;
+  z-index: 8;
+  padding: 40rpx 36rpx 16rpx;
+}
+
+.online-card {
+  margin-top: -126rpx;
+}
+
+.offline-card {
+  margin-top: 28rpx;
+  opacity: 0.6;
+}
+
+.card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+
+.card-head-en {
+  font-size: var(--fs-micro);
+  color: var(--ink-500);
+}
+
+.friend {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 24rpx 0;
+  border-bottom: 2rpx solid var(--line);
+}
+
+.friend:last-child {
+  border-bottom: none;
+}
+
+.f-avatar {
+  position: relative;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-size: var(--fs-body);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.f-dot {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  background: var(--green);
+  border: 4rpx solid var(--paper-100);
+}
+
+.f-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.f-name-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.f-name {
+  font-size: var(--fs-body);
+  font-weight: 700;
+  color: var(--ink-900);
+}
+
+.f-tag {
+  font-size: var(--fs-micro);
+  color: var(--green-deep);
+  background: var(--green-soft);
+  border-radius: var(--r-pill);
+  padding: 4rpx 16rpx;
+  font-weight: 600;
+}
+
+.f-status {
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+}
+
+.f-btn {
+  flex-shrink: 0;
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  padding: 14rpx 30rpx;
+  border-radius: var(--r-pill);
+}
+
+.f-btn-solid {
+  background: var(--green);
+  color: var(--white);
+  box-shadow: var(--shadow-green);
+}
+
+.f-btn-ghost {
+  background: transparent;
+  border: 2rpx solid var(--ink-500);
+  color: var(--ink-500);
+}
+
+.f-btn-wait {
+  opacity: 0.6;
+}
+
+/* ---- 邀请好友(页面唯一主 CTA,绿色只给它与在线态) ---- */
+.invite-cta {
+  margin-top: 40rpx;
+  height: 108rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16rpx;
+  font-size: var(--fs-body);
+  letter-spacing: 2rpx;
+}
+
+.invite-cta-arrow {
+  font-size: var(--fs-section);
+  font-weight: 400;
+}
+
+/* Visual reset: village has more air and a stronger diorama silhouette. */
+.village {
+  margin-left: -10rpx;
+  margin-right: -10rpx;
+}
+
+.village::after {
+  content: '';
+  position: absolute;
+  left: 16%;
+  right: 16%;
+  bottom: 74rpx;
+  height: 110rpx;
+  background: radial-gradient(ellipse, rgba(224,151,69,0.14), rgba(224,151,69,0) 70%);
+  filter: blur(12rpx);
+  pointer-events: none;
+}
