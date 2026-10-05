@@ -770,21 +770,69 @@ const OVERLAYS = {
 const PLATTER_POS = { u: 0.515, v: 0.095, h: 74 };
 
 // 家具元数据:z 取前沿底部 top%×10;obstacle 对应 room-map.js 的障碍 id
+// Phase 0 §5.1 schema:每件家具同时携带 id/label/asset/thumb/anchor/bounds/scale/rotation/z/
+// lightResponse/occludesCharacter/hitArea/collision/fixed/interaction;
+// 旧字段(key/name/overlay/icon/z/obstacle/hotspot)保留,duo/architect 零改动。
+// uvFoot: 地面件脚印(u0,v0,u1,v1) + hPx(视觉上沿,px),生成器据此换算 anchor/bounds;
+// 墙面件无 uvFoot,anchor/bounds 直接手填(stage %)。
 const FURNITURE_META = [
-  { key: 'sofa', name: '沙发', z: 639, obstacle: 'sofa', hotspot: { id: 'sofa', icon: '▰', name: '沙发', left: 29, top: 54, width: 18, height: 13, z: 641 } },
-  { key: 'vinyl-player', name: '黑胶机', z: 698, obstacle: 'credenza', hotspot: { id: 'turntable', icon: '◎', name: '唱机柜', left: 58, top: 46, width: 20, height: 13, z: 700 } },
-  { key: 'cat-bed', name: '猫窝', z: 684, obstacle: null, hotspot: null },
-  { key: 'bookshelf', name: '书架', z: 400, obstacle: null, hotspot: null },
-  { key: 'lamp', name: '落地灯', z: 727, obstacle: 'lamp', hotspot: { id: 'lamp', icon: '☼', name: '落地灯', left: 55, top: 50, width: 12, height: 18, z: 730 } },
-  { key: 'plant', name: '绿植', z: 670, obstacle: 'plant', hotspot: null },
-  { key: 'rug', name: '地毯', z: 610, obstacle: null, hotspot: null },
-  { key: 'curtain', name: '挂帘', z: 400, obstacle: null, hotspot: null },
-  { key: 'projector', name: '放映机', z: 690, obstacle: null, hotspot: { id: 'projector', icon: '✦', name: '放映机', left: 38, top: 56, width: 9, height: 9, z: 692 } },
-  { key: 'poster', name: '海报', z: 400, obstacle: null, hotspot: null },
-  { key: 'coffee', name: '咖啡机', z: 400, obstacle: null, hotspot: null },
-  { key: 'doll', name: '玩偶', z: 681, obstacle: null, hotspot: null },
-  { key: 'guitar', name: '吉他角', z: 810, obstacle: 'guitar-corner', hotspot: { id: 'guitar', icon: '♪', name: '吉他角', left: 47, top: 72, width: 13, height: 12, z: 812 } }
+  { key: 'sofa', name: '沙发', z: 639, obstacle: 'sofa', hotspot: { id: 'sofa', icon: '▰', name: '沙发', left: 29, top: 54, width: 18, height: 13, z: 641 },
+    uvFoot: [0.02, 0.30, 0.18, 0.60], hPx: 64, collision: { u0: 0.02, v0: 0.30, u1: 0.18, v1: 0.60 },
+    lightResponse: { warm: 0.85, cool: 0.2, emissive: 0 }, occludesCharacter: true, interaction: 'sit' },
+  { key: 'vinyl-player', name: '黑胶机', z: 698, obstacle: 'credenza', hotspot: { id: 'turntable', icon: '◎', name: '唱机柜', left: 58, top: 46, width: 20, height: 13, z: 700 },
+    uvFoot: [0.42, 0.02, 0.96, 0.18], hPx: 100, collision: { u0: 0.42, v0: 0.02, u1: 0.96, v1: 0.18 },
+    lightResponse: { warm: 0.9, cool: 0.25, emissive: 0.15 }, occludesCharacter: true, interaction: 'play-hint' },
+  { key: 'cat-bed', name: '猫窝', z: 684, obstacle: null, hotspot: null,
+    uvFoot: [0.14, 0.70, 0.26, 0.82], hPx: 16, collision: null,
+    lightResponse: { warm: 0.7, cool: 0.2, emissive: 0 }, occludesCharacter: true, interaction: null },
+  { key: 'bookshelf', name: '书架', z: 400, obstacle: null, hotspot: null,
+    anchorManual: { x: 74.8, y: 48.5 }, boundsManual: { left: 69.9, top: 45.5, width: 9.9, height: 6.5 }, collision: null,
+    lightResponse: { warm: 0.8, cool: 0.35, emissive: 0 }, occludesCharacter: false, interaction: null },
+  { key: 'lamp', name: '落地灯', z: 727, obstacle: 'lamp', hotspot: { id: 'lamp', icon: '☼', name: '落地灯', left: 55, top: 50, width: 12, height: 18, z: 730 },
+    anchorManual: { x: 60, y: 62 }, boundsManual: { left: 50.5, top: 49, width: 20, height: 24 },
+    collision: { u0: 0.85, v0: 0.30, u1: 0.95, v1: 0.42 },
+    lightResponse: { warm: 0.35, cool: 0.15, emissive: 0.95 }, occludesCharacter: true, interaction: 'lamp' },
+  { key: 'plant', name: '绿植', z: 670, obstacle: 'plant', hotspot: null,
+    uvFoot: [0.02, 0.74, 0.15, 0.92], hPx: 70, collision: { u0: 0.02, v0: 0.74, u1: 0.15, v1: 0.92 },
+    lightResponse: { warm: 0.75, cool: 0.3, emissive: 0 }, occludesCharacter: true, interaction: null },
+  { key: 'rug', name: '地毯', z: 610, obstacle: null, hotspot: null,
+    anchorManual: { x: 50, y: 68.4 }, boundsManual: { left: 34.1, top: 62.6, width: 31.9, height: 11.6 }, collision: null,
+    lightResponse: { warm: 0.6, cool: 0.2, emissive: 0 }, occludesCharacter: false, interaction: null },
+  { key: 'curtain', name: '挂帘', z: 400, obstacle: null, hotspot: null,
+    anchorManual: { x: 81.3, y: 41 }, boundsManual: { left: 79.5, top: 32.5, width: 4.5, height: 18 }, collision: null,
+    lightResponse: { warm: 0.5, cool: 0.45, emissive: 0 }, occludesCharacter: false, interaction: null },
+  { key: 'projector', name: '放映机', z: 690, obstacle: null, hotspot: { id: 'projector', icon: '✦', name: '放映机', left: 38, top: 56, width: 9, height: 9, z: 692 },
+    uvFoot: [0.30, 0.53, 0.375, 0.59], hPx: 40, collision: null,
+    lightResponse: { warm: 0.5, cool: 0.3, emissive: 0.6 }, occludesCharacter: true, interaction: 'projector' },
+  { key: 'poster', name: '海报', z: 400, obstacle: null, hotspot: null,
+    anchorManual: { x: 52.3, y: 27.7 }, boundsManual: { left: 50.6, top: 20, width: 3.5, height: 16 }, collision: null,
+    lightResponse: { warm: 0.8, cool: 0.4, emissive: 0 }, occludesCharacter: false, interaction: null },
+  { key: 'coffee', name: '咖啡机', z: 400, obstacle: null, hotspot: null,
+    anchorManual: { x: 68.4, y: 44 }, boundsManual: { left: 67.3, top: 41.5, width: 2.3, height: 5 }, collision: null,
+    lightResponse: { warm: 0.7, cool: 0.4, emissive: 0.2 }, occludesCharacter: false, interaction: null },
+  { key: 'doll', name: '玩偶', z: 681, obstacle: null, hotspot: null,
+    anchorManual: { x: 36.8, y: 63.7 }, boundsManual: { left: 34.8, top: 60.7, width: 3.9, height: 6 }, collision: null,
+    lightResponse: { warm: 0.7, cool: 0.2, emissive: 0 }, occludesCharacter: true, interaction: null },
+  { key: 'guitar', name: '吉他角', z: 810, obstacle: 'guitar-corner', hotspot: { id: 'guitar', icon: '♪', name: '吉他角', left: 47, top: 72, width: 13, height: 12, z: 812 },
+    uvFoot: [0.79, 0.70, 0.99, 0.85], hPx: 90, collision: { u0: 0.79, v0: 0.70, u1: 0.99, v1: 0.85 },
+    lightResponse: { warm: 0.85, cool: 0.25, emissive: 0 }, occludesCharacter: true, interaction: 'play-hint' }
 ];
+
+// 地面脚印(u0,v0,u1,v1)+ 视觉高 hPx → stage% anchor(中心)与 bounds(包围盒)
+function footToStage(uvFoot, hPx) {
+  const [u0, v0, u1, v1] = uvFoot;
+  const corners = [P(u0, v0), P(u1, v0), P(u0, v1), P(u1, v1)];
+  const xs = corners.map((c) => c[0]);
+  const ys = corners.map((c) => c[1]);
+  const left = Math.min(...xs);
+  const right = Math.max(...xs);
+  const bottom = Math.max(...ys);
+  const top = Math.min(...ys) - hPx;
+  return {
+    anchor: { x: pct((left + right) / 2), y: pct((top + bottom) / 2) },
+    bounds: { left: pct(left), top: pct(top), width: pct(right - left), height: pct(bottom - top) }
+  };
+}
 
 // ---- 建筑师模式双色图标(96×96) ----
 function iconSvg(key) {
@@ -924,14 +972,45 @@ async function render(svg, outFile, quality = 82) {
   const platter = P(PLATTER_POS.u, PLATTER_POS.v, PLATTER_POS.h);
   const layout = `// 由 tools/gen-room-scene.js 生成,请勿手改
 module.exports = ${JSON.stringify({
-    FURNITURE: FURNITURE_META.map((m) => ({
-      ...m,
-      overlay: `/assets/img/furn-${m.key}.webp`,
-      icon: `/assets/img/furn-icon-${m.key}.webp`
-    })),
+    FURNITURE: FURNITURE_META.map((m) => {
+      const stage = m.uvFoot
+        ? footToStage(m.uvFoot, m.hPx)
+        : { anchor: m.anchorManual, bounds: m.boundsManual };
+      return {
+        // 旧字段(duo/architect 直接消费,勿删)
+        key: m.key,
+        name: m.name,
+        z: m.z,
+        obstacle: m.obstacle,
+        hotspot: m.hotspot,
+        overlay: `/assets/img/furn-${m.key}.webp`,
+        icon: `/assets/img/furn-icon-${m.key}.webp`,
+        // Phase 0 §5.1 schema
+        id: m.key,
+        label: m.name,
+        asset: `/assets/img/furn-${m.key}.webp`,
+        thumb: `/assets/img/furn-icon-${m.key}.webp`, // TODO(Phase≥2): 同源渲染缩略图 furn-thumb-*
+        anchor: stage.anchor,
+        bounds: stage.bounds,
+        scale: 1,
+        rotation: 0,
+        lightResponse: m.lightResponse,
+        occludesCharacter: m.occludesCharacter,
+        hitArea: m.hotspot
+          ? { left: m.hotspot.left, top: m.hotspot.top, width: m.hotspot.width, height: m.hotspot.height }
+          : null,
+        collision: m.collision,
+        fixed: false,
+        interaction: m.interaction
+      };
+    }),
+    // 固定件碰撞体(茶几等,不参与 DIY 显隐);room-map.js 与 FURNITURE.collision 合并构建障碍
+    FIXED_COLLIDERS: [
+      { id: 'table', furniture: null, collision: { u0: 0.28, v0: 0.50, u1: 0.44, v1: 0.64 } }
+    ],
     FIXTURE_OBJECTS: [
-      { id: 'record-wall', icon: '◉', name: '唱片墙', left: 17, top: 33, width: 28, height: 27, z: 400 },
-      { id: 'floor-records', icon: '●', name: '地面唱片', left: 43, top: 69, width: 11, height: 7, z: 100 }
+      { id: 'record-wall', icon: '◉', name: '唱片墙', left: 17, top: 33, width: 28, height: 27, z: 400, collision: null, fixed: true, interaction: 'records' },
+      { id: 'floor-records', icon: '●', name: '地面唱片', left: 43, top: 69, width: 11, height: 7, z: 100, collision: null, fixed: true, interaction: 'play-hint' }
     ],
     RECORD_SLOTS: slots,
     PLATTER: { left: pct(platter[0]), top: pct(platter[1]) },

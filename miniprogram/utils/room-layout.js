@@ -17,7 +17,43 @@ module.exports = {
         "z": 641
       },
       "overlay": "/assets/img/furn-sofa.webp",
-      "icon": "/assets/img/furn-icon-sofa.webp"
+      "icon": "/assets/img/furn-icon-sofa.webp",
+      "id": "sofa",
+      "label": "沙发",
+      "asset": "/assets/img/furn-sofa.webp",
+      "thumb": "/assets/img/furn-icon-sofa.webp",
+      "anchor": {
+        "x": 38.42,
+        "y": 55.7
+      },
+      "bounds": {
+        "left": 30.81,
+        "top": 47.84,
+        "width": 15.22,
+        "height": 15.73
+      },
+      "scale": 1,
+      "rotation": 0,
+      "lightResponse": {
+        "warm": 0.85,
+        "cool": 0.2,
+        "emissive": 0
+      },
+      "occludesCharacter": true,
+      "hitArea": {
+        "left": 29,
+        "top": 54,
+        "width": 18,
+        "height": 13
+      },
+      "collision": {
+        "u0": 0.02,
+        "v0": 0.3,
+        "u1": 0.18,
+        "v1": 0.6
+      },
+      "fixed": false,
+      "interaction": "sit"
     },
     {
       "key": "vinyl-player",
@@ -35,7 +71,43 @@ module.exports = {
         "z": 700
       },
       "overlay": "/assets/img/furn-vinyl-player.webp",
-      "icon": "/assets/img/furn-icon-vinyl-player.webp"
+      "icon": "/assets/img/furn-icon-vinyl-player.webp",
+      "id": "vinyl-player",
+      "label": "黑胶机",
+      "asset": "/assets/img/furn-vinyl-player.webp",
+      "thumb": "/assets/img/furn-icon-vinyl-player.webp",
+      "anchor": {
+        "x": 69.52,
+        "y": 57.7
+      },
+      "bounds": {
+        "left": 57.94,
+        "top": 45.57,
+        "width": 23.16,
+        "height": 24.25
+      },
+      "scale": 1,
+      "rotation": 0,
+      "lightResponse": {
+        "warm": 0.9,
+        "cool": 0.25,
+        "emissive": 0.15
+      },
+      "occludesCharacter": true,
+      "hitArea": {
+        "left": 58,
+        "top": 46,
+        "width": 20,
+        "height": 13
+      },
+      "collision": {
+        "u0": 0.42,
+        "v0": 0.02,
+        "u1": 0.96,
+        "v1": 0.18
+      },
+      "fixed": false,
+      "interaction": "play-hint"
     },
     {
       "key": "cat-bed",
@@ -44,7 +116,33 @@ module.exports = {
       "obstacle": null,
       "hotspot": null,
       "overlay": "/assets/img/furn-cat-bed.webp",
-      "icon": "/assets/img/furn-icon-cat-bed.webp"
+      "icon": "/assets/img/furn-icon-cat-bed.webp",
+      "id": "cat-bed",
+      "label": "猫窝",
+      "asset": "/assets/img/furn-cat-bed.webp",
+      "thumb": "/assets/img/furn-icon-cat-bed.webp",
+      "anchor": {
+        "x": 31.47,
+        "y": 65.73
+      },
+      "bounds": {
+        "left": 27.5,
+        "top": 62.68,
+        "width": 7.94,
+        "height": 6.11
+      },
+      "scale": 1,
+      "rotation": 0,
+      "lightResponse": {
+        "warm": 0.7,
+        "cool": 0.2,
+        "emissive": 0
+      },
+      "occludesCharacter": true,
+      "hitArea": null,
+      "collision": null,
+      "fixed": false,
+      "interaction": null
     },
     {
       "key": "bookshelf",
@@ -53,7 +151,33 @@ module.exports = {
       "obstacle": null,
       "hotspot": null,
       "overlay": "/assets/img/furn-bookshelf.webp",
-      "icon": "/assets/img/furn-icon-bookshelf.webp"
+      "icon": "/assets/img/furn-icon-bookshelf.webp",
+      "id": "bookshelf",
+      "label": "书架",
+      "asset": "/assets/img/furn-bookshelf.webp",
+      "thumb": "/assets/img/furn-icon-bookshelf.webp",
+      "anchor": {
+        "x": 74.8,
+        "y": 48.5
+      },
+      "bounds": {
+        "left": 69.9,
+        "top": 45.5,
+        "width": 9.9,
+        "height": 6.5
+      },
+      "scale": 1,
+      "rotation": 0,
+      "lightResponse": {
+        "warm": 0.8,
+        "cool": 0.35,
+        "emissive": 0
+      },
+      "occludesCharacter": false,
+      "hitArea": null,
+      "collision": null,
+      "fixed": false,
+      "interaction": null
     },
     {
       "key": "lamp",
@@ -71,7 +195,43 @@ module.exports = {
         "z": 730
       },
       "overlay": "/assets/img/furn-lamp.webp",
-      "icon": "/assets/img/furn-icon-lamp.webp"
+      "icon": "/assets/img/furn-icon-lamp.webp",
+      "id": "lamp",
+      "label": "落地灯",
+      "asset": "/assets/img/furn-lamp.webp",
+      "thumb": "/assets/img/furn-icon-lamp.webp",
+      "anchor": {
+        "x": 60,
+        "y": 62
+      },
+      "bounds": {
+        "left": 50.5,
+        "top": 49,
+        "width": 20,
+        "height": 24
+      },
+      "scale": 1,
+      "rotation": 0,
+      "lightResponse": {
+        "warm": 0.35,
+        "cool": 0.15,
+        "emissive": 0.95
+      },
+      "occludesCharacter": true,
+      "hitArea": {
+        "left": 55,
+        "top": 50,
+        "width": 12,
+        "height": 18
+      },
+      "collision": {
+        "u0": 0.85,
+        "v0": 0.3,
+        "u1": 0.95,
+        "v1": 0.42
+      },
+      "fixed": false,
+      "interaction": "lamp"
     },
     {
       "key": "plant",
@@ -80,7 +240,38 @@ module.exports = {
       "obstacle": "plant",
       "hotspot": null,
       "overlay": "/assets/img/furn-plant.webp",
-      "icon": "/assets/img/furn-icon-plant.webp"
+      "icon": "/assets/img/furn-icon-plant.webp",
+      "id": "plant",
+      "label": "绿植",
+      "asset": "/assets/img/furn-plant.webp",
+      "thumb": "/assets/img/furn-icon-plant.webp",
+      "anchor": {
+        "x": 25.35,
+        "y": 61.69
+      },
+      "bounds": {
+        "left": 20.22,
+        "top": 54.76,
+        "width": 10.26,
+        "height": 13.85
+      },
+      "scale": 1,
+      "rotation": 0,
+      "lightResponse": {
+        "warm": 0.75,
+        "cool": 0.3,
+        "emissive": 0
+      },
+      "occludesCharacter": true,
+      "hitArea": null,
+      "collision": {
+        "u0": 0.02,
+        "v0": 0.74,
+        "u1": 0.15,
+        "v1": 0.92
+      },
+      "fixed": false,
+      "interaction": null
     },
     {
       "key": "rug",
@@ -89,7 +280,33 @@ module.exports = {
       "obstacle": null,
       "hotspot": null,
       "overlay": "/assets/img/furn-rug.webp",
-      "icon": "/assets/img/furn-icon-rug.webp"
+      "icon": "/assets/img/furn-icon-rug.webp",
+      "id": "rug",
+      "label": "地毯",
+      "asset": "/assets/img/furn-rug.webp",
+      "thumb": "/assets/img/furn-icon-rug.webp",
+      "anchor": {
+        "x": 50,
+        "y": 68.4
+      },
+      "bounds": {
+        "left": 34.1,
+        "top": 62.6,
+        "width": 31.9,
+        "height": 11.6
+      },
+      "scale": 1,
+      "rotation": 0,
+      "lightResponse": {
+        "warm": 0.6,
+        "cool": 0.2,
+        "emissive": 0
+      },
+      "occludesCharacter": false,
+      "hitArea": null,
+      "collision": null,
+      "fixed": false,
+      "interaction": null
     },
     {
       "key": "curtain",
@@ -98,7 +315,33 @@ module.exports = {
       "obstacle": null,
       "hotspot": null,
       "overlay": "/assets/img/furn-curtain.webp",
-      "icon": "/assets/img/furn-icon-curtain.webp"
+      "icon": "/assets/img/furn-icon-curtain.webp",
+      "id": "curtain",
+      "label": "挂帘",
+      "asset": "/assets/img/furn-curtain.webp",
+      "thumb": "/assets/img/furn-icon-curtain.webp",
+      "anchor": {
+        "x": 81.3,
+        "y": 41
+      },
+      "bounds": {
+        "left": 79.5,
+        "top": 32.5,
+        "width": 4.5,
+        "height": 18
+      },
+      "scale": 1,
+      "rotation": 0,
+      "lightResponse": {
+        "warm": 0.5,
+        "cool": 0.45,
+        "emissive": 0
+      },
+      "occludesCharacter": false,
+      "hitArea": null,
+      "collision": null,
+      "fixed": false,
+      "interaction": null
     },
     {
       "key": "projector",
@@ -116,7 +359,38 @@ module.exports = {
         "z": 692
       },
       "overlay": "/assets/img/furn-projector.webp",
-      "icon": "/assets/img/furn-icon-projector.webp"
+      "icon": "/assets/img/furn-icon-projector.webp",
+      "id": "projector",
+      "label": "放映机",
+      "asset": "/assets/img/furn-projector.webp",
+      "thumb": "/assets/img/furn-icon-projector.webp",
+      "anchor": {
+        "x": 42.64,
+        "y": 63.19
+      },
+      "bounds": {
+        "left": 40.4,
+        "top": 59.6,
+        "width": 4.47,
+        "height": 7.18
+      },
+      "scale": 1,
+      "rotation": 0,
+      "lightResponse": {
+        "warm": 0.5,
+        "cool": 0.3,
+        "emissive": 0.6
+      },
+      "occludesCharacter": true,
+      "hitArea": {
+        "left": 38,
+        "top": 56,
+        "width": 9,
+        "height": 9
+      },
+      "collision": null,
+      "fixed": false,
+      "interaction": "projector"
     },
     {
       "key": "poster",
@@ -125,7 +399,33 @@ module.exports = {
       "obstacle": null,
       "hotspot": null,
       "overlay": "/assets/img/furn-poster.webp",
-      "icon": "/assets/img/furn-icon-poster.webp"
+      "icon": "/assets/img/furn-icon-poster.webp",
+      "id": "poster",
+      "label": "海报",
+      "asset": "/assets/img/furn-poster.webp",
+      "thumb": "/assets/img/furn-icon-poster.webp",
+      "anchor": {
+        "x": 52.3,
+        "y": 27.7
+      },
+      "bounds": {
+        "left": 50.6,
+        "top": 20,
+        "width": 3.5,
+        "height": 16
+      },
+      "scale": 1,
+      "rotation": 0,
+      "lightResponse": {
+        "warm": 0.8,
+        "cool": 0.4,
+        "emissive": 0
+      },
+      "occludesCharacter": false,
+      "hitArea": null,
+      "collision": null,
+      "fixed": false,
+      "interaction": null
     },
     {
       "key": "coffee",
@@ -134,7 +434,33 @@ module.exports = {
       "obstacle": null,
       "hotspot": null,
       "overlay": "/assets/img/furn-coffee.webp",
-      "icon": "/assets/img/furn-icon-coffee.webp"
+      "icon": "/assets/img/furn-icon-coffee.webp",
+      "id": "coffee",
+      "label": "咖啡机",
+      "asset": "/assets/img/furn-coffee.webp",
+      "thumb": "/assets/img/furn-icon-coffee.webp",
+      "anchor": {
+        "x": 68.4,
+        "y": 44
+      },
+      "bounds": {
+        "left": 67.3,
+        "top": 41.5,
+        "width": 2.3,
+        "height": 5
+      },
+      "scale": 1,
+      "rotation": 0,
+      "lightResponse": {
+        "warm": 0.7,
+        "cool": 0.4,
+        "emissive": 0.2
+      },
+      "occludesCharacter": false,
+      "hitArea": null,
+      "collision": null,
+      "fixed": false,
+      "interaction": null
     },
     {
       "key": "doll",
@@ -143,7 +469,33 @@ module.exports = {
       "obstacle": null,
       "hotspot": null,
       "overlay": "/assets/img/furn-doll.webp",
-      "icon": "/assets/img/furn-icon-doll.webp"
+      "icon": "/assets/img/furn-icon-doll.webp",
+      "id": "doll",
+      "label": "玩偶",
+      "asset": "/assets/img/furn-doll.webp",
+      "thumb": "/assets/img/furn-icon-doll.webp",
+      "anchor": {
+        "x": 36.8,
+        "y": 63.7
+      },
+      "bounds": {
+        "left": 34.8,
+        "top": 60.7,
+        "width": 3.9,
+        "height": 6
+      },
+      "scale": 1,
+      "rotation": 0,
+      "lightResponse": {
+        "warm": 0.7,
+        "cool": 0.2,
+        "emissive": 0
+      },
+      "occludesCharacter": true,
+      "hitArea": null,
+      "collision": null,
+      "fixed": false,
+      "interaction": null
     },
     {
       "key": "guitar",
@@ -161,7 +513,55 @@ module.exports = {
         "z": 812
       },
       "overlay": "/assets/img/furn-guitar.webp",
-      "icon": "/assets/img/furn-icon-guitar.webp"
+      "icon": "/assets/img/furn-icon-guitar.webp",
+      "id": "guitar",
+      "label": "吉他角",
+      "asset": "/assets/img/furn-guitar.webp",
+      "thumb": "/assets/img/furn-icon-guitar.webp",
+      "anchor": {
+        "x": 53.81,
+        "y": 73.52
+      },
+      "bounds": {
+        "left": 48.01,
+        "top": 65.04,
+        "width": 11.58,
+        "height": 16.96
+      },
+      "scale": 1,
+      "rotation": 0,
+      "lightResponse": {
+        "warm": 0.85,
+        "cool": 0.25,
+        "emissive": 0
+      },
+      "occludesCharacter": true,
+      "hitArea": {
+        "left": 47,
+        "top": 72,
+        "width": 13,
+        "height": 12
+      },
+      "collision": {
+        "u0": 0.79,
+        "v0": 0.7,
+        "u1": 0.99,
+        "v1": 0.85
+      },
+      "fixed": false,
+      "interaction": "play-hint"
+    }
+  ],
+  "FIXED_COLLIDERS": [
+    {
+      "id": "table",
+      "furniture": null,
+      "collision": {
+        "u0": 0.28,
+        "v0": 0.5,
+        "u1": 0.44,
+        "v1": 0.64
+      }
     }
   ],
   "FIXTURE_OBJECTS": [
@@ -173,7 +573,10 @@ module.exports = {
       "top": 33,
       "width": 28,
       "height": 27,
-      "z": 400
+      "z": 400,
+      "collision": null,
+      "fixed": true,
+      "interaction": "records"
     },
     {
       "id": "floor-records",
@@ -183,7 +586,10 @@ module.exports = {
       "top": 69,
       "width": 11,
       "height": 7,
-      "z": 100
+      "z": 100,
+      "collision": null,
+      "fixed": true,
+      "interaction": "play-hint"
     }
   ],
   "RECORD_SLOTS": [
