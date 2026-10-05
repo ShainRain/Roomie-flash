@@ -1,5 +1,6 @@
-// 房间地图行为断言：边界约束、碰撞、A* 寻路、景深
+// 房间地图行为断言：边界约束、碰撞、A* 寻路、景深、布局数据驱动
 const map = require('../miniprogram/utils/room-map');
+const Layout = require('../miniprogram/utils/room-layout');
 
 let passed = 0;
 let failed = 0;
@@ -56,6 +57,46 @@ assert('撤掉沙发后其占地可行走', !map.isBlocked({ left: 38, top: 60 }
 assert('固定件茶几不受家具选择影响', map.isBlocked({ left: 43, top: 66 }));
 map.setActiveFurniture(null);
 assert('重置后沙发占地恢复阻挡', map.isBlocked({ left: 38, top: 60 }));
+
+// 10. 障碍由 room-layout collision 派生（单一数据源）：每个声明 collision 的家具都有对应障碍
+const withCollision = Layout.FURNITURE.filter((f) => f.collision);
+assert('布局中带 collision 的家具 ≥5 件', withCollision.length >= 5);
+withCollision.forEach((f) => {
+  const ob = map.OBSTACLES.find((o) => o.furniture === f.key);
+  assert(`障碍 ${f.key} 存在于 OBSTACLES 且矩形一致`, !!ob
+    && ob.u0 === f.collision.u0 && ob.v0 === f.collision.v0
+    && ob.u1 === f.collision.u1 && ob.v1 === f.collision.v1);
+});
+
+// 11. 固定件碰撞体（茶几）来自 FIXED_COLLIDERS 且不绑家具
+const table = map.OBSTACLES.find((o) => o.id === 'table');
+assert('固定件茶几障碍存在且 furniture 为 null', !!table && table.furniture === null);
+assert('FIXED_COLLIDERS 声明了茶几', (Layout.FIXED_COLLIDERS || []).some((c) => c.id === 'table' && !!c.collision));
+
+// 12. 碰撞矩形中心（uv→stage%）必被阻挡：逐家具验证数据驱动生效
+withCollision.forEach((f) => {
+  const cu = (f.collision.u0 + f.collision.u1) / 2;
+  const cv = (f.collision.v0 + f.collision.v1) / 2;
+  const pt = { left: (414 + 274 * (cu - cv)) / 8.28, top: (414 + 144 * (cu + cv)) / 8.28 };
+  assert(`家具 ${f.key} 碰撞中心被阻挡`, map.isBlocked(pt));
+});
+
+// 13. 景深区间收敛到 spec 0.8–1.05
+assert('景深上限 = 1.05', map.depthFor(85.75).scale === 1.05 && map.depthFor(100).scale === 1.05);
+assert('景深下限 ≥ 0.8', map.depthFor(50).scale >= 0.8 && map.depthFor(0).scale >= 0.8);
+
+// 14. floorPolygon 导出地板菱形四角（scene 组件 floor tint 唯一来源）
+const poly = map.floorPolygon();
+assert('floorPolygon 返回四角且后角在画布中心', poly.length === 4
+  && Math.abs(poly[1].left - 50) < 0.01 && Math.abs(poly[1].top - 50) < 0.01);
+
+// 15. createMap 工厂：新几何实例与默认实例互不影响
+const master = map.createMap({ X0: 414, Y0: 235, SX: 480, SY: 250, depthTopMin: 32, depthTopMax: 85 });
+assert('工厂实例墙面点被阻挡', master.isBlocked({ left: 50, top: 10 }));
+assert('工厂实例地板前区可站立', !master.isBlocked({ left: 30, top: 70 }));
+master.setActiveFurniture([]);
+assert('工厂实例家具显隐独立（清空后沙发碰撞中心可过）', !master.isBlocked({ left: 29.7, top: 45 }));
+assert('默认实例不受工厂实例显隐影响', map.isBlocked({ left: 38, top: 60 }));
 
 console.log(`\n${passed} passed, ${failed} failed`);
 process.exit(failed ? 1 : 0);
