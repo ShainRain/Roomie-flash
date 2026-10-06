@@ -121,12 +121,22 @@ Component({
     },
 
     onStageTap(e) {
+      // 触点坐标:优先 e.detail(真机 tap),退化到 changedTouches(部分自动化环境)
+      const d = e.detail || {};
+      let x = d.x;
+      let y = d.y;
+      if ((x == null || y == null) && e.changedTouches && e.changedTouches[0]) {
+        x = e.changedTouches[0].x;
+        y = e.changedTouches[0].y;
+      }
+      if (x == null || y == null) return;
       const query = this.createSelectorQuery();
       query.select('.sc-stage').boundingClientRect((rect) => {
         if (!rect) return;
-        this.triggerEvent('tap', {
-          left: ((e.detail.x - rect.left) / rect.width) * 100,
-          top: ((e.detail.y - rect.top) / rect.height) * 100
+        // 事件名用 stagetap 而非 tap:避免与原生 tap 冒泡撞名导致页面处理两次
+        this.triggerEvent('stagetap', {
+          left: ((x - rect.left) / rect.width) * 100,
+          top: ((y - rect.top) / rect.height) * 100
         });
       }).exec();
     },
