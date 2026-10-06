@@ -2,6 +2,7 @@
   <!-- Room Master Scene：正方形画框，层叠光照 + 家具 + 角色由 room-scene 组件渲染 -->
   <view class="stage-wrap">
     <room-scene
+      id="roomScene"
       floor="{{floor}}"
       light-temp="{{lightTemp}}"
       furniture="{{furnitureKeys}}"
@@ -15,7 +16,7 @@
       near-id="{{nearId}}"
       active-ids="{{activeIds}}"
       hint="{{showHint}}"
-      bind:tap="onSceneTap"
+      bind:stagetap="onSceneTap"
       bind:furnituretap="onFurnitureTap"
       bind:chartap="onCharTap"
     />

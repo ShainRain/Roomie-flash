@@ -45,8 +45,13 @@ Page({
   },
 
   onShow() {
-    this.refreshRoomConfig();
-    this.syncCharacters();
+    // onShow 首帧前的 setData 可能丢失组件 properties 同步(实测 furniture 为空),
+    // 推迟到下一拍,等组件绑定建立后再写入场景配置。
+    const apply = () => {
+      this.refreshRoomConfig();
+      this.syncCharacters();
+    };
+    if (wx.nextTick) wx.nextTick(apply); else setTimeout(apply, 0);
     // 连接恢复只放在 onShow，避免 onLoad/onShow 重复 join（P4）
     if (!RoomSync.isOnline()) this.doJoin();
   },
@@ -63,8 +68,10 @@ Page({
     const selected = RecordsUtil.readSelection((k) => wx.getStorageSync(k));
     const trackTitle = Player.snapshot().track.title;
     this.setData({
-      furnitureKeys: keys,
-      recordIds: selected,
+      // 注意:必须传新数组引用。globalData/storage 的同一数组引用反复 setData 时,
+      // 组件 properties 可能收不到同步(实测 binding 丢失),切片拷贝可稳定触发。
+      furnitureKeys: keys.slice(),
+      recordIds: selected.slice(),
       floor: room.floor || 'blue-gray',
       lightTemp: room.lightTemp || 2700,
       nowPlaying: { playing: this.data.roomState.recordPlaying, title: trackTitle }
@@ -232,6 +239,7 @@ Page({
   },
 
   onSceneTap(e) {
+    if (!e.detail || typeof e.detail.left !== 'number') return;
     const safeTarget = map.resolveTarget(this.data.player, e.detail);
     this.moveAlongPath(this.data.player, safeTarget);
   },
@@ -329,6 +337,13 @@ Page({
 
   onBack() {
     wx.navigateBack();
+  },
+
+  // 从存储重载房间配置(与 app.onLaunch 同路径,保证 same-realm 数据;自动化验收用)
+  reloadRoomFromStorage() {
+    getApp().globalData.room = getApp().normalizeRoom(wx.getStorageSync('roomie_room'));
+    this.refreshRoomConfig();
+    this.syncCharacters();
   },
 
   onShare() {
