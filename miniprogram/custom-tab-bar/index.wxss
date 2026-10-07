@@ -20,7 +20,8 @@
   align-items: center;
   justify-content: center;
   height: 110rpx;
-  color: var(--night-sub);
+  /* custom-tab-bar 内 app.wxss 变量可能不生效,米白主题色用字面值(与 --paper-100 同源 #F3EBDD) */
+  color: #F3EBDD;
 }
 
 .badge {
@@ -40,7 +41,7 @@
 }
 
 .tab-on {
-  color: var(--green);
+  color: #2BC96B;
 }
 
 .tab-label {
