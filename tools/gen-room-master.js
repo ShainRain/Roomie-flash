@@ -922,6 +922,19 @@ const OVERLAYS = {
 const PLATTER_POS = { u: 0.515, v: 0.095, h: 112 };
 
 // ================= 家具元数据(§5.1 schema;z 由新几何前沿底部换算) =================
+// 热点判定区:不再手写宽松矩形——从家具实际包围盒(bounds)内缩生成,
+// 用户只有点到物件本体才触发互动,空地点击全部留给角色移动。
+function insetRect(b, padPct = 0.16) {
+  const padX = b.width * padPct;
+  const padY = b.height * padPct;
+  return {
+    left: Number((b.left + padX).toFixed(1)),
+    top: Number((b.top + padY).toFixed(1)),
+    width: Number((b.width - 2 * padX).toFixed(1)),
+    height: Number((b.height - 2 * padY).toFixed(1))
+  };
+}
+
 function footToStage(uvFoot, hPx) {
   const [u0, v0, u1, v1] = uvFoot;
   const corners = [P(u0, v0), P(u1, v0), P(u0, v1), P(u1, v1)];
@@ -943,11 +956,11 @@ const FURN_META = [
   { key: 'sofa', name: '沙发', uvFoot: [0.02, 0.30, 0.18, 0.60], hPx: 95,
     collision: { u0: 0.02, v0: 0.30, u1: 0.18, v1: 0.60 },
     lightResponse: { warm: 0.85, cool: 0.2, emissive: 0 }, occludesCharacter: true, interaction: 'sit',
-    hotspot: { id: 'sofa', icon: '▰', name: '沙发', left: 18, top: 30, width: 24, height: 22 } },
+    hotspot: { id: 'sofa', icon: '▰', name: '沙发' } },
   { key: 'vinyl-player', name: '黑胶机', uvFoot: [0.42, 0.02, 0.96, 0.18], hPx: 150,
     collision: { u0: 0.42, v0: 0.02, u1: 0.96, v1: 0.18 },
     lightResponse: { warm: 0.9, cool: 0.25, emissive: 0.15 }, occludesCharacter: true, interaction: 'play-hint',
-    hotspot: { id: 'turntable', icon: '◎', name: '唱机柜', left: 64, top: 30, width: 28, height: 30 } },
+    hotspot: { id: 'turntable', icon: '◎', name: '唱机柜' } },
   { key: 'table', name: '茶几', uvFoot: [0.275, 0.495, 0.445, 0.645], hPx: 58, fixed: true,
     collision: { u0: 0.28, v0: 0.50, u1: 0.44, v1: 0.64 },
     lightResponse: { warm: 0.9, cool: 0.25, emissive: 0 }, occludesCharacter: true, interaction: null, hotspot: null },
@@ -957,7 +970,7 @@ const FURN_META = [
     anchorManual: { x: 76, y: 52 }, boundsManual: { left: 63, top: 34, width: 26, height: 34 }, zManual: 697,
     glowManual: [600, 480, 70],
     lightResponse: { warm: 0.35, cool: 0.15, emissive: 0.95 }, occludesCharacter: true, interaction: 'lamp',
-    hotspot: { id: 'lamp', icon: '☼', name: '落地灯', left: 64, top: 38, width: 20, height: 30 } },
+    hotspot: { id: 'lamp', icon: '☼', name: '落地灯' } },
   { key: 'plant', name: '绿植', uvFoot: [0.02, 0.74, 0.15, 0.92], hPx: 100,
     collision: { u0: 0.02, v0: 0.74, u1: 0.15, v1: 0.92 },
     lightResponse: { warm: 0.75, cool: 0.3, emissive: 0 }, occludesCharacter: true, interaction: null, hotspot: null },
@@ -971,7 +984,7 @@ const FURN_META = [
     lightResponse: { warm: 0.5, cool: 0.45, emissive: 0 }, occludesCharacter: false, interaction: null, hotspot: null },
   { key: 'projector', name: '放映机', uvFoot: [0.30, 0.53, 0.375, 0.59], hPx: 24, collision: null,
     lightResponse: { warm: 0.5, cool: 0.3, emissive: 0.6 }, occludesCharacter: true, interaction: 'projector',
-    hotspot: { id: 'projector', icon: '✦', name: '放映机', left: 33, top: 43, width: 10, height: 10 } },
+    hotspot: { id: 'projector', icon: '✦', name: '放映机' } },
   { key: 'poster', name: '海报', collision: null,
     wallBounds: [0.05, 0.44, 0.155, 0.84],
     anchorManual: { x: 56, y: 13 }, zManual: 300,
@@ -989,7 +1002,7 @@ const FURN_META = [
   { key: 'guitar', name: '吉他角', uvFoot: [0.79, 0.70, 0.99, 0.85], hPx: 135,
     collision: { u0: 0.79, v0: 0.70, u1: 0.99, v1: 0.85 },
     lightResponse: { warm: 0.85, cool: 0.25, emissive: 0 }, occludesCharacter: true, interaction: 'play-hint',
-    hotspot: { id: 'guitar', icon: '♪', name: '吉他角', left: 47, top: 62, width: 19, height: 22 } }
+    hotspot: { id: 'guitar', icon: '♪', name: '吉他角' } }
 ];
 
 // ================= 唱片槽位板材(新墙面剪切) =================
@@ -1081,12 +1094,15 @@ async function render(svg, outFile, quality = 86) {
   };
   const furns = FURN_META.map((m) => {
     const stage = m.uvFoot ? footToStage(m.uvFoot, m.hPx) : null;
+    const bounds = stage ? stage.bounds : (m.wallBounds ? wallToStage(m.wallBounds) : m.boundsManual);
     return {
       ...m,
       anchor: stage ? stage.anchor : m.anchorManual,
-      bounds: stage ? stage.bounds : (m.wallBounds ? wallToStage(m.wallBounds) : m.boundsManual),
+      bounds,
       z: stage ? stage.z : m.zManual,
-      glowAt: stage ? stage.glow : (m.glowManual || null)
+      glowAt: stage ? stage.glow : (m.glowManual || null),
+      // 判定区 = 物件包围盒内缩 16%
+      hotspot: m.hotspot ? { ...m.hotspot, ...insetRect(bounds) } : null
     };
   });
 
@@ -1185,8 +1201,14 @@ module.exports = ${JSON.stringify({
     })),
     FIXED_COLLIDERS: [{ id: 'table', furniture: null, collision: { u0: 0.28, v0: 0.50, u1: 0.44, v1: 0.64 } }],
     FIXTURE_OBJECTS: [
-      { id: 'record-wall', icon: '◉', name: '唱片墙', left: 4, top: 0, width: 42, height: 54, z: 340, interaction: 'records' },
-      { id: 'floor-records', icon: '●', name: '地面唱片', left: 40, top: 61, width: 15, height: 11, z: 100, interaction: 'play-hint' }
+      // 判定区收紧到实际内容:唱片墙=层板区(左墙 s 0.10–0.80 / t 0.40–0.95,LW 变换),地面唱片=散落黑胶簇
+      { id: 'record-wall', icon: '◉', name: '唱片墙', ...(() => {
+        const cs = [LW(0.10, 0.40), LW(0.80, 0.40), LW(0.10, 0.95), LW(0.80, 0.95)];
+        const xs = cs.map((c) => Math.max(0, Math.min(828, c[0])));
+        const ys = cs.map((c) => Math.max(0, Math.min(828, c[1])));
+        return { left: pct(Math.min(...xs)), top: pct(Math.min(...ys)), width: pct(Math.max(...xs) - Math.min(...xs)), height: pct(Math.max(...ys) - Math.min(...ys)) };
+      })(), z: 340, interaction: 'records' },
+      { id: 'floor-records', icon: '●', name: '地面唱片', left: 42.5, top: 63.5, width: 8.5, height: 7, z: 100, interaction: 'play-hint' }
     ],
     RECORD_SLOTS: slots,
     PLATTER: { left: pct(platter[0]), top: pct(platter[1]) },
