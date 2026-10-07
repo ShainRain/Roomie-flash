@@ -1,5 +1,11 @@
 Page({
   data: {
+    // 好友房间 vignette(Master 派生的小房间,视觉锚点;动作与列表共用同一状态)
+    vignettes: [
+      { name: 'KIKI', img: '/assets/img/vignette-kiki.webp', status: '在你的房间 · 一起听《晴天》', action: '进入', type: 'enter' },
+      { name: 'NANA', img: '/assets/img/vignette-nana.webp', status: '正在听《晴天》', action: '来坐坐', type: 'invite' },
+      { name: 'ABO', img: '/assets/img/vignette-abo.webp', status: '正在逛唱片墙', action: '来坐坐', type: 'invite' }
+    ],
     online: [
       { name: 'KIKI', color: '#F5B83D', status: '在你的房间 · 一起听《晴天》', tag: '房间中', action: '进入', type: 'enter' },
       { name: 'NANA', color: '#7FB5E8', status: '正在听《晴天》', tag: '', action: '邀请', type: 'invite' },
@@ -8,11 +14,6 @@ Page({
     offline: [
       { name: 'RITA', color: '#C9CDD4', status: '2 小时前听过《花海》', action: '邀请', type: 'invite' },
       { name: 'TAO', color: '#C9CDD4', status: '昨天布置了唱片墙', action: '邀请', type: 'invite' }
-    ],
-    villageTags: [
-      { name: 'KIKI', online: true, pos: 'v-tag-1' },
-      { name: 'NANA', online: true, pos: 'v-tag-2' },
-      { name: 'RITA', online: false, pos: 'v-tag-3' }
     ],
     inviting: ''
   },

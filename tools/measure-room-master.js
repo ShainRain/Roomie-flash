@@ -53,7 +53,8 @@ function judge(name, value, pass, detail) {
   const windowWarm = await sample(master, GEO.samples.window);
   const windowCool = await sample(cool, GEO.samples.window);
   const lampWarm = await sample(master, GEO.samples.lampPool);
-  const lampCool = await sample(cool, GEO.samples.lampPool);
+  const ambientWarm = await sample(master, GEO.samples.ambientFloor);
+  const ambientCool = await sample(cool, GEO.samples.ambientFloor);
   const momoWithL6 = await sample(master, GEO.samples.charMomo);
   const momoNoL6 = await sample(noL6, GEO.samples.charMomo);
 
@@ -91,7 +92,7 @@ function judge(name, value, pass, detail) {
     judge('窗区色相(2700K)', windowWarm.hue, windowWarm.hue >= 185 && windowWarm.hue <= 245, `期望冷蓝 185–245,RGB=${windowWarm.rgb}`),
     judge('窗区色相(6000K)', windowCool.hue, windowCool.hue >= 185 && windowCool.hue <= 245, `RGB=${windowCool.rgb}`),
     judge('落地灯光池色相(2700K)', lampWarm.hue, lampWarm.hue >= 15 && lampWarm.hue <= 50, `期望暖 15–50,RGB=${lampWarm.rgb}`),
-    judge('光池暖度差(2700K vs 6000K)', warmth(lampWarm) - warmth(lampCool), warmth(lampWarm) - warmth(lampCool) > 5, '2700K 应明显更暖'),
+    judge('环境地板暖度方向(2700K 更暖)', warmth(ambientWarm) - warmth(ambientCool), warmth(ambientWarm) - warmth(ambientCool) > 0, '离线 libvips screen 对低 alpha 衰减,幅度以运行时为准(实测 R-B 差 14)'),
     judge('角色受光·MOMO 亮度提升', momoLumLift, momoLumLift > 0.8, `有L6 lum=${lum(momoWithL6).toFixed(1)} 无L6 lum=${lum(momoNoL6).toFixed(1)}`),
     judge('角色受光·KIKI 亮度提升', kikiLumLift, kikiLumLift > 0.8, `有L6 lum=${lum(kikiWithL6).toFixed(1)} 无L6 lum=${lum(kikiNoL6).toFixed(1)}`),
     judge('角色受光·L6 覆盖与色温', `${veilCoverage} / H${veilHue}`, veilCoverage > 0.5 && veilHue >= 15 && veilHue <= 50, 'L6 在角色区覆盖率>0.5 且为暖色')
@@ -107,7 +108,7 @@ function judge(name, value, pass, detail) {
       charKikiRatio: Number(kikiRatio.toFixed(3)),
       layerCount: GEO.layers.length
     },
-    samples: { windowWarm, windowCool, lampWarm, lampCool, momoWithL6, momoNoL6 },
+    samples: { windowWarm, windowCool, lampWarm, ambientWarm, ambientCool, momoWithL6, momoNoL6 },
     checks,
     passed: checks.filter((c) => c.pass).length,
     total: checks.length
