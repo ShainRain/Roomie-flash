@@ -3,6 +3,7 @@ const Player = require('../../utils/player');
 Page({
   data: {
     snap: Player.snapshot(),
+    sleeve: '/assets/img/song-sleeve-sunny.webp',
     tab: 'lyric',
     lyricAnchor: '',
     statusBarH: 20,
@@ -39,7 +40,7 @@ Page({
     if (this.unsubscribe) return;
     this.lastLyricIndex = -1;
     this.unsubscribe = Player.subscribe((snap) => {
-      const patch = { snap };
+      const patch = { snap, sleeve: `/assets/img/song-sleeve-${snap.track.id}.webp` };
       // 歌词锚点仅在行变化时更新，避免每秒重写
       if (snap.lyricIndex !== this.lastLyricIndex) {
         this.lastLyricIndex = snap.lyricIndex;

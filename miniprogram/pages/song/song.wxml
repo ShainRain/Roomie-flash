@@ -10,19 +10,12 @@
     <view class="nav-ic" bindtap="onShare" hover-class="btn-hover">↗</view>
   </view>
 
-  <!-- Hero:台灯下的黑胶微场景(旋转仅在播放时) -->
-  <view class="turntable rise-in rise-d1">
-    <view class="turntable-glow"></view>
-    <view class="turntable-shadow"></view>
-    <view class="disc {{snap.playing ? 'disc-spin' : ''}}">
-      <view class="disc-label">
-        <view class="disc-sunset"></view>
-        <view class="disc-hole"></view>
-        <text class="disc-label-text">{{snap.track.title}}</text>
-      </view>
-    </view>
-    <view class="disc-sheen"></view>
-    <view class="tonearm {{snap.playing ? 'tonearm-on' : ''}}"></view>
+  <!-- Hero:Hi-Fi 背景(Master 同源)+ 封套 + 抽出的黑胶(播放时缓慢旋转) -->
+  <view class="song-hero rise-in rise-d1">
+    <image class="hero-bg" src="/assets/img/song-hifi-bg.webp" mode="aspectFill" />
+    <view class="hero-fade"></view>
+    <image class="hero-sleeve" src="{{sleeve}}" mode="aspectFit" />
+    <image class="hero-disc {{snap.playing ? 'hero-disc-spin' : ''}}" src="/assets/img/song-disc.webp" mode="aspectFit" />
   </view>
 
   <!-- 纸张卡片:歌曲信息 + 进度 + 控制 + 歌词/评论 -->
