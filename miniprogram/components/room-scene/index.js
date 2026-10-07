@@ -142,11 +142,16 @@ Component({
     },
 
     onHotspotTap(e) {
-      this.triggerEvent('furnituretap', { id: e.currentTarget.dataset.id });
+      // 真机取 currentTarget;自动化合成事件可能只有 target
+      const ds = (e.currentTarget || e.target || {}).dataset || {};
+      if (!ds.id) return;
+      this.triggerEvent('furnituretap', { id: ds.id });
     },
 
     onCharTap(e) {
-      this.triggerEvent('chartap', { id: e.currentTarget.dataset.id });
+      const ds = (e.currentTarget || e.target || {}).dataset || {};
+      if (!ds.id) return;
+      this.triggerEvent('chartap', { id: ds.id });
     }
   }
 });

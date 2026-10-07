@@ -34,7 +34,7 @@ function grain(n, seed, w, h) {
   const pad = 36;
   const roomSide = PC_W - pad * 2;
   const roomH = Math.round(PC_H * 0.58);
-  const room = await sharp(path.join(ROOT, 'miniprogram/assets/img/postcard-room.jpg'))
+  const room = await sharp(path.join(ROOT, 'reference-assets/postcard-room.jpg'))
     .resize(roomSide, roomH).png().toBuffer();
 
   // 选中唱片色块(6 张)
