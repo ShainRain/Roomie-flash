@@ -922,12 +922,14 @@ const OVERLAYS = {
 const PLATTER_POS = { u: 0.515, v: 0.095, h: 112 };
 
 // ================= 家具元数据(§5.1 schema;z 由新几何前沿底部换算) =================
-// 热点判定区:不再手写宽松矩形——从家具实际包围盒(bounds)内缩生成,
-// 用户只有点到物件本体才触发互动,空地点击全部留给角色移动。
-function insetRect(b, padPct = 0.16) {
+// hitArea(互动命中区)与 collision(移动碰撞区)完全分离:
+//   hitArea 由物件视觉包围盒(bounds)内缩 6% 生成(线性 0.88×,规格允许 0.85–1.0×),
+//   禁止沿用 collision 大矩形或随意加 padding;hitArea 绝不进 A* 障碍。
+function insetRect(b, padPct = 0.06) {
   const padX = b.width * padPct;
   const padY = b.height * padPct;
   return {
+    type: 'rect',
     left: Number((b.left + padX).toFixed(1)),
     top: Number((b.top + padY).toFixed(1)),
     width: Number((b.width - 2 * padX).toFixed(1)),
@@ -1101,8 +1103,8 @@ async function render(svg, outFile, quality = 86) {
       bounds,
       z: stage ? stage.z : m.zManual,
       glowAt: stage ? stage.glow : (m.glowManual || null),
-      // 判定区 = 物件包围盒内缩 16%
-      hotspot: m.hotspot ? { ...m.hotspot, ...insetRect(bounds) } : null
+      // hitArea = 视觉包围盒内缩 6%(spec:0.85–1.0× visual bounds)
+      hitArea: m.hotspot ? insetRect(bounds) : null
     };
   });
 
@@ -1191,9 +1193,7 @@ module.exports = ${JSON.stringify({
       z: m.z,
       lightResponse: m.lightResponse,
       occludesCharacter: m.occludesCharacter,
-      hitArea: m.hotspot
-        ? { left: m.hotspot.left, top: m.hotspot.top, width: m.hotspot.width, height: m.hotspot.height }
-        : null,
+      hitArea: m.hitArea || null,
       collision: m.collision,
       fixed: m.fixed === true,
       interaction: m.interaction,
@@ -1201,14 +1201,14 @@ module.exports = ${JSON.stringify({
     })),
     FIXED_COLLIDERS: [{ id: 'table', furniture: null, collision: { u0: 0.28, v0: 0.50, u1: 0.44, v1: 0.64 } }],
     FIXTURE_OBJECTS: [
-      // 判定区收紧到实际内容:唱片墙=层板区(左墙 s 0.10–0.80 / t 0.40–0.95,LW 变换),地面唱片=散落黑胶簇
-      { id: 'record-wall', icon: '◉', name: '唱片墙', ...(() => {
+      // 固定互动件:hitArea 收紧到真实内容(唱片墙=左墙层板区,地面唱片=散落黑胶簇)
+      { id: 'record-wall', icon: '◉', name: '唱片墙', hitArea: (() => {
         const cs = [LW(0.10, 0.40), LW(0.80, 0.40), LW(0.10, 0.95), LW(0.80, 0.95)];
         const xs = cs.map((c) => Math.max(0, Math.min(828, c[0])));
         const ys = cs.map((c) => Math.max(0, Math.min(828, c[1])));
-        return { left: pct(Math.min(...xs)), top: pct(Math.min(...ys)), width: pct(Math.max(...xs) - Math.min(...xs)), height: pct(Math.max(...ys) - Math.min(...ys)) };
+        return { type: 'rect', left: pct(Math.min(...xs)), top: pct(Math.min(...ys)), width: pct(Math.max(...xs) - Math.min(...xs)), height: pct(Math.max(...ys) - Math.min(...ys)) };
       })(), z: 340, interaction: 'records' },
-      { id: 'floor-records', icon: '●', name: '地面唱片', left: 42.5, top: 63.5, width: 8.5, height: 7, z: 100, interaction: 'play-hint' }
+      { id: 'floor-records', icon: '●', name: '地面唱片', hitArea: { type: 'rect', left: 42.5, top: 63.5, width: 8.5, height: 7 }, z: 100, interaction: 'play-hint' }
     ],
     RECORD_SLOTS: slots,
     PLATTER: { left: pct(platter[0]), top: pct(platter[1]) },
