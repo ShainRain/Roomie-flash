@@ -22,10 +22,19 @@
       <view class="hero-room pill pill-dark">{{user.roomName}} · {{user.roomId}}</view>
     </view>
 
-    <!-- 次级入口(占位反馈,既有行为) -->
+    <!-- 次级入口:形象定制(头像/服装双槽位导入) -->
     <view class="dress-row anim-in anim-d1">
       <view class="btn-ghost me-btn" hover-class="btn-hover" data-name="换发型" bindtap="onDress">换发型</view>
-      <view class="btn-ghost me-btn" hover-class="btn-hover" data-name="换服装" bindtap="onDress">换服装</view>
+      <view class="btn-ghost me-btn" hover-class="btn-hover" bindtap="onImportOutfit">换服装</view>
+      <view class="btn-ghost me-btn" hover-class="btn-hover" bindtap="onImportAvatar">换头像</view>
+      <image wx:if="{{avatarSrc}}" class="dress-avatar" src="{{avatarSrc}}" mode="aspectFit" bindtap="onImportAvatar" />
+    </view>
+    <view class="dress-meta anim-in anim-d1">
+      <text class="dress-hint">{{avatarHint}}</text>
+      <view class="dress-links">
+        <text class="me-link" bindtap="onImportImageFile">相册里选不到？从聊天记录导入</text>
+        <text wx:if="{{hasCustom}}" class="me-link me-link-reset" bindtap="onResetAvatar">恢复默认形象</text>
+      </view>
     </view>
 
     <!-- 一整张米白纸张档案卡 -->

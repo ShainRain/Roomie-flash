@@ -21,6 +21,7 @@ Page({
     selectedFloor: 'blue-gray',
     selectedFurniture: [],
     lightTemp: 2700,
+    lightBright: 100,
     dirty: false,
     activeTab: 'furniture',
     tabs: [{ key: 'furniture', name: '家具', short: '具' }, { key: 'floor', name: '地板', short: '板' }, { key: 'light', name: '灯光', short: '光' }],
@@ -42,6 +43,7 @@ Page({
       selectedFloor: room.floor,
       selectedFurniture: room.furniture.slice(),
       lightTemp: room.lightTemp,
+      lightBright: typeof room.lightBright === 'number' ? room.lightBright : 100,
       recordIds: RecordsUtil.readSelection((k) => wx.getStorageSync(k)).slice()
     });
     this.rebuildCells();
@@ -70,6 +72,16 @@ Page({
     this.setData({ lightTemp: e.detail.value, dirty: true });
   },
 
+  onBrightChange(e) {
+    this.setData({ lightBright: e.detail.value, dirty: true });
+  },
+
+  onBrightChanging(e) {
+    const v = e.detail.value;
+    if (Math.abs(v - this.data.lightBright) < 5) return;
+    this.setData({ lightBright: v, dirty: true });
+  },
+
   // 拖动中节流：色温变化 <50K 不触发 setData
   onLightChanging(e) {
     const k = e.detail.value;
@@ -81,6 +93,7 @@ Page({
     app.saveRoom({
       floor: this.data.selectedFloor,
       lightTemp: this.data.lightTemp,
+      lightBright: this.data.lightBright,
       furniture: this.data.selectedFurniture
     });
     this.setData({ dirty: false });

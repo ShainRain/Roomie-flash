@@ -35,11 +35,18 @@ for (const page of fs.readdirSync(PAGES)) {
 
   // 提取 {{ }} 中标识符顶层段（先剥掉字符串字面量，再忽略 .属性访问）
   const used = new Set();
+  const calls = [];
   for (const m of wxml.matchAll(/\{\{([^}]*)\}\}/g)) {
-    const expr = m[1]
+    // 先剥掉字符串字面量，避免把文案里的括号误判成函数调用
+    const noStr = m[1]
       .replace(/'[^']*'/g, "''")
-      .replace(/"[^"]*"/g, '""')
-      .replace(/\.[A-Za-z_$][\w$]*/g, '.');
+      .replace(/"[^"]*"/g, '""');
+    // WXML 的 {{ }} 不支持函数调用（如 arr.indexOf(x)），这类表达式恒为 undefined，
+    // 会让选中态/条件渲染静默失效——在此拦下，避免再次出现同类问题。
+    for (const c of noStr.matchAll(/[A-Za-z_$][\w$]*\s*\(/g)) {
+      calls.push(c[0].replace(/\s*\($/, ''));
+    }
+    const expr = noStr.replace(/\.[A-Za-z_$][\w$]*/g, '.');
     for (const id of expr.matchAll(/[A-Za-z_$][\w$]*/g)) {
       const name = id[0];
       if (!BUILTINS.has(name)) used.add(name);
@@ -52,6 +59,10 @@ for (const page of fs.readdirSync(PAGES)) {
     console.log(`${page}: 未在 data 中找到 -> ${missing.join(', ')}`);
   } else {
     console.log(`${page}: OK (${used.size} 个绑定)`);
+  }
+  if (calls.length) {
+    issues++;
+    console.log(`${page}: {{ }} 内出现函数调用，WXML 不支持 -> ${[...new Set(calls)].join(', ')}`);
   }
 }
 

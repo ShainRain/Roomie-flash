@@ -3,6 +3,7 @@ const RoomMap = require('../../utils/room-map');
 const Player = require('../../utils/player');
 const SceneLayout = require('../../utils/room-scene-layout');
 const RecordsUtil = require('../../utils/records');
+const Avatar = require('../../utils/avatar');
 
 // Room Master Scene 地图实例：新几何 + 碰撞/障碍由 room-scene-layout 单一数据源驱动
 const map = RoomMap.createMap(SceneLayout.GEOMETRY, SceneLayout);
@@ -16,6 +17,7 @@ Page({
     // 场景输入（room-scene 组件属性）
     floor: 'blue-gray',
     lightTemp: 2700,
+    lightBright: 100,
     furnitureKeys: [],
     recordIds: [],
     characters: [],
@@ -42,6 +44,8 @@ Page({
     this.setData({ statusBarH: info.statusBarHeight || 20 });
     // 首次进入只提示一次，6 秒后淡出（P6：隐藏调试感标签）
     this.hintTimer = setTimeout(() => this.setData({ showHint: false }), 6000);
+    // 播放器快照订阅：墙上徽标/唱机提示必须实时跟随当前曲目（迁移自旧版同步链路）
+    this.subscribePlayer();
   },
 
   onShow() {
@@ -74,6 +78,7 @@ Page({
       recordIds: selected.slice(),
       floor: room.floor || 'blue-gray',
       lightTemp: room.lightTemp || 2700,
+      lightBright: typeof room.lightBright === 'number' ? room.lightBright : 100,
       nowPlaying: { playing: this.data.roomState.recordPlaying, title: trackTitle }
     });
   },
@@ -81,12 +86,58 @@ Page({
   // 页面逻辑状态 → 组件渲染快照
   syncCharacters() {
     const { player, playerSprite, peer, peerSprite, peerDirection } = this.data;
+    const outfit = Avatar.path('outfit');
     this.setData({
       characters: [
-        { id: 'momo', x: player.left, y: player.top, frame: playerSprite, facing: player.direction === 'left' ? -1 : 1, label: '我' },
+        { id: 'momo', x: player.left, y: player.top, frame: playerSprite, facing: player.direction === 'left' ? -1 : 1, label: '我', spriteSrc: outfit || '' },
         { id: 'kiki', x: peer.left, y: peer.top, frame: peerSprite, facing: peerDirection === 'left' ? -1 : 1, label: peer.name }
       ]
     });
+  },
+
+  // ---- 播放器同步（迁移自旧版 room.js）----
+  // 修复历史回归：只在 onShow 读一次 snapshot 会导致切歌后房内物件仍显示旧曲。
+  // nowPlaying.title 唯一来源是订阅回调，切歌/暂停/对端操作都会实时刷新。
+  subscribePlayer() {
+    if (this.unsubPlayer) return;
+    this.unsubPlayer = Player.subscribe((snap, source) => this.onPlayerSnap(snap, source));
+  },
+
+  unsubscribePlayer() {
+    if (!this.unsubPlayer) return;
+    this.unsubPlayer();
+    this.unsubPlayer = null;
+  },
+
+  onPlayerSnap(snap, source) {
+    if (snap.track.title !== this.data.nowPlaying.title) {
+      this.setData({ nowPlaying: { ...this.data.nowPlaying, title: snap.track.title } });
+    }
+    // 对端应用过的状态不再回播（防止两地互相回声）
+    if (source === 'remote') return;
+    this.broadcastPlayer(snap);
+  },
+
+  // 切歌/播放暂停/seek 跳变即时报给房间里的人；正常走秒（1s 一次）不报
+  broadcastPlayer(snap) {
+    if (!RoomSync.isOnline()) return;
+    const last = this.lastBroadcast;
+    const jumped = last ? Math.abs(snap.position - last.position) > 3 : false;
+    if (!last || snap.index !== last.index || snap.playing !== last.playing || jumped) {
+      RoomSync.sendPlayer({ index: snap.index, position: snap.position, playing: snap.playing });
+    }
+    this.lastBroadcast = { index: snap.index, playing: snap.playing, position: snap.position };
+  },
+
+  // 中继会把房间内最近一次播放状态补发给新加入者（from: '__cache'）。
+  // 那条可能来自自己上一次会话，进度按 sentAt 补偿会失真 —— 只采纳曲目与播放态。
+  applyPeerPlayer(msg) {
+    if (!msg) return;
+    if (msg.from === '__cache') {
+      Player.applyRemote({ index: msg.index, playing: msg.playing });
+      return;
+    }
+    Player.applyRemote(msg);
   },
 
   doJoin() {
@@ -96,8 +147,13 @@ Page({
       name: user.name,
       peerBase: { left: this.data.peer.left, top: this.data.peer.top },
       handlers: {
-        onJoined: () => this.setData({ syncOnline: true }),
+        onJoined: () => {
+          this.setData({ syncOnline: true });
+          // 进房即广播当前曲目，后加入的人也能拿到"正在播哪首"
+          this.broadcastPlayer(Player.snapshot());
+        },
         onOffline: () => this.setData({ syncOnline: false }),
+        onPeerPlayer: (msg) => this.applyPeerPlayer(msg),
         onPeerMove: (msg) => this.animatePeer(msg),
         onPeerState: (msg) => this.applyPeerState(msg),
         onPeerAction: (msg) => this.flashAction(msg.label),
@@ -328,6 +384,7 @@ Page({
 
   onUnload() {
     RoomSync.leave();
+    this.unsubscribePlayer();
     if (this.moveTimer) clearInterval(this.moveTimer);
     if (this.peerTimer) clearInterval(this.peerTimer);
     if (this.actionTimer) clearTimeout(this.actionTimer);

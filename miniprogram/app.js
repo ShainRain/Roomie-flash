@@ -12,6 +12,7 @@ App({
     room: {
       floor: 'blue-gray',
       lightTemp: 2700,
+      lightBright: 100,
       furniture: ['sofa', 'vinyl-player', 'lamp', 'plant', 'rug', 'projector', 'guitar', 'bookshelf', 'coffee']
     }
   },
@@ -24,11 +25,12 @@ App({
 
   // 旧版本缓存结构防御：字段缺失/类型错误一律回退默认值
   normalizeRoom(raw) {
-    const def = { floor: 'blue-gray', lightTemp: 2700, furniture: ['sofa', 'vinyl-player', 'lamp', 'plant', 'rug', 'projector', 'guitar', 'bookshelf', 'coffee'] };
+    const def = { floor: 'blue-gray', lightTemp: 2700, lightBright: 100, furniture: ['sofa', 'vinyl-player', 'lamp', 'plant', 'rug', 'projector', 'guitar', 'bookshelf', 'coffee'] };
     if (!raw || typeof raw !== 'object') return def;
     return {
       floor: typeof raw.floor === 'string' ? raw.floor : def.floor,
       lightTemp: typeof raw.lightTemp === 'number' ? raw.lightTemp : def.lightTemp,
+      lightBright: typeof raw.lightBright === 'number' ? Math.max(0, Math.min(100, raw.lightBright)) : def.lightBright,
       furniture: Array.isArray(raw.furniture) ? raw.furniture : def.furniture.slice()
     };
   },

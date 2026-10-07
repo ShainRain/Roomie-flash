@@ -4,6 +4,7 @@ const RoomSync = require('../../utils/room-sync');
 const RoomMap = require('../../utils/room-map');
 const SceneLayout = require('../../utils/room-scene-layout');
 const RecordsUtil = require('../../utils/records');
+const Avatar = require('../../utils/avatar');
 
 // 与 room 页同一套 Master 几何与碰撞(单一数据源);独立实例持有自己的 activeFurniture 状态
 const map = RoomMap.createMap(SceneLayout.GEOMETRY, SceneLayout);
@@ -18,6 +19,7 @@ Page({
     // Room Master Scene 输入(room-scene 组件属性)
     floor: 'blue-gray',
     lightTemp: 2700,
+    lightBright: 100,
     furnitureKeys: [],
     recordIds: [],
     characters: [],
@@ -73,6 +75,7 @@ Page({
       furnitureKeys: keys.slice(),
       floor: room.floor || 'blue-gray',
       lightTemp: room.lightTemp || 2700,
+      lightBright: typeof room.lightBright === 'number' ? room.lightBright : 100,
       recordIds: RecordsUtil.readSelection((k) => wx.getStorageSync(k)).slice(),
       nowPlaying: { playing: snap.playing, title: snap.track.title }
     });
@@ -81,9 +84,10 @@ Page({
   // 页面逻辑状态 → 组件渲染快照
   syncCharacters() {
     const { player, playerSprite, peerPosition, peerSprite, peerDirection, peer, me } = this.data;
+    const outfit = Avatar.path('outfit');
     this.setData({
       characters: [
-        { id: 'momo', x: player.left, y: player.top, frame: playerSprite, facing: player.direction === 'left' ? -1 : 1, label: me.name || '我' },
+        { id: 'momo', x: player.left, y: player.top, frame: playerSprite, facing: player.direction === 'left' ? -1 : 1, label: me.name || '我', spriteSrc: outfit || '' },
         { id: 'kiki', x: peerPosition.left, y: peerPosition.top, frame: peerSprite, facing: peerDirection === 'left' ? -1 : 1, label: peer }
       ]
     });
@@ -107,7 +111,12 @@ Page({
       peerBase: { ...this.data.peerPosition },
       handlers: {
         onPeerMove: (msg) => this.animatePeer(msg),
-        onPeerPlayer: (msg) => Player.applyRemote(msg),
+        onPeerPlayer: (msg) => {
+          // 缓存补发（from: '__cache'）可能是自己上一次会话的陈旧进度，
+          // 只采纳曲目与播放态，避免进房瞬间跳进度
+          if (msg && msg.from === '__cache') Player.applyRemote({ index: msg.index, playing: msg.playing });
+          else Player.applyRemote(msg);
+        },
         onPeerAction: (msg) => this.flashBubble(msg.label),
         onPeerJoin: (msg) => this.flashBubble(`${msg.from} 进入了房间`),
         onPeerLeave: (msg) => this.flashBubble(`${msg.from} 离开了`)

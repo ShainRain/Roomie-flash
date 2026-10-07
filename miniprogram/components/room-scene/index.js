@@ -42,6 +42,8 @@ Component({
     records: { type: Array, value: [] },
     lampOn: { type: Boolean, value: true },
     projectorOn: { type: Boolean, value: false },
+    // 亮度维度 0–100（迁移自旧版 lightBright；100=全亮，映射为 0.45–1.0 场景亮度）
+    lightBright: { type: Number, value: 100 },
     // [{ id:'momo', x, y, frame:'idle|walk-a|walk-b|sit', facing: 1|-1, label }]
     characters: { type: Array, value: [] },
     mode: { type: String, value: 'interactive' }, // interactive | duo | preview
@@ -60,7 +62,8 @@ Component({
     zStack: [],
     hotspots: [],
     floorStyle: '',
-    op: layerOpacity(2700, true, false)
+    op: layerOpacity(2700, true, false),
+    dimOpacity: 0
   },
 
   observers: {
@@ -72,6 +75,10 @@ Component({
     },
     'lightTemp, lampOn, projectorOn': function (lightTemp, lampOn, projectorOn) {
       this.setData({ op: layerOpacity(lightTemp, lampOn, projectorOn) });
+    },
+    lightBright(b) {
+      const v = Math.max(0, Math.min(100, typeof b === 'number' ? b : 100));
+      this.setData({ dimOpacity: (0.55 * (1 - v / 100)).toFixed(3) });
     },
     records(records) {
       const picks = Array.isArray(records) ? records : [];

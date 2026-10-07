@@ -8,6 +8,7 @@ Page({
     // Room Master Scene 输入(room-scene 组件属性,与 room 页同一母版)
     floor: 'blue-gray',
     lightTemp: 2700,
+    lightBright: 100,
     furnitureKeys: [],
     recordIds: [],
     characters: [
@@ -52,6 +53,7 @@ Page({
       furnitureKeys: (Array.isArray(room.furniture) ? room.furniture : []).slice(),
       floor: room.floor || 'blue-gray',
       lightTemp: room.lightTemp || 2700,
+      lightBright: typeof room.lightBright === 'number' ? room.lightBright : 100,
       recordIds: RecordsUtil.readSelection((k) => wx.getStorageSync(k)).slice(),
       nowPlaying: { playing: snap.playing, title: snap.track.title }
     });

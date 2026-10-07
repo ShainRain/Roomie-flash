@@ -4,6 +4,7 @@
 .sc-screen { mix-blend-mode: screen; }
 .sc-floor-tint { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 100; pointer-events: none; }
 .sc-slot { position: absolute; z-index: 350; pointer-events: none; }
+.sc-dim { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 965; background: #06090F; pointer-events: none; transition: opacity .25s ease; }
 
 /* ---- 角色：呼吸 / 步态 / 坐姿 / 接触阴影随景深缩放（尺寸相对舞台，脚底精确锚定 (x,y)） ---- */
 .sc-char { position: absolute; transform-origin: 50% 100%; }
