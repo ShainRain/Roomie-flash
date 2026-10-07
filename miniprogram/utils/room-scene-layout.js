@@ -49,10 +49,10 @@ module.exports = {
       },
       "occludesCharacter": true,
       "hitArea": {
-        "left": 18,
-        "top": 30,
-        "width": 24,
-        "height": 22
+        "left": 20.6,
+        "top": 30.6,
+        "width": 18.1,
+        "height": 17.2
       },
       "collision": {
         "u0": 0.02,
@@ -66,10 +66,10 @@ module.exports = {
         "id": "sofa",
         "icon": "▰",
         "name": "沙发",
-        "left": 18,
-        "top": 30,
-        "width": 24,
-        "height": 22
+        "left": 20.6,
+        "top": 30.6,
+        "width": 18.1,
+        "height": 17.2
       }
     },
     {
@@ -99,10 +99,10 @@ module.exports = {
       },
       "occludesCharacter": true,
       "hitArea": {
-        "left": 64,
-        "top": 30,
-        "width": 28,
-        "height": 30
+        "left": 70.4,
+        "top": 29.8,
+        "width": 27.6,
+        "height": 26.7
       },
       "collision": {
         "u0": 0.42,
@@ -116,10 +116,10 @@ module.exports = {
         "id": "turntable",
         "icon": "◎",
         "name": "唱机柜",
-        "left": 64,
-        "top": 30,
-        "width": 28,
-        "height": 30
+        "left": 70.4,
+        "top": 29.8,
+        "width": 27.6,
+        "height": 26.7
       }
     },
     {
@@ -218,10 +218,10 @@ module.exports = {
       },
       "occludesCharacter": true,
       "hitArea": {
-        "left": 64,
-        "top": 38,
-        "width": 20,
-        "height": 30
+        "left": 67.2,
+        "top": 39.4,
+        "width": 17.7,
+        "height": 23.1
       },
       "collision": {
         "u0": 0.85,
@@ -235,10 +235,10 @@ module.exports = {
         "id": "lamp",
         "icon": "☼",
         "name": "落地灯",
-        "left": 64,
-        "top": 38,
-        "width": 20,
-        "height": 30
+        "left": 67.2,
+        "top": 39.4,
+        "width": 17.7,
+        "height": 23.1
       }
     },
     {
@@ -369,10 +369,10 @@ module.exports = {
       },
       "occludesCharacter": true,
       "hitArea": {
-        "left": 33,
-        "top": 43,
-        "width": 10,
-        "height": 10
+        "left": 34.4,
+        "top": 51.7,
+        "width": 5.3,
+        "height": 4.7
       },
       "collision": null,
       "fixed": false,
@@ -381,10 +381,10 @@ module.exports = {
         "id": "projector",
         "icon": "✦",
         "name": "放映机",
-        "left": 33,
-        "top": 43,
-        "width": 10,
-        "height": 10
+        "left": 34.4,
+        "top": 51.7,
+        "width": 5.3,
+        "height": 4.7
       }
     },
     {
@@ -542,10 +542,10 @@ module.exports = {
       },
       "occludesCharacter": true,
       "hitArea": {
-        "left": 47,
-        "top": 62,
-        "width": 19,
-        "height": 22
+        "left": 49.8,
+        "top": 61.4,
+        "width": 13.8,
+        "height": 18.3
       },
       "collision": {
         "u0": 0.79,
@@ -559,10 +559,10 @@ module.exports = {
         "id": "guitar",
         "icon": "♪",
         "name": "吉他角",
-        "left": 47,
-        "top": 62,
-        "width": 19,
-        "height": 22
+        "left": 49.8,
+        "top": 61.4,
+        "width": 13.8,
+        "height": 18.3
       }
     }
   ],
@@ -583,10 +583,10 @@ module.exports = {
       "id": "record-wall",
       "icon": "◉",
       "name": "唱片墙",
-      "left": 4,
+      "left": 3.62,
       "top": 0,
-      "width": 42,
-      "height": 54,
+      "width": 40.58,
+      "height": 49.88,
       "z": 340,
       "interaction": "records"
     },
@@ -594,10 +594,10 @@ module.exports = {
       "id": "floor-records",
       "icon": "●",
       "name": "地面唱片",
-      "left": 40,
-      "top": 61,
-      "width": 15,
-      "height": 11,
+      "left": 42.5,
+      "top": 63.5,
+      "width": 8.5,
+      "height": 7,
       "z": 100,
       "interaction": "play-hint"
     }
