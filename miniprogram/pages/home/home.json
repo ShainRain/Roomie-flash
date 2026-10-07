@@ -3,6 +3,7 @@
   "navigationStyle": "custom",
   "usingComponents": {
     "mini-player": "/components/mini-player/index",
-    "roomie-header": "/components/roomie-header/index"
+    "roomie-header": "/components/roomie-header/index",
+    "room-scene": "/components/room-scene/index"
   }
 }

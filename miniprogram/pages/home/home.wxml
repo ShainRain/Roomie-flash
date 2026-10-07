@@ -2,19 +2,31 @@
   <roomie-header custom-nav subtitle="{{user.roomName}} · {{user.roomId}}" avatar="{{user.name[0]}}" share bind:share="onShare" />
   <view class="page-pad">
 
-    <!-- 今晚状态 -->
+    <!-- 今晚状态(克制,不抢房间) -->
     <view class="tonight anim-in">
       <text class="tonight-hi">今晚,</text>
       <text class="tonight-title"><text class="tonight-name">{{user.name}}</text> 想放一首歌</text>
-      <text class="tonight-sub">你的房间正在等待一位 roomie…</text>
     </view>
 
-    <!-- 房间主视觉(状态胶囊悬浮于房间之上) -->
-    <view class="hero-wrap anim-in anim-d1" bindtap="onEnterRoom">
-      <image class="hero" src="/assets/img/room-hero.webp" mode="aspectFit" />
-      <view class="hero-pill hero-pill-tl pill pill-dark"><view class="live-dot"></view>放映中 · 2 位 roomie</view>
+    <!-- Room Master Hero:房间是第一视觉主体,UI 悬浮于房间之上 -->
+    <view class="hero-wrap anim-in anim-d1">
+      <view class="hero-stage">
+        <room-scene
+          floor="{{floor}}"
+          light-temp="{{lightTemp}}"
+          furniture="{{furnitureKeys}}"
+          records="{{recordIds}}"
+          characters="{{characters}}"
+          lamp-on="{{true}}"
+          projector-on="{{true}}"
+          mode="preview"
+          now-playing="{{nowPlaying}}"
+          bind:stagetap="onEnterRoom"
+        />
+      </view>
+      <view class="hero-pill hero-pill-tl pill pill-dark" bindtap="onEnterRoom"><view class="live-dot"></view>放映中 · 2 位 roomie</view>
       <view class="hero-pill hero-pill-tr pill pill-live">+12 氛围值</view>
-      <view class="hero-chip">
+      <view class="hero-chip" bindtap="onEnterRoom">
         <view class="chip-avatar">M</view>
         <text class="chip-text">{{user.name}} 走近唱机</text>
       </view>

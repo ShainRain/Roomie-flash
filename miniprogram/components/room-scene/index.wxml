@@ -19,14 +19,12 @@
   <!-- 家具 + 角色：统一 z 轴排序，角色随景深插入家具层之间 -->
   <block wx:for="{{zStack}}" wx:key="key">
     <image wx:if="{{item.type === 'furn'}}" class="sc-ly" src="{{item.src}}" mode="aspectFit" style="z-index: {{item.z}};" />
-    <view wx:else class="sc-char" data-id="{{item.id}}" catchtap="onCharTap" style="left: {{item.x}}%; top: {{item.y}}%; z-index: {{item.z}};">
-      <view class="sc-char-body" style="transform: translate(-50%, -88%) scale({{item.scale}});">
-        <view class="sc-frame-{{item.frame}}">
-          <image class="sc-sprite {{item.facing < 0 ? 'sc-flip' : ''}}" src="/assets/img/char-{{item.id}}-{{item.frame}}.webp" mode="widthFix" style="width: {{item.wPct}}vw;" />
-        </view>
-        <view class="sc-char-shadow" style="width: {{item.shadowW}}vw;"></view>
-        <text wx:if="{{item.label}}" class="sc-char-name">{{item.label}}</text>
+    <view wx:else class="sc-char" data-id="{{item.id}}" catchtap="onCharTap" style="left: {{item.x}}%; top: {{item.y}}%; width: {{item.wPct}}%; z-index: {{item.z}}; transform: translate(-50%, -100%) scale({{item.scale}});">
+      <view class="sc-frame-{{item.frame}}">
+        <image class="sc-sprite {{item.facing < 0 ? 'sc-flip' : ''}}" src="/assets/img/char-{{item.id}}-{{item.frame}}.webp" mode="widthFix" style="width: 100%;" />
       </view>
+      <view class="sc-char-shadow"></view>
+      <text wx:if="{{item.label}}" class="sc-char-name">{{item.label}}</text>
     </view>
   </block>
 
