@@ -19,25 +19,25 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ---- 今晚状态 ---- */
+/* ---- 今晚状态(克制,不抢房间) ---- */
 .tonight {
   display: flex;
   flex-direction: column;
-  margin-top: 30rpx;
+  margin-top: 20rpx;
   max-width: 660rpx;
 }
 
 .tonight-hi {
-  font-size: var(--fs-body);
+  font-size: var(--fs-caption);
   color: var(--night-sub);
 }
 
 .tonight-title {
-  font-size: 54rpx;
+  font-size: 44rpx;
   font-weight: 700;
   color: var(--night-text);
-  line-height: 1.10;
-  margin-top: 8rpx;
+  line-height: 1.12;
+  margin-top: 6rpx;
   letter-spacing: -1rpx;
 }
 
@@ -45,39 +45,21 @@
   color: var(--amber);
 }
 
-.tonight-sub {
-  font-size: var(--fs-caption);
-  color: var(--night-sub);
-  margin-top: 8rpx;
-}
-
-/* ---- 房间主视觉: 正方形大图, 状态悬浮 ---- */
+/* ---- Room Master Hero:舞台 58vh 正方形,容器 52vh 居中裁切;UI 悬浮 ---- */
 .hero-wrap {
   position: relative;
-  margin: -6rpx -20rpx 0;
-  height: 760rpx;
-  overflow: visible;
+  margin: 10rpx -20rpx 0;
+  height: 52vh;
+  overflow: hidden;
 }
 
-.hero-wrap::after {
-  content: '';
+.hero-stage {
   position: absolute;
-  left: 14%;
-  right: 14%;
-  bottom: 56rpx;
-  height: 120rpx;
-  background: radial-gradient(ellipse, rgba(216, 148, 64, 0.22), rgba(216, 148, 64, 0) 68%);
-  filter: blur(10rpx);
-  pointer-events: none;
-}
-
-.hero {
-  position: absolute;
-  left: -6%;
-  top: -18rpx;
-  width: 112%;
-  height: 760rpx;
-  object-fit: contain;
+  left: 50%;
+  top: 50%;
+  width: 58vh;
+  height: 58vh;
+  transform: translate(-50%, -50%);
 }
 
 .hero-pill {
@@ -87,13 +69,14 @@
 }
 
 .hero-pill-tl {
-  left: 22rpx;
-  top: 88rpx;
+  left: 32rpx;
+  top: 40rpx;
+  background: rgba(8, 17, 29, 0.82);
 }
 
 .hero-pill-tr {
-  right: 22rpx;
-  top: 88rpx;
+  right: 32rpx;
+  top: 40rpx;
 }
 
 .live-dot {
@@ -107,7 +90,7 @@
 .hero-chip {
   position: absolute;
   left: 32rpx;
-  bottom: 88rpx;
+  bottom: 84rpx;
   z-index: 10;
   display: flex;
   align-items: center;

@@ -5,13 +5,13 @@
 .sc-floor-tint { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 100; pointer-events: none; }
 .sc-slot { position: absolute; z-index: 350; pointer-events: none; }
 
-/* ---- 角色：呼吸 / 步态 / 坐姿 / 接触阴影随景深缩放 ---- */
-.sc-char { position: absolute; pointer-events: none; }
-.sc-char-body { display: flex; flex-direction: column; align-items: center; transform-origin: 50% 100%; }
+/* ---- 角色：呼吸 / 步态 / 坐姿 / 接触阴影随景深缩放（尺寸相对舞台，脚底精确锚定 (x,y)） ---- */
+.sc-char { position: absolute; transform-origin: 50% 100%; }
 .sc-sprite { display: block; filter: drop-shadow(0 6rpx 8rpx rgba(20, 12, 6, 0.28)); }
 .sc-flip { transform: scaleX(-1); }
-.sc-char-shadow { height: 1.1vw; margin-top: -0.7vw; border-radius: 50%; background: rgba(20, 12, 6, 0.3); }
-.sc-char-name { margin-top: 4rpx; padding: 3rpx 12rpx; border-radius: 999rpx; background: rgba(247, 243, 234, 0.88); color: #26221A; font-size: 20rpx; }
+.sc-char-shadow { position: absolute; left: 19%; bottom: -2%; width: 62%; height: 1.1vw; border-radius: 50%; background: rgba(20, 12, 6, 0.3); }
+.sc-char-name { position: absolute; top: 102%; left: 50%; transform: translateX(-50%); padding: 3rpx 12rpx; border-radius: 999rpx; background: rgba(247, 243, 234, 0.88); color: #26221A; font-size: 20rpx; white-space: nowrap; }
+.sc-frame-idle, .sc-frame-walk-a, .sc-frame-walk-b, .sc-frame-sit { width: 100%; }
 .sc-frame-idle { animation: sc-breathe 2.6s ease-in-out infinite; transform-origin: 50% 100%; }
 .sc-frame-sit .sc-sprite { transform: translateY(6rpx) scaleY(.96); transform-origin: 50% 100%; }
 .sc-frame-walk-a { animation: sc-bob-a .22s ease-in-out infinite; }
