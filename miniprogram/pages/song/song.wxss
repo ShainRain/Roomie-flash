@@ -58,164 +58,61 @@
   color: var(--night-sub);
 }
 
-/* ---- Hero:黑胶微场景 ---- */
-.turntable {
+/* ---- Hero:Hi-Fi 背景(Master 同源)+ 封套 + 抽出的黑胶(真实资产,材质来自 Master 管线) ---- */
+.song-hero {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 530rpx;
+  margin: 8rpx -40rpx 0;
+  height: 620rpx;
+  overflow: hidden;
 }
 
-/* 2700K 台灯光晕 */
-.turntable-glow {
+.hero-bg {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 640rpx;
-  height: 640rpx;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(245, 184, 61, 0.16) 0%, rgba(245, 184, 61, 0) 62%);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
-/* 胡桃木桌面的接触影 */
-.turntable-shadow {
+/* 上下缘夜色衔接(背景暗角,非材质伪造) */
+.hero-fade {
   position: absolute;
-  left: 50%;
-  bottom: 10rpx;
-  transform: translateX(-50%);
-  width: 560rpx;
-  height: 88rpx;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(43, 26, 18, 0.55) 0%, rgba(43, 26, 18, 0) 70%);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(8, 17, 29, 0.45) 0%, rgba(8, 17, 29, 0) 28%, rgba(8, 17, 29, 0) 60%, rgba(8, 17, 29, 0.6) 100%);
+  pointer-events: none;
 }
 
-/* 黑胶本体:同心纹(材料质感色) */
-.disc {
-  position: relative;
-  width: 430rpx;
-  height: 430rpx;
-  border-radius: 50%;
-  background-color: #13100D;
-  background-image: repeating-radial-gradient(circle at center, #13100D 0rpx, #13100D 4rpx, #2D241C 4rpx, #2D241C 8rpx);
-  box-shadow:
-    0 24rpx 60rpx rgba(4, 8, 18, 0.6),
-    0 0 64rpx rgba(245, 184, 61, 0.18),
-    0 0 0 2rpx rgba(247, 243, 234, 0.06);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* 封套斜放(左上→右下光源的接触影) */
+.hero-sleeve {
+  position: absolute;
+  left: 7%;
+  bottom: 12%;
+  width: 330rpx;
+  height: 330rpx;
+  transform: rotate(-7deg);
+  filter: drop-shadow(12rpx 20rpx 22rpx rgba(10, 6, 2, 0.45));
 }
 
-.disc-spin {
+/* 抽出的黑胶:播放时缓慢旋转 */
+.hero-disc {
+  position: absolute;
+  right: 9%;
+  bottom: 16%;
+  width: 356rpx;
+  height: 356rpx;
+  filter: drop-shadow(0 22rpx 30rpx rgba(6, 4, 2, 0.55));
+}
+
+.hero-disc-spin {
   animation: spin 6s linear infinite;
 }
 
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
-}
-
-/* 静止高光弧(不随盘旋转) */
-.disc-sheen {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 460rpx;
-  height: 460rpx;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0) 42%),
-    linear-gradient(315deg, rgba(255, 217, 160, 0.08) 0%, rgba(255, 217, 160, 0) 30%);
-  pointer-events: none;
-}
-
-/* 中央标签:日落海景(原创几何渐变,无版权素材) */
-.disc-label {
-  position: relative;
-  width: 190rpx;
-  height: 190rpx;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 8rpx solid #16120D;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.disc-sunset {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background:
-    radial-gradient(circle at 50% 32%, #FFE9B8 0rpx, #FFE9B8 15rpx, rgba(255, 233, 184, 0) 17rpx),
-    linear-gradient(180deg, var(--amber) 0%, #E8784A 44%, var(--paper-100) 45.5%, var(--paper-100) 47.5%, #2E4A5F 49%, var(--night-900) 100%);
-}
-
-.disc-hole {
-  position: absolute;
-  width: 14rpx;
-  height: 14rpx;
-  border-radius: 50%;
-  background: var(--paper-100);
-  border: 3rpx solid #16120D;
-}
-
-.disc-label-text {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 22rpx;
-  text-align: center;
-  color: var(--paper-95);
-  font-size: var(--fs-caption);
-  font-weight: 700;
-  text-shadow: 0 2rpx 8rpx rgba(11, 19, 32, 0.6);
-}
-
-/* 胡桃木唱臂:播放时落下,暂停时抬起 */
-.tonearm {
-  position: absolute;
-  right: 96rpx;
-  top: 16rpx;
-  width: 10rpx;
-  height: 210rpx;
-  background: linear-gradient(180deg, var(--walnut-500), var(--walnut-700));
-  border-radius: 8rpx;
-  transform-origin: top center;
-  transform: rotate(-28deg);
-  transition: transform 0.8s ease;
-}
-
-.tonearm::before {
-  content: '';
-  position: absolute;
-  top: -18rpx;
-  left: -13rpx;
-  width: 36rpx;
-  height: 36rpx;
-  border-radius: 50%;
-  background: var(--walnut-700);
-  border: 4rpx solid var(--walnut-500);
-}
-
-.tonearm::after {
-  content: '';
-  position: absolute;
-  bottom: -10rpx;
-  left: -5rpx;
-  width: 20rpx;
-  height: 26rpx;
-  border-radius: 6rpx;
-  background: var(--walnut-900);
-}
-
-.tonearm-on {
-  transform: rotate(-6deg);
 }
 
 /* ---- 纸张卡片(叠上 Hero) ---- */
