@@ -11,21 +11,6 @@
   <view class="stage">
     <view class="pc-wrap tilt rise-d1">
       <canvas type="2d" id="postcard" class="postcard"></canvas>
-
-      <view class="tape tape-l"></view>
-      <view class="tape tape-r"></view>
-
-      <view class="stamp">
-        <view class="stamp-vinyl">
-          <view class="stamp-hole"></view>
-        </view>
-      </view>
-
-      <view class="postmark">
-        <view class="postmark-in">
-          <text class="en-serif postmark-time">23:59</text>
-        </view>
-      </view>
     </view>
   </view>
 
