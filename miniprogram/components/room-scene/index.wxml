@@ -42,10 +42,16 @@
   <view wx:if="{{nowPlaying.playing}}" class="sc-turntable-spin" style="left: {{platter.left}}%; top: {{platter.top}}%;"></view>
   <view wx:if="{{nowPlaying.playing}}" class="sc-wall-badge" style="left: {{wallBadge.left}}%; top: {{wallBadge.top}}%;">▶ 《{{nowPlaying.title}}》</view>
 
-  <!-- 互动物件热点（preview 模式不渲染） -->
-  <view wx:for="{{hotspots}}" wx:key="id" class="sc-hotspot {{item.lit ? 'sc-hotspot-lit' : ''}}" data-id="{{item.id}}" style="left: {{item.left}}%; top: {{item.top}}%; width: {{item.width}}%; height: {{item.height}}%; z-index: {{item.z}};" catchtap="onHotspotTap">
+  <!-- 互动物件热点(纯视觉标签;点击判定走 onStageTap 的 hitArea 管道,不吞点击) -->
+  <view wx:for="{{hotspots}}" wx:key="id" class="sc-hotspot {{item.lit ? 'sc-hotspot-lit' : ''}}" style="left: {{item.left}}%; top: {{item.top}}%; width: {{item.width}}%; height: {{item.height}}%; z-index: {{item.z}};">
     <view class="sc-hotspot-badge"><text>{{item.icon}}</text><text>{{item.name}}</text></view>
   </view>
+
+  <!-- Debug:红=hitArea(可点) 蓝=collision(不可走) -->
+  <block wx:if="{{debug}}">
+    <view wx:for="{{debugCols}}" wx:key="id" class="sc-dbg-col" style="clip-path: {{item.poly}};"></view>
+    <view wx:for="{{debugHits}}" wx:key="id" class="sc-dbg-hit" style="left: {{item.left}}%; top: {{item.top}}%; width: {{item.width}}%; height: {{item.height}}%;">{{item.id}}</view>
+  </block>
 
   <!-- 气泡反馈层 -->
   <view wx:for="{{bubbles}}" wx:key="id" class="sc-bubble sc-bubble-{{item.kind || 'info'}}" style="left: {{item.x}}%; top: {{item.y}}%;">{{item.text}}</view>

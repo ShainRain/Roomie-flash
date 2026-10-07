@@ -9,9 +9,29 @@
  */
 const RoomMap = require('../../utils/room-map');
 const SceneLayout = require('../../utils/room-scene-layout');
+const RoomHit = require('../../utils/room-hit');
 
 // 景深/地板多边形只需要几何（碰撞与寻路在页面侧）
 const sceneMap = RoomMap.createMap(SceneLayout.GEOMETRY);
+
+// 互动命中清单(降序 z 命中检测用):hitArea 与 collision 完全分离
+// 注:生成器落地时部分版本的 FIXTURE_OBJECTS 把 hitArea 拍平到顶层(left/top/width/height),
+// 这里统一归一化为嵌套 hitArea,两种结构都能消费(room.js 侧使用拍平字段,不受影响)
+const FIXTURE_ITEMS = SceneLayout.FIXTURE_OBJECTS.map((o) => ({
+  id: o.id,
+  icon: o.icon,
+  name: o.name,
+  z: o.z || 0,
+  hitArea: o.hitArea || (typeof o.left === 'number'
+    ? { left: o.left, top: o.top, width: o.width, height: o.height }
+    : null)
+}));
+
+const HIT_ITEMS = FIXTURE_ITEMS
+  .map((o) => ({ id: o.id, z: o.z, hitArea: o.hitArea }))
+  .concat(SceneLayout.FURNITURE
+    .filter((f) => f.hitArea)
+    .map((f) => ({ id: f.hotspot.id, z: f.z, hitArea: f.hitArea })));
 
 const FLOOR_COLORS = { 'blue-gray': '#3B4A6B', walnut: '#8A5A33', slate: '#4A5A66' };
 
@@ -51,7 +71,9 @@ Component({
     bubbles: { type: Array, value: [] },          // [{ id, x, y, text, kind }]
     nearId: { type: String, value: '' },
     activeIds: { type: Array, value: [] },
-    hint: { type: Boolean, value: false }
+    hint: { type: Boolean, value: false },
+    // 开发调试:红=hitArea(可点),蓝=collision(不可走);提交版本保持 false
+    debug: { type: Boolean, value: false }
   },
 
   data: {
@@ -63,7 +85,9 @@ Component({
     hotspots: [],
     floorStyle: '',
     op: layerOpacity(2700, true, false),
-    dimOpacity: 0
+    dimOpacity: 0,
+    debugHits: [],
+    debugCols: []
   },
 
   observers: {
@@ -87,7 +111,8 @@ Component({
       this.setData({ slots });
     },
     'furniture, characters': function () { this.rebuildStack(); },
-    'furniture, nearId, activeIds, hint': function () { this.rebuildHotspots(); }
+    'furniture, nearId, activeIds, hint': function () { this.rebuildHotspots(); },
+    'debug, furniture': function () { this.rebuildDebug(); }
   },
 
   methods: {
@@ -103,7 +128,10 @@ Component({
         const wPct = hPct / SceneLayout.CHAR.spriteAspect;
         return {
           type: 'char', key: `c-${c.id}`, ...c,
-          z: depth.z, scale: depth.scale,
+          // zBoost：坐在家具上时由页面抬高（如沙发坐垫：z=450 会被沙发 z=519 整只遮挡），
+          // 站立角色恒为 0，保持"走近前景变大、走到家具后被遮挡"的景深规则不变
+          z: depth.z + (c.zBoost || 0),
+          scale: depth.scale,
           wPct: wPct.toFixed(2), shadowW: (wPct * 0.62).toFixed(2)
         };
       });
@@ -116,15 +144,44 @@ Component({
         return;
       }
       const selected = Array.isArray(this.data.furniture) ? this.data.furniture : [];
-      const list = SceneLayout.FIXTURE_OBJECTS
+      // 热点视图纯视觉化(不再吞点击);几何 = hitArea
+      const list = FIXTURE_ITEMS
+        .map((o) => ({ id: o.id, icon: o.icon, name: o.name, z: o.z, ...o.hitArea }))
         .concat(SceneLayout.FURNITURE
           .filter((f) => f.hotspot && (f.fixed || selected.includes(f.id)))
-          .map((f) => f.hotspot))
+          .map((f) => ({ id: f.hotspot.id, icon: f.hotspot.icon, name: f.hotspot.name, z: f.z, ...f.hitArea })))
         .map((o) => ({
           ...o,
           lit: this.data.activeIds.includes(o.id) || o.id === this.data.nearId
         }));
       this.setData({ hotspots: list });
+    },
+
+    rebuildDebug() {
+      if (!this.data.debug) {
+        if (this.data.debugHits.length || this.data.debugCols.length) this.setData({ debugHits: [], debugCols: [] });
+        return;
+      }
+      const selected = Array.isArray(this.data.furniture) ? this.data.furniture : [];
+      const debugHits = FIXTURE_ITEMS
+        .concat(SceneLayout.FURNITURE.filter((f) => f.hotspot && (f.fixed || selected.includes(f.id))))
+        .filter((o) => o.hitArea)
+        .map((o) => ({ id: o.hotspot ? o.hotspot.id : o.id, ...o.hitArea }));
+      // collision(uv 矩形)→ 舞台百分比平行四边形(与 room-map 同一几何)
+      const cols = SceneLayout.FURNITURE
+        .filter((f) => f.collision && (f.fixed || selected.includes(f.id)))
+        .map((f) => ({ id: f.id, collision: f.collision }))
+        .concat((SceneLayout.FIXED_COLLIDERS || []).map((c) => ({ id: c.id, collision: c.collision })));
+      const debugCols = cols.map((c) => {
+        const pts = [
+          sceneMap.fromUV(c.collision.u0, c.collision.v0),
+          sceneMap.fromUV(c.collision.u1, c.collision.v0),
+          sceneMap.fromUV(c.collision.u1, c.collision.v1),
+          sceneMap.fromUV(c.collision.u0, c.collision.v1)
+        ].map((p) => `${p.left.toFixed(1)}% ${p.top.toFixed(1)}%`).join(', ');
+        return { id: c.id, poly: `polygon(${pts})` };
+      });
+      this.setData({ debugHits, debugCols });
     },
 
     onStageTap(e) {
@@ -140,11 +197,23 @@ Component({
       const query = this.createSelectorQuery();
       query.select('.sc-stage').boundingClientRect((rect) => {
         if (!rect) return;
+        const left = ((x - rect.left) / rect.width) * 100;
+        const top = ((y - rect.top) / rect.height) * 100;
+        // 命中管道:先查家具 hitArea(高 z 优先),命中才 furnituretap;否则交还给 floor 寻路
+        if (this.data.mode !== 'preview') {
+          const selected = Array.isArray(this.data.furniture) ? this.data.furniture : [];
+          const items = HIT_ITEMS.filter((it) => {
+            const f = SceneLayout.FURNITURE.find((ff) => ff.hotspot && ff.hotspot.id === it.id);
+            return !f || f.fixed || selected.includes(f.id);
+          });
+          const hit = RoomHit.hitTest(left, top, items);
+          if (hit) {
+            this.triggerEvent('furnituretap', { id: hit.id });
+            return;
+          }
+        }
         // 事件名用 stagetap 而非 tap:避免与原生 tap 冒泡撞名导致页面处理两次
-        this.triggerEvent('stagetap', {
-          left: ((x - rect.left) / rect.width) * 100,
-          top: ((y - rect.top) / rect.height) * 100
-        });
+        this.triggerEvent('stagetap', { left, top });
       }).exec();
     },
 

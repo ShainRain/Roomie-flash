@@ -11,6 +11,13 @@ const map = RoomMap.createMap(SceneLayout.GEOMETRY, SceneLayout);
 // 各交互对象的提示锚点（stage %）：吉他音符飘点取吉他锚点
 const GUITAR_BUBBLE_AT = { x: 56.6, y: 64 };
 
+// 沙发坐垫落座点：取沙发 collision 的 uv 中心换算舞台坐标（≈29.7, 45.0）。
+// 该点位于沙发碰撞盒内部（不可行走），坐下为直接落座、不走寻路；站起为直接传送回原位。
+const SOFA = SceneLayout.FURNITURE.find((f) => f.key === 'sofa');
+const SOFA_SEAT_UV = SOFA && SOFA.collision
+  ? { u: (SOFA.collision.u0 + SOFA.collision.u1) / 2, v: (SOFA.collision.v0 + SOFA.collision.v1) / 2 }
+  : { u: 0.1, v: 0.45 };
+
 Page({
   data: {
     statusBarH: 20,
@@ -71,6 +78,7 @@ Page({
         .map((f) => f.hotspot));
     const selected = RecordsUtil.readSelection((k) => wx.getStorageSync(k));
     const trackTitle = Player.snapshot().track.title;
+    this.recordWallCursor = -1; // 唱片选择可能变化，进入房间后从第一张重新轮流
     this.setData({
       // 注意:必须传新数组引用。globalData/storage 的同一数组引用反复 setData 时,
       // 组件 properties 可能收不到同步(实测 binding 丢失),切片拷贝可稳定触发。
@@ -87,9 +95,12 @@ Page({
   syncCharacters() {
     const { player, playerSprite, peer, peerSprite, peerDirection } = this.data;
     const outfit = Avatar.path('outfit');
+    // 坐下时抬高渲染层级：落座点位于沙发碰撞盒内（角色 z=450 < 沙发 z=519），
+    // 不抬层会被沙发像素整只遮挡；+80 后仍低于前景小物（玩偶 z=586）、桌面（613），保持空间秩序
+    const zBoost = this.data.roomState.seated ? 80 : 0;
     this.setData({
       characters: [
-        { id: 'momo', x: player.left, y: player.top, frame: playerSprite, facing: player.direction === 'left' ? -1 : 1, label: '我', spriteSrc: outfit || '' },
+        { id: 'momo', x: player.left, y: player.top, frame: playerSprite, facing: player.direction === 'left' ? -1 : 1, label: '我', spriteSrc: outfit || '', zBoost },
         { id: 'kiki', x: peer.left, y: peer.top, frame: peerSprite, facing: peerDirection === 'left' ? -1 : 1, label: peer.name }
       ]
     });
@@ -208,12 +219,37 @@ Page({
     const id = e.detail.id;
     const known = (this.hotspotSpots || []).find((item) => item.id === id);
     if (!known) return;
+    // 落座锁：坐在沙发上时只响应"再点沙发站起"，其余家具交互一律拒绝
+    if (this.data.roomState.seated && id !== 'sofa') {
+      this.flashAction('你正坐在沙发上 · 点击沙发站起后才能互动');
+      return;
+    }
     const title = this.data.nowPlaying.title || '夜航';
     const actions = {
       'record-wall': () => {
+        const ids = this.data.recordIds;
+        if (!ids.length) {
+          this.flashAction('唱片墙还是空的 · 去「我的」选几张唱片挂上吧');
+          return;
+        }
+        // 轮流展示「我的」唱片墙中已选中的唱片名称：每次点击切换到下一张，循环往复
+        this.recordWallCursor = ((this.recordWallCursor == null ? -1 : this.recordWallCursor) + 1) % ids.length;
+        const rec = RecordsUtil.byId(ids[this.recordWallCursor]);
+        const name = rec ? rec.title : '未知唱片';
         this.setRoomState({ recordPlaying: true });
         this.setFurnitureState(id, true);
-        this.flashAction(`唱片墙：已挂 ${this.data.recordIds.length} 张收藏 · 正在播《${title}》`);
+        // 气泡锚在唱片墙上方（stage %），与墙面槽位同位浮现
+        const bubble = {
+          id: 'record-wall',
+          x: 24, y: 10,
+          text: `♪ ${this.recordWallCursor + 1}/${ids.length} · 《${name}》`,
+          kind: 'info'
+        };
+        this.setData({ bubbles: this.data.bubbles.filter((b) => b.id !== 'record-wall').concat([bubble]) });
+        if (this.recordWallTimer) clearTimeout(this.recordWallTimer);
+        this.recordWallTimer = setTimeout(() => {
+          this.setData({ bubbles: this.data.bubbles.filter((b) => b.id !== 'record-wall') });
+        }, 2600);
       },
       turntable: () => {
         const playing = !this.data.roomState.recordPlaying;
@@ -228,18 +264,34 @@ Page({
         this.flashAction(enabled ? '放映机已打开 · 房间进入观影模式' : '放映机已关闭');
       },
       sofa: () => {
-        const target = map.resolveTarget(this.data.player, map.fromUV(0.24, 0.47));
-        if (map.distance(this.data.player, target) > 10) {
-          this.moveAlongPath(this.data.player, target);
-          this.flashAction('走近沙发后即可坐下');
+        if (this.data.roomState.seated) {
+          // 站起：传送回点击坐下前保存的坐标，恢复站立
+          const back = this.preSeatPos
+            || map.resolveTarget(this.data.player, map.fromUV(0.24, 0.47));
+          this.preSeatPos = null;
+          this.setRoomState({ seated: false });
+          this.setFurnitureState(id, false);
+          this.setData({ player: { ...this.data.player, left: back.left, top: back.top }, playerSprite: 'idle' });
+          this.syncCharacters();
+          this.updateNearId(back);
+          RoomSync.sendMove({ left: back.left, top: back.top, direction: this.data.player.direction, walking: false });
+          this.flashAction('你从沙发上站了起来');
           return;
         }
-        const seated = !this.data.roomState.seated;
-        this.setRoomState({ seated });
-        this.setFurnitureState(id, seated);
-        this.setData({ playerSprite: seated ? 'sit' : 'idle' });
+        // 坐下：保存当前坐标，取消进行中的寻路，直接落座到沙发坐垫
+        this.preSeatPos = { left: this.data.player.left, top: this.data.player.top };
+        if (this.moveTimer) { clearInterval(this.moveTimer); this.moveTimer = null; }
+        const seat = map.fromUV(SOFA_SEAT_UV.u, SOFA_SEAT_UV.v);
+        this.setRoomState({ seated: true });
+        this.setFurnitureState(id, true);
+        this.setData({
+          player: { ...this.data.player, left: seat.left, top: seat.top },
+          playerSprite: 'sit'
+        });
         this.syncCharacters();
-        this.flashAction(seated ? '你坐进了沙发 · 继续播放' : '你从沙发上站了起来');
+        this.updateNearId(seat);
+        RoomSync.sendMove({ left: seat.left, top: seat.top, direction: this.data.player.direction, walking: false });
+        this.flashAction('你坐进了沙发 · 点击沙发可站起');
       },
       lamp: () => {
         const enabled = !this.data.roomState.lampOn;
@@ -296,6 +348,11 @@ Page({
 
   onSceneTap(e) {
     if (!e.detail || typeof e.detail.left !== 'number') return;
+    // 落座锁：坐着时地面点击不再触发寻路（只能点沙发站起）
+    if (this.data.roomState.seated) {
+      this.flashAction('你正坐在沙发上 · 点击沙发站起后才能走动');
+      return;
+    }
     const safeTarget = map.resolveTarget(this.data.player, e.detail);
     this.moveAlongPath(this.data.player, safeTarget);
   },
@@ -363,6 +420,11 @@ Page({
 
   onCharTap(e) {
     if (e.detail.id !== 'kiki') return;
+    // 落座锁：坐着时不允许角色互动
+    if (this.data.roomState.seated) {
+      this.flashAction('你正坐在沙发上 · 点击沙发站起后才能互动');
+      return;
+    }
     const dx = this.data.player.left - this.data.peer.left;
     const dy = this.data.player.top - this.data.peer.top;
     if (Math.sqrt(dx * dx + dy * dy) > 22) {
@@ -388,6 +450,7 @@ Page({
     if (this.moveTimer) clearInterval(this.moveTimer);
     if (this.peerTimer) clearInterval(this.peerTimer);
     if (this.actionTimer) clearTimeout(this.actionTimer);
+    if (this.recordWallTimer) clearTimeout(this.recordWallTimer);
     if (this.hintTimer) clearTimeout(this.hintTimer);
     if (this.guitarTimer) clearTimeout(this.guitarTimer);
   },

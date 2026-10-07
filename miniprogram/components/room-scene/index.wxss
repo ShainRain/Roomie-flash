@@ -27,13 +27,17 @@
 @keyframes sc-spin { to { transform: rotate(360deg); } }
 @keyframes sc-toast-in { from { opacity: 0; transform: translateY(-10rpx); } to { opacity: 1; transform: translateY(0); } }
 
-/* ---- 热点：默认隐形，靠近/激活/首访提示时浮现 ---- */
-.sc-hotspot { position: absolute; display: flex; align-items: center; justify-content: center; border: 2rpx dashed transparent; border-radius: 20rpx; transition: background .25s, border-color .25s; }
+/* ---- 热点:纯视觉标签(点击判定在组件 onStageTap 的 hitArea 管道),不吞点击 ---- */
+.sc-hotspot { position: absolute; display: flex; align-items: center; justify-content: center; border: 2rpx dashed transparent; border-radius: 20rpx; transition: background .25s, border-color .25s; pointer-events: none; }
 .sc-hint .sc-hotspot { border-color: rgba(247, 243, 234, 0.38); animation: sc-hint-pulse 1.8s ease-in-out infinite; }
 .sc-hotspot:active, .sc-hotspot-lit { background: rgba(247, 243, 234, 0.16); border-color: rgba(247, 243, 234, 0.72); }
 .sc-hotspot-badge { display: flex; align-items: center; gap: 5rpx; padding: 5rpx 10rpx; border-radius: 999rpx; background: rgba(31, 35, 41, 0.48); color: rgba(247, 243, 234, 0.92); font-size: 18rpx; opacity: 0; transform: scale(.9); transition: opacity .2s, transform .2s; }
 .sc-hotspot:active .sc-hotspot-badge, .sc-hotspot-lit .sc-hotspot-badge { opacity: 1; transform: scale(1); }
 @keyframes sc-hint-pulse { 0%, 100% { background: rgba(247, 243, 234, 0); } 50% { background: rgba(247, 243, 234, 0.12); } }
+
+/* ---- Debug(SHOW_HITBOX):红=hitArea 蓝=collision ---- */
+.sc-dbg-hit { position: absolute; z-index: 1500; border: 2rpx dashed rgba(255, 80, 80, 0.95); background: rgba(255, 80, 80, 0.10); font-size: 14rpx; color: #FF8080; pointer-events: none; }
+.sc-dbg-col { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1499; background: rgba(80, 140, 255, 0.16); pointer-events: none; }
 
 /* ---- 气泡 ---- */
 .sc-bubble { position: absolute; z-index: 1000; transform: translateX(-50%); padding: 12rpx 24rpx; border-radius: 999rpx; background: rgba(31, 35, 41, 0.82); color: #FFFFFF; font-size: 24rpx; white-space: nowrap; pointer-events: none; }

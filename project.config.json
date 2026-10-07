@@ -2,7 +2,7 @@
   "description": "Roomie - 音乐 & 电影同频陪伴社交小程序（腾讯音乐高校AI黑客松参赛作品）",
   "miniprogramRoot": "miniprogram/",
   "compileType": "miniprogram",
-  "appid": "wxf17c79a035c7853c",
+  "appid": "wx65162fec912ed95a",
   "projectname": "roomie",
   "setting": {
     "es6": true,
