@@ -28,7 +28,7 @@ module.exports = {
       "label": "沙发",
       "name": "沙发",
       "asset": "/assets/img/room/furn-sofa.webp",
-      "thumb": "/assets/img/room/furn-sofa.webp",
+      "thumb": "/assets/img/room/furn-thumb-sofa.webp",
       "anchor": {
         "x": 29.71,
         "y": 39.25
@@ -78,7 +78,7 @@ module.exports = {
       "label": "黑胶机",
       "name": "黑胶机",
       "asset": "/assets/img/room/furn-vinyl-player.webp",
-      "thumb": "/assets/img/room/furn-vinyl-player.webp",
+      "thumb": "/assets/img/room/furn-thumb-vinyl-player.webp",
       "anchor": {
         "x": 84.2,
         "y": 43.18
@@ -128,7 +128,7 @@ module.exports = {
       "label": "茶几",
       "name": "茶几",
       "asset": "/assets/img/room/furn-table.webp",
-      "thumb": "/assets/img/room/furn-table.webp",
+      "thumb": "/assets/img/room/furn-thumb-table.webp",
       "anchor": {
         "x": 37.83,
         "y": 52.96
@@ -165,7 +165,7 @@ module.exports = {
       "label": "猫窝",
       "name": "猫窝",
       "asset": "/assets/img/room/furn-cat-bed.webp",
-      "thumb": "/assets/img/room/furn-cat-bed.webp",
+      "thumb": "/assets/img/room/furn-thumb-cat-bed.webp",
       "anchor": {
         "x": 17.54,
         "y": 55.92
@@ -197,7 +197,7 @@ module.exports = {
       "label": "落地灯",
       "name": "落地灯",
       "asset": "/assets/img/room/furn-lamp.webp",
-      "thumb": "/assets/img/room/furn-lamp.webp",
+      "thumb": "/assets/img/room/furn-thumb-lamp.webp",
       "anchor": {
         "x": 76,
         "y": 52
@@ -247,7 +247,7 @@ module.exports = {
       "label": "绿植",
       "name": "绿植",
       "asset": "/assets/img/room/furn-plant.webp",
-      "thumb": "/assets/img/room/furn-plant.webp",
+      "thumb": "/assets/img/room/furn-thumb-plant.webp",
       "anchor": {
         "x": 6.81,
         "y": 49.97
@@ -284,7 +284,7 @@ module.exports = {
       "label": "地毯",
       "name": "地毯",
       "asset": "/assets/img/room/furn-rug.webp",
-      "thumb": "/assets/img/room/furn-rug.webp",
+      "thumb": "/assets/img/room/furn-thumb-rug.webp",
       "anchor": {
         "x": 50,
         "y": 60.4
@@ -316,16 +316,16 @@ module.exports = {
       "label": "挂帘",
       "name": "挂帘",
       "asset": "/assets/img/room/furn-curtain.webp",
-      "thumb": "/assets/img/room/furn-curtain.webp",
+      "thumb": "/assets/img/room/furn-thumb-curtain.webp",
       "anchor": {
-        "x": 104,
-        "y": 42
+        "x": 93.2,
+        "y": 31.6
       },
       "bounds": {
-        "left": 98,
-        "top": 25,
-        "width": 12,
-        "height": 34
+        "left": 89.88,
+        "top": 10.1,
+        "width": 6.67,
+        "height": 35.09
       },
       "scale": 1,
       "rotation": 0,
@@ -348,7 +348,7 @@ module.exports = {
       "label": "放映机",
       "name": "放映机",
       "asset": "/assets/img/room/furn-projector.webp",
-      "thumb": "/assets/img/room/furn-projector.webp",
+      "thumb": "/assets/img/room/furn-thumb-projector.webp",
       "anchor": {
         "x": 37.1,
         "y": 54.03
@@ -393,16 +393,16 @@ module.exports = {
       "label": "海报",
       "name": "海报",
       "asset": "/assets/img/room/furn-poster.webp",
-      "thumb": "/assets/img/room/furn-poster.webp",
+      "thumb": "/assets/img/room/furn-thumb-poster.webp",
       "anchor": {
-        "x": 47,
-        "y": 52
+        "x": 56,
+        "y": 13
       },
       "bounds": {
-        "left": 41,
-        "top": 34,
-        "width": 12,
-        "height": 36
+        "left": 52.9,
+        "top": 0.13,
+        "width": 6.09,
+        "height": 24.43
       },
       "scale": 1,
       "rotation": 0,
@@ -425,16 +425,16 @@ module.exports = {
       "label": "咖啡机",
       "name": "咖啡机",
       "asset": "/assets/img/room/furn-coffee.webp",
-      "thumb": "/assets/img/room/furn-coffee.webp",
+      "thumb": "/assets/img/room/furn-thumb-coffee.webp",
       "anchor": {
-        "x": 86,
-        "y": 55
+        "x": 88.6,
+        "y": 32.2
       },
       "bounds": {
-        "left": 82,
-        "top": 47,
-        "width": 8,
-        "height": 16
+        "left": 86.64,
+        "top": 28.76,
+        "width": 3.59,
+        "height": 6.76
       },
       "scale": 1,
       "rotation": 0,
@@ -457,16 +457,16 @@ module.exports = {
       "label": "书架",
       "name": "书架",
       "asset": "/assets/img/room/furn-bookshelf.webp",
-      "thumb": "/assets/img/room/furn-bookshelf.webp",
+      "thumb": "/assets/img/room/furn-thumb-bookshelf.webp",
       "anchor": {
-        "x": 66,
-        "y": 72
+        "x": 77.8,
+        "y": 37.3
       },
       "bounds": {
-        "left": 52,
-        "top": 62,
-        "width": 28,
-        "height": 20
+        "left": 68.55,
+        "top": 28.48,
+        "width": 18.55,
+        "height": 16.84
       },
       "scale": 1,
       "rotation": 0,
@@ -489,7 +489,7 @@ module.exports = {
       "label": "玩偶",
       "name": "玩偶",
       "asset": "/assets/img/room/furn-doll.webp",
-      "thumb": "/assets/img/room/furn-doll.webp",
+      "thumb": "/assets/img/room/furn-thumb-doll.webp",
       "anchor": {
         "x": 26.81,
         "y": 52.54
@@ -521,7 +521,7 @@ module.exports = {
       "label": "吉他角",
       "name": "吉他角",
       "asset": "/assets/img/room/furn-guitar.webp",
-      "thumb": "/assets/img/room/furn-guitar.webp",
+      "thumb": "/assets/img/room/furn-thumb-guitar.webp",
       "anchor": {
         "x": 56.67,
         "y": 70.5

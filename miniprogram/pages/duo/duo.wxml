@@ -15,16 +15,23 @@
     <view class="pill pill-live pill-breathe">◉ 同频中 · {{sync}}%</view>
   </view>
 
-  <!-- 双人房间场景(场景层结构与绑定保持不动):两个人在同一个房间里一起听 -->
-  <view class="art-wrap rise-in rise-2">
-    <view class="duo-stage" bindtap="onStageTap">
-      <image class="art" src="/assets/img/room-interactive.webp" mode="aspectFit" />
-      <image wx:for="{{recordSlots}}" wx:key="key" class="record-plate" src="{{item.src}}" style="left: {{item.left}}%; top: {{item.top}}%; width: {{item.width}}%; height: {{item.height}}%;" />
-      <image wx:for="{{layers}}" wx:key="key" class="furn-layer" src="{{item.src}}" style="z-index: {{item.z}};" mode="aspectFit" />
-      <view class="stage-player" style="left: {{player.left}}%; top: {{player.top}}%; transform: translate(-50%, -88%) scale({{playerScale}}); z-index: {{playerZ}};"><view class="sprite-motion sprite-{{playerSprite}}"><image class="stage-sprite direction-{{player.direction}}" src="/assets/img/char-momo-{{playerSprite}}.webp" mode="widthFix" /></view></view>
-      <view class="stage-peer" style="left: {{peerPosition.left}}%; top: {{peerPosition.top}}%; transform: translate(-50%, -88%) scale({{peerScale}}); z-index: {{peerZ}};" catchtap="onPeerTap"><view class="sprite-motion sprite-{{peerSprite}}"><image class="stage-sprite" src="/assets/img/char-kiki-{{peerSprite}}.webp" mode="widthFix" /></view></view>
-      <view wx:if="{{interaction}}" class="interaction">{{interaction}}</view>
-    </view>
+  <!-- 双人房间:Room Master Scene(与 room 页同一组件/几何/灯光/家具),两个人在同一个房间里 -->
+  <view class="stage-wrap rise-in rise-2">
+    <room-scene
+      floor="{{floor}}"
+      light-temp="{{lightTemp}}"
+      furniture="{{furnitureKeys}}"
+      records="{{recordIds}}"
+      characters="{{characters}}"
+      lamp-on="{{lampOn}}"
+      projector-on="{{projectorOn}}"
+      mode="interactive"
+      now-playing="{{nowPlaying}}"
+      bubbles="{{bubbles}}"
+      bind:stagetap="onSceneTap"
+      bind:furnituretap="onFurnitureTap"
+      bind:chartap="onCharTap"
+    />
   </view>
 
   <!-- 米白纸张共享播放卡:一起听状态 + 波形 + 进度/传输(mini-player) -->
