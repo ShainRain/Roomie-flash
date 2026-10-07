@@ -19,6 +19,7 @@
       <room-scene
         floor="{{selectedFloor}}"
         light-temp="{{lightTemp}}"
+        light-bright="{{lightBright}}"
         furniture="{{selectedFurniture}}"
         records="{{recordIds}}"
         characters="{{characters}}"
@@ -126,9 +127,37 @@
           <text class="light-end">暖黄 2700K</text>
           <text class="light-end">雪白 6000K</text>
         </view>
+
+        <!-- 亮度(迁移自旧版 lightBright,0–100) -->
+        <view class="light-head bright-head">
+          <view class="light-value-wrap">
+            <text class="light-value bright-value">{{lightBright}}</text>
+            <text class="light-unit">% </text>
+          </view>
+          <text class="paper-sub">亮度 · 烛光到全亮</text>
+        </view>
+        <view class="light-track-wrap">
+          <view class="light-track bright-track"></view>
+          <slider
+            class="light-slider"
+            value="{{lightBright}}"
+            min="0"
+            max="100"
+            step="5"
+            activeColor="rgba(0,0,0,0)"
+            backgroundColor="rgba(0,0,0,0)"
+            block-size="20"
+            bindchange="onBrightChange"
+            bindchanging="onBrightChanging"
+          />
+        </view>
+        <view class="light-ends">
+          <text class="light-end">烛光 0</text>
+          <text class="light-end">全亮 100</text>
+        </view>
       </view>
 
-      <view class="sheet-hint">已选家具 {{selectedFurniture.length}} 件 · {{lightTemp}}K 灯光</view>
+      <view class="sheet-hint">已选家具 {{selectedFurniture.length}} 件 · {{lightTemp}}K / 亮度 {{lightBright}}%</view>
 
     </view>
   </view>

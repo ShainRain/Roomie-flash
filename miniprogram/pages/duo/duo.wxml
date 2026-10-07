@@ -20,6 +20,7 @@
     <room-scene
       floor="{{floor}}"
       light-temp="{{lightTemp}}"
+      light-bright="{{lightBright}}"
       furniture="{{furnitureKeys}}"
       records="{{recordIds}}"
       characters="{{characters}}"

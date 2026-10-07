@@ -21,7 +21,7 @@
     <image wx:if="{{item.type === 'furn'}}" class="sc-ly" src="{{item.src}}" mode="aspectFit" style="z-index: {{item.z}};" />
     <view wx:else class="sc-char" data-id="{{item.id}}" catchtap="onCharTap" style="left: {{item.x}}%; top: {{item.y}}%; width: {{item.wPct}}%; z-index: {{item.z}}; transform: translate(-50%, -100%) scale({{item.scale}});">
       <view class="sc-frame-{{item.frame}}">
-        <image class="sc-sprite {{item.facing < 0 ? 'sc-flip' : ''}}" src="/assets/img/char-{{item.id}}-{{item.frame}}.webp" mode="widthFix" style="width: 100%;" />
+        <image class="sc-sprite {{item.facing < 0 ? 'sc-flip' : ''}}" src="{{item.spriteSrc || '/assets/img/char-' + item.id + '-' + item.frame + '.webp'}}" mode="widthFix" style="width: 100%;" />
       </view>
       <view class="sc-char-shadow"></view>
       <text wx:if="{{item.label}}" class="sc-char-name">{{item.label}}</text>
@@ -34,6 +34,9 @@
   <image class="sc-ly sc-screen" src="{{L.L6}}" mode="aspectFit" style="opacity: {{op.L6}};" />
   <!-- L7 放映光束 + 幕布发光画面 -->
   <image wx:if="{{op.L7 > 0}}" class="sc-ly sc-screen" src="{{L.L7}}" mode="aspectFit" style="opacity: {{op.L7}};" />
+
+  <!-- 亮度调光层（lightBright;压暗房间世界,不影响 HUD） -->
+  <view wx:if="{{dimOpacity > 0}}" class="sc-dim" style="opacity: {{dimOpacity}};"></view>
 
   <!-- 正在播放：唱盘旋转 + 墙上徽章 -->
   <view wx:if="{{nowPlaying.playing}}" class="sc-turntable-spin" style="left: {{platter.left}}%; top: {{platter.top}}%;"></view>

@@ -121,12 +121,48 @@
 .dress-row {
   display: flex;
   gap: 20rpx;
-  margin: 20rpx 0 24rpx;
+  margin: 20rpx 0 8rpx;
+  align-items: center;
 }
 
 .me-btn {
   font-size: var(--fs-caption);
   padding: 8rpx 28rpx;
+}
+
+.dress-avatar {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  border: 2rpx solid var(--night-line);
+  background: var(--night-850);
+}
+
+.dress-meta {
+  margin: 0 0 24rpx;
+}
+
+.dress-hint {
+  display: block;
+  font-size: var(--fs-micro);
+  color: var(--night-sub);
+  line-height: 1.5;
+}
+
+.dress-links {
+  display: flex;
+  gap: 24rpx;
+  margin-top: 8rpx;
+}
+
+.me-link {
+  font-size: var(--fs-micro);
+  color: var(--green);
+  text-decoration: underline;
+}
+
+.me-link-reset {
+  color: var(--night-sub);
 }
 
 /* ---- ② 我的唱片墙 ---- */

@@ -306,6 +306,19 @@
   color: var(--ink-500);
 }
 
+/* 亮度滑杆:复用色温结构,轨道左暗右亮 */
+.bright-head {
+  margin-top: 40rpx;
+}
+
+.bright-value {
+  font-size: var(--fs-section);
+}
+
+.bright-track {
+  background: linear-gradient(90deg, #1A2431 0%, var(--warm-light) 100%);
+}
+
 /* sheet 底部状态行 */
 .sheet-hint {
   margin-top: 36rpx;

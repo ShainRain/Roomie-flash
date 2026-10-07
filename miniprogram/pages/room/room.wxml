@@ -5,6 +5,7 @@
       id="roomScene"
       floor="{{floor}}"
       light-temp="{{lightTemp}}"
+      light-bright="{{lightBright}}"
       furniture="{{furnitureKeys}}"
       records="{{recordIds}}"
       lamp-on="{{roomState.lampOn}}"
