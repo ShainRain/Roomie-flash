@@ -11,6 +11,7 @@ const OUT_DIR = path.join(IMG);
 // [名字, 色相旋转(度), 饱和度, 明度, 角色方案]
 const FRIENDS = [
   { name: 'kiki', hue: 0, sat: 1.05, bright: 1.0, char: 'kiki' },          // 黄团子本人
+  { name: 'momo', hue: 0, sat: 1.0, bright: 1.0, char: 'momo' },          // Profile:我自己的房间
   { name: 'nana', hue: -14, sat: 1.0, bright: 1.0, char: 'momo', charHue: 175 },  // 蓝色系房间
   { name: 'abo', hue: 8, sat: 1.06, bright: 1.02, char: 'momo', charHue: -12 },   // 更暖更红
   { name: 'rita', hue: -8, sat: 0.55, bright: 0.62, char: 'momo', charHue: 0, charSat: 0.15 },  // 离线:暗
