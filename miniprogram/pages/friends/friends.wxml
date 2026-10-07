@@ -4,23 +4,33 @@
 
     <!-- 刊头副行 -->
     <view class="head anim-in">
-      <text class="head-sub">在音乐里，朋友都在这里。</text>
+      <text class="head-sub">夜里，每个朋友都住在自己的小房间里。</text>
     </view>
 
-    <!-- 夜色中的房间群落:朋友们的房间 -->
-    <view class="village anim-in anim-d1">
-      <image class="village-img" src="/assets/img/friends-village.webp" mode="aspectFit" />
+    <!-- 好友房间 vignette 横排:Master 派生的小房间(同色彩/材质/灯光/视角/角色语言) -->
+    <scroll-view class="v-row anim-in anim-d1" scroll-x enhanced show-scrollbar="{{false}}">
       <view
-        wx:for="{{villageTags}}"
+        wx:for="{{vignettes}}"
         wx:key="name"
-        class="v-tag {{item.pos}} pill pill-dark {{item.online ? '' : 'v-tag-off'}}"
+        class="v-card"
+        data-type="{{item.type}}"
+        data-name="{{item.name}}"
+        bindtap="onFriendAction"
+        hover-class="btn-hover"
       >
-        <view class="v-dot {{item.online ? '' : 'v-dot-off'}}"></view>
-        <text>{{item.name}} · {{item.online ? '在线' : '离线'}}</text>
+        <image class="v-img" src="{{item.img}}" mode="aspectFill" />
+        <view class="v-meta">
+          <view class="v-name-row">
+            <view class="v-dot"></view>
+            <text class="v-name">{{item.name}}</text>
+            <view class="v-act {{inviting === item.name ? 'v-act-wait' : ''}}">{{inviting === item.name ? '等待中…' : item.action}}</view>
+          </view>
+          <text class="v-status">{{item.status}}</text>
+        </view>
       </view>
-    </view>
+    </scroll-view>
 
-    <!-- 在线好友:纸张卡叠上群落插画的下缘 -->
+    <!-- 在线好友 -->
     <view class="card friend-card online-card anim-in anim-d2">
       <view class="card-head">
         <text class="paper-title">在线好友 · {{online.length}}</text>
@@ -44,7 +54,7 @@
           data-type="{{item.type}}"
           data-name="{{item.name}}"
           bindtap="onFriendAction"
-        >{{inviting === item.name ? '等待中…' : '来坐坐'}}</view>
+        >{{inviting === item.name ? '等待中…' : item.action}}</view>
       </view>
     </view>
 

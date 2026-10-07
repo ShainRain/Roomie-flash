@@ -29,32 +29,55 @@
   color: var(--night-sub);
 }
 
-/* ---- 夜色房间群落 ---- */
-.village {
+/* ---- 好友房间 vignette 横排(Master 派生的小房间) ---- */
+.v-row {
+  margin: 20rpx -40rpx 0;
+  white-space: nowrap;
+}
+
+.v-card {
+  display: inline-block;
   position: relative;
-  margin-top: 20rpx;
-}
-
-.village-img {
-  width: 116%;
-  height: 560rpx;
-  margin-left: -8%;
-  object-fit: contain;
-}
-
-.v-tag {
-  position: absolute;
-  z-index: 6;
+  width: 464rpx;
+  margin-right: 24rpx;
+  border-radius: 22rpx;
+  overflow: hidden;
+  border: 1rpx solid var(--night-line);
   box-shadow: var(--shadow-float);
-  backdrop-filter: blur(6rpx);
+  vertical-align: top;
 }
 
-.v-tag-1 { left: 10%; top: 20%; }
-.v-tag-2 { right: 8%; top: 36%; }
-.v-tag-3 { left: 13%; top: 64%; }
+.v-card:first-child {
+  margin-left: 40rpx;
+}
 
-.v-tag-off {
-  opacity: 0.55;
+.v-img {
+  width: 464rpx;
+  height: 380rpx;
+  display: block;
+}
+
+.v-meta {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 14rpx 20rpx 16rpx;
+  background: rgba(8, 17, 29, 0.72);
+  backdrop-filter: blur(8rpx);
+}
+
+.v-name-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.v-name {
+  flex: 1;
+  font-size: 24rpx;
+  font-weight: 700;
+  color: var(--night-text);
 }
 
 .v-dot {
@@ -62,12 +85,31 @@
   height: 12rpx;
   border-radius: 50%;
   background: var(--green);
-  margin-right: 10rpx;
   flex-shrink: 0;
 }
 
-.v-dot-off {
-  background: var(--night-sub);
+.v-act {
+  font-size: 20rpx;
+  font-weight: 700;
+  background: var(--green);
+  color: var(--white);
+  border-radius: var(--r-pill);
+  padding: 8rpx 22rpx;
+  box-shadow: var(--shadow-green);
+}
+
+.v-act-wait {
+  opacity: 0.6;
+}
+
+.v-status {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 18rpx;
+  color: var(--night-sub);
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ---- 好友纸张卡(负 margin 叠上群落插画下缘) ---- */
@@ -78,7 +120,7 @@
 }
 
 .online-card {
-  margin-top: -126rpx;
+  margin-top: 28rpx;
 }
 
 .offline-card {
@@ -210,20 +252,4 @@
   font-weight: 400;
 }
 
-/* Visual reset: village has more air and a stronger diorama silhouette. */
-.village {
-  margin-left: -10rpx;
-  margin-right: -10rpx;
-}
-
-.village::after {
-  content: '';
-  position: absolute;
-  left: 16%;
-  right: 16%;
-  bottom: 74rpx;
-  height: 110rpx;
-  background: radial-gradient(ellipse, rgba(224,151,69,0.14), rgba(224,151,69,0) 70%);
-  filter: blur(12rpx);
-  pointer-events: none;
-}
+/* 邀请 CTA 上方留白由 vignette 与卡片承担,无需额外光晕 */

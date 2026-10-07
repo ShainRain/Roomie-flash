@@ -497,6 +497,10 @@ function buildL2() {
   g.push(`<g clip-path="url(#floorClip)"><path d="M${sp0[0].toFixed(1)} ${sp0[1].toFixed(1)} L${sp1[0].toFixed(1)} ${sp1[1].toFixed(1)} L${sp2[0].toFixed(1)} ${sp2[1].toFixed(1)} L${sp3[0].toFixed(1)} ${sp3[1].toFixed(1)}Z" fill="url(#coolSpill)" filter="url(#soft)"/></g>`);
   // 幕框边缘冷反光(微弱,呼应放映墙冷调)
   g.push(`<g transform="matrix(480 250 0 440 414 -205)"><rect x="${SCREEN.s0 - 0.01}" y="${SCREEN.t0 - 0.01}" width="${SCREEN.s1 - SCREEN.s0 + 0.02}" height="0.05" fill="#9CC8EE" opacity=".07"/></g>`);
+  // 全屋冷环境响应:6000K(L2 全开)时房间整体转冷,2700K 时仅剩微弱冷平衡
+  // 注:运行时 mix-blend screen 按 alpha 加权正常生效;离线 libvips screen 对低 alpha 偏弱,
+  //     6000K 冷却幅度以运行时采样为准(见 phase-4 复核记录)。
+  g.push(`<g clip-path="url(#roomClip)"><rect x="-66" y="-205" width="960" height="940" fill="#AFCFEE" opacity=".22"/></g>`);
   return wrap(`<g clip-path="url(#canvasClip)">${g.join('')}</g>`, false);
 }
 
@@ -1242,8 +1246,10 @@ module.exports = ${JSON.stringify({
     roomVisibleHeightPx: 735,
     characters: { momo, kiki },
     samples: {
-      window: { x: 766, y: 118, w: 62, h: 200 },
+      // 窗区取挂帘右侧未被遮挡的玻璃条带;环境地板取前区(远离落地灯光池,测环境冷暖)
+      window: { x: 804, y: 130, w: 20, h: 170 },
       lampPool: { x: Math.round(lampBase[0] - 128 - 50), y: Math.round(lampBase[1] - 65), w: 100, h: 50 },
+      ambientFloor: { x: 200, y: 520, w: 90, h: 36 },
       charMomo: momo.bbox,
       charKiki: kiki.bbox
     },
