@@ -2,6 +2,7 @@
   "navigationBarTitleText": "一起听",
   "navigationStyle": "custom",
   "usingComponents": {
-    "mini-player": "/components/mini-player/index"
+    "mini-player": "/components/mini-player/index",
+    "room-scene": "/components/room-scene/index"
   }
 }

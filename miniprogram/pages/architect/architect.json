@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "建筑师模式"
+  "navigationBarTitleText": "建筑师模式",
+  "usingComponents": {
+    "room-scene": "/components/room-scene/index"
+  }
 }

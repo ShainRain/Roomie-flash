@@ -2,8 +2,11 @@ const app = getApp();
 const Player = require('../../utils/player');
 const RoomSync = require('../../utils/room-sync');
 const RoomMap = require('../../utils/room-map');
-const Layout = require('../../utils/room-layout');
+const SceneLayout = require('../../utils/room-scene-layout');
 const RecordsUtil = require('../../utils/records');
+
+// 与 room 页同一套 Master 几何与碰撞(单一数据源);独立实例持有自己的 activeFurniture 状态
+const map = RoomMap.createMap(SceneLayout.GEOMETRY, SceneLayout);
 
 Page({
   data: {
@@ -12,17 +15,22 @@ Page({
     me: {},
     sync: 98,
     statusBarH: 20,
-    player: { left: 40, top: 72, walking: false, direction: 'right' },
+    // Room Master Scene 输入(room-scene 组件属性)
+    floor: 'blue-gray',
+    lightTemp: 2700,
+    furnitureKeys: [],
+    recordIds: [],
+    characters: [],
+    lampOn: true,
+    projectorOn: false,
+    nowPlaying: { playing: false, title: '' },
+    bubbles: [],
+    // 角色逻辑状态(页面持有)
+    player: { left: 40, top: 72, direction: 'right' },
     playerSprite: 'idle',
-    playerScale: 0.98,
-    playerZ: 720,
-    peerSprite: 'idle',
-    peerScale: 0.907,
-    peerZ: 620,
     peerPosition: { left: 52, top: 62 },
-    interaction: '',
-    layers: [],
-    recordSlots: []
+    peerSprite: 'idle',
+    peerDirection: 'left'
   },
 
   syncTimer: null,
@@ -49,26 +57,40 @@ Page({
       Player.play();
       this.autoStarted = true;
     }
-    this.refreshRoomConfig();
+    this.refreshScene();
+    this.syncCharacters();
     // 播放状态广播：本地操作（切歌/播放暂停/seek 跳变）即时报，对端 remote 应用不回播
     this.unsubPlayer = Player.subscribe((snap, source) => this.onPlayerSnap(snap, source));
   },
 
-  // DIY 状态 → 场景（与房间页同源，只读展示）
-  refreshRoomConfig() {
+  // DIY 状态 → 场景（与房间页同一份 roomie_room / roomie_records，只读）
+  refreshScene() {
     const room = app.globalData.room || {};
     const keys = Array.isArray(room.furniture) ? room.furniture : [];
-    RoomMap.setActiveFurniture(keys);
-    const layers = Layout.FURNITURE
-      .filter((f) => keys.includes(f.key))
-      .map((f) => ({ key: f.key, src: f.overlay, z: f.z }));
-    const selected = RecordsUtil.readSelection((k) => wx.getStorageSync(k));
-    const recordSlots = Layout.RECORD_SLOTS.slice(0, selected.length)
-      .map((slot, i) => ({ ...slot, key: `slot-${i}`, src: `/assets/img/rec-${selected[i]}.webp` }));
-    this.setData({ layers, recordSlots });
+    map.setActiveFurniture(keys);
+    const snap = Player.snapshot();
+    this.setData({
+      furnitureKeys: keys.slice(),
+      floor: room.floor || 'blue-gray',
+      lightTemp: room.lightTemp || 2700,
+      recordIds: RecordsUtil.readSelection((k) => wx.getStorageSync(k)).slice(),
+      nowPlaying: { playing: snap.playing, title: snap.track.title }
+    });
+  },
+
+  // 页面逻辑状态 → 组件渲染快照
+  syncCharacters() {
+    const { player, playerSprite, peerPosition, peerSprite, peerDirection, peer, me } = this.data;
+    this.setData({
+      characters: [
+        { id: 'momo', x: player.left, y: player.top, frame: playerSprite, facing: player.direction === 'left' ? -1 : 1, label: me.name || '我' },
+        { id: 'kiki', x: peerPosition.left, y: peerPosition.top, frame: peerSprite, facing: peerDirection === 'left' ? -1 : 1, label: peer }
+      ]
+    });
   },
 
   onPlayerSnap(snap, source) {
+    this.setData({ nowPlaying: { playing: snap.playing, title: snap.track.title } });
     if (source === 'remote') return;
     const last = this.lastBroadcast;
     const jumped = last ? Math.abs(snap.position - last.position) > 3 : false;
@@ -86,9 +108,9 @@ Page({
       handlers: {
         onPeerMove: (msg) => this.animatePeer(msg),
         onPeerPlayer: (msg) => Player.applyRemote(msg),
-        onPeerAction: (msg) => this.setData({ interaction: msg.label }),
-        onPeerJoin: (msg) => this.setData({ interaction: `${msg.from} 进入了房间` }),
-        onPeerLeave: (msg) => this.setData({ interaction: `${msg.from} 离开了` })
+        onPeerAction: (msg) => this.flashBubble(msg.label),
+        onPeerJoin: (msg) => this.flashBubble(`${msg.from} 进入了房间`),
+        onPeerLeave: (msg) => this.flashBubble(`${msg.from} 离开了`)
       }
     });
   },
@@ -99,21 +121,20 @@ Page({
     const steps = 14;
     let step = 0;
     if (this.peerTimer) clearInterval(this.peerTimer);
+    const direction = msg.direction || (msg.left < start.left ? 'left' : 'right');
     this.peerTimer = setInterval(() => {
       step += 1;
       const ratio = step / steps;
       const done = step >= steps;
-      const top = start.top + (msg.top - start.top) * ratio;
-      const depth = RoomMap.depthFor(top);
       this.setData({
         peerPosition: {
           left: start.left + (msg.left - start.left) * ratio,
-          top
+          top: start.top + (msg.top - start.top) * ratio
         },
-        peerScale: depth.scale,
-        peerZ: depth.z,
+        peerDirection: direction,
         peerSprite: done ? 'idle' : (step % 2 === 0 ? 'walk-a' : 'walk-b')
       });
+      this.syncCharacters();
       if (done) {
         clearInterval(this.peerTimer);
         this.peerTimer = null;
@@ -141,22 +162,47 @@ Page({
     if (!RoomSync.isOnline()) this.doJoin();
   },
 
-  onStageTap(e) {
-    const query = wx.createSelectorQuery().in(this);
-    query.select('.duo-stage').boundingClientRect((rect) => {
-      if (!rect) return;
-      const left = ((e.detail.x - rect.left) / rect.width) * 100;
-      const top = ((e.detail.y - rect.top) / rect.height) * 100;
-      const next = RoomMap.resolveTarget(this.data.player, { left, top });
-      this.moveAlongPath(this.data.player, next);
-      const dx = next.left - this.data.peerPosition.left;
-      const dy = next.top - this.data.peerPosition.top;
-      if (Math.sqrt(dx * dx + dy * dy) < 18) this.setData({ interaction: '靠近了 KIKI，点击对方头像互动' });
-    }).exec();
+  onSceneTap(e) {
+    if (!e.detail || typeof e.detail.left !== 'number') return;
+    const next = map.resolveTarget(this.data.player, e.detail);
+    this.moveAlongPath(this.data.player, next);
+    const dx = next.left - this.data.peerPosition.left;
+    const dy = next.top - this.data.peerPosition.top;
+    if (Math.sqrt(dx * dx + dy * dy) < 18) this.flashBubble(`靠近了 ${this.data.peer}，点击对方互动`);
+  },
+
+  // 双人房家具热点:灯光/放映机即时生效,其余给轻量反馈(不写房间状态机)
+  onFurnitureTap(e) {
+    const id = e.detail.id;
+    const flavor = {
+      'record-wall': `唱片墙:已挂 ${this.data.recordIds.length} 张收藏 · 正在播《${this.data.nowPlaying.title}》`,
+      turntable: '黑胶在转,别停',
+      sofa: '沙发留给你们俩',
+      guitar: `${this.data.peer} 最喜欢这一段 Riff`,
+      'floor-records': '地面的唱片是昨晚没放完的'
+    };
+    if (id === 'lamp') {
+      this.setData({ lampOn: !this.data.lampOn });
+      this.flashBubble(this.data.lampOn ? '落地灯已打开' : '落地灯已关闭 · 投影光更清晰');
+      return;
+    }
+    if (id === 'projector') {
+      this.setData({ projectorOn: !this.data.projectorOn });
+      this.flashBubble(this.data.projectorOn ? '放映机已打开 · 房间进入观影模式' : '放映机已关闭');
+      return;
+    }
+    if (flavor[id]) this.flashBubble(flavor[id]);
+  },
+
+  flashBubble(text) {
+    const bubbles = [{ id: 'interaction', x: 50, y: 88, text, kind: 'info' }];
+    this.setData({ bubbles });
+    if (this.bubbleTimer) clearTimeout(this.bubbleTimer);
+    this.bubbleTimer = setTimeout(() => this.setData({ bubbles: [] }), 2600);
   },
 
   moveAlongPath(start, target) {
-    const path = RoomMap.findPath(start, target);
+    const path = map.findPath(start, target);
     const walkNext = (index) => {
       if (index >= path.length) return;
       const point = path[index];
@@ -168,11 +214,11 @@ Page({
   animatePlayer(left, top, onComplete) {
     if (this.moveTimer) clearInterval(this.moveTimer);
     const start = this.data.player;
-    const distance = Math.sqrt(Math.pow(left - start.left, 2) + Math.pow(top - start.top, 2));
+    const distance = map.distance(start, { left, top });
     const steps = Math.max(8, Math.ceil(distance * 2));
     const direction = left < start.left ? 'left' : 'right';
     let step = 0;
-    this.setData({ 'player.walking': true, 'player.direction': direction, playerSprite: 'walk-a' });
+    this.setData({ playerSprite: 'walk-a' });
     this.moveTimer = setInterval(() => {
       step += 1;
       const ratio = step / steps;
@@ -180,36 +226,36 @@ Page({
         left: start.left + (left - start.left) * ratio,
         top: start.top + (top - start.top) * ratio
       };
-      if (RoomMap.isBlocked(next)) {
+      if (map.isBlocked(next)) {
         clearInterval(this.moveTimer);
         this.moveTimer = null;
-        this.setData({ 'player.walking': false, playerSprite: 'idle' });
+        this.setData({ playerSprite: 'idle' });
+        this.syncCharacters();
         wx.showToast({ title: '前方有家具，已停在安全位置', icon: 'none', duration: 1200 });
         return;
       }
-      const depth = RoomMap.depthFor(next.top);
       this.setData({
-        player: { left: next.left, top: next.top, walking: true, direction },
-        playerSprite: step % 2 === 0 ? 'walk-a' : 'walk-b',
-        playerScale: depth.scale,
-        playerZ: depth.z
+        player: { left: next.left, top: next.top, direction },
+        playerSprite: step % 2 === 0 ? 'walk-a' : 'walk-b'
       });
+      this.syncCharacters();
       RoomSync.sendMove({ left: next.left, top: next.top, direction, walking: true });
       if (step >= steps) {
         clearInterval(this.moveTimer);
         this.moveTimer = null;
-        this.setData({ 'player.walking': false, playerSprite: 'idle' });
+        this.setData({ playerSprite: 'idle' });
+        this.syncCharacters();
         if (onComplete) onComplete();
       }
     }, 30);
   },
 
-  onPeerTap() {
+  onCharTap(e) {
+    if (e.detail.id !== 'kiki') return;
     wx.showActionSheet({ itemList: ['挥手', '击掌', '邀请一起听歌'], success: (res) => {
-      const labels = ['你向 KIKI 挥了挥手', '你和 KIKI 击掌了', '你们开始一起听歌'];
-      this.setData({ interaction: labels[res.tapIndex] });
+      const labels = [`你向 ${this.data.peer} 挥了挥手`, `你和 ${this.data.peer} 击掌了`, '你们开始一起听歌'];
+      this.flashBubble(labels[res.tapIndex]);
       RoomSync.sendAction(labels[res.tapIndex]);
-      wx.showToast({ title: labels[res.tapIndex], icon: 'none' });
     } });
   },
 
@@ -231,6 +277,7 @@ Page({
     }
     if (this.moveTimer) clearInterval(this.moveTimer);
     if (this.peerTimer) clearInterval(this.peerTimer);
+    if (this.bubbleTimer) clearTimeout(this.bubbleTimer);
     // 还原：进入前是暂停、且用户在房间里没主动操作过播放器 → 退出时恢复暂停
     if (this.autoStarted && !this.userTouched && Player.snapshot().playing) {
       Player.toggle();

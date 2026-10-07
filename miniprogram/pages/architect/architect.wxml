@@ -13,15 +13,21 @@
     </view>
   </view>
 
-  <!-- 房间预览(与房间页同源:家具覆盖层 + 唱片墙 + 灯光色温实时预览,结构不动) -->
+  <!-- 房间预览:Room Master Scene(与 room 页同一组件/几何/灯光;预览即最终房间) -->
   <view class="preview page-pad rise rise-1">
     <view class="preview-frame">
-      <image class="preview-img" src="/assets/img/room-interactive.webp" mode="aspectFit" />
-      <view class="preview-floor" style="background: {{floorColor}};"></view>
-      <image wx:for="{{previewSlots}}" wx:key="key" class="preview-plate" src="{{item.src}}" style="left: {{item.left}}%; top: {{item.top}}%; width: {{item.width}}%; height: {{item.height}}%;" />
-      <image wx:for="{{previewLayers}}" wx:key="key" class="preview-layer" src="{{item.src}}" style="z-index: {{item.z}};" mode="aspectFit" />
-      <view class="preview-tint" style="{{lightOverlay}}"></view>
-      <view class="preview-tag pill pill-live">正在播放 · 晴天</view>
+      <room-scene
+        floor="{{selectedFloor}}"
+        light-temp="{{lightTemp}}"
+        furniture="{{selectedFurniture}}"
+        records="{{recordIds}}"
+        characters="{{characters}}"
+        lamp-on="{{true}}"
+        projector-on="{{true}}"
+        mode="preview"
+        now-playing="{{nowPlaying}}"
+      />
+      <view class="preview-tag pill pill-live">正在播放 · {{nowPlaying.title}}</view>
       <!-- 右侧悬浮工具钮:与下方分段标签同步 -->
       <view class="tools">
         <view
@@ -59,16 +65,16 @@
       <view wx:if="{{activeTab === 'furniture'}}" class="tab-panel rise">
         <view class="grid">
           <view
-            wx:for="{{furniture}}"
+            wx:for="{{cells}}"
             wx:key="key"
-            class="cell {{selectedFurniture.indexOf(item.key) >= 0 ? 'cell-on' : ''}}"
+            class="cell {{item.on ? 'cell-on' : ''}}"
             data-key="{{item.key}}"
             bindtap="onToggleFurniture"
             hover-class="btn-hover"
           >
-            <image class="cell-icon" src="{{item.icon}}" mode="aspectFit" />
+            <image class="cell-icon" src="{{item.thumb}}" mode="aspectFit" />
             <text class="cell-name">{{item.name}}</text>
-            <view wx:if="{{selectedFurniture.indexOf(item.key) >= 0}}" class="cell-check">✓</view>
+            <view wx:if="{{item.on}}" class="cell-check">✓</view>
           </view>
         </view>
       </view>

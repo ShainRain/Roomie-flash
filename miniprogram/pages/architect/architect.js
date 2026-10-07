@@ -1,5 +1,5 @@
 const app = getApp();
-const Layout = require('../../utils/room-layout');
+const SceneLayout = require('../../utils/room-scene-layout');
 const RecordsUtil = require('../../utils/records');
 
 const FLOORS = [
@@ -8,23 +8,27 @@ const FLOORS = [
   { key: 'slate', name: '深石板', color: '#4A5A66' }
 ];
 
-// 家具库与房间场景同源（utils/room-layout.js，由 tools/gen-room-scene.js 生成）
-const FURNITURE = Layout.FURNITURE.map((f) => ({ key: f.key, name: f.name, icon: f.icon }));
+// 家具库与 Room Master 单一数据源同源(room-scene-layout.js,gen-room-master.js 生成)
+// 缩略图为房间资产同源裁切(furn-thumb-*),不再是双色 icon
+const FURNITURE = SceneLayout.FURNITURE
+  .filter((f) => !f.fixed)
+  .map((f) => ({ key: f.id, name: f.label, thumb: f.thumb }));
 
 Page({
   data: {
     floors: FLOORS,
     furniture: FURNITURE,
     selectedFloor: 'blue-gray',
-    floorColor: '#3B4A6B',
     selectedFurniture: [],
-    previewLayers: [],
-    previewSlots: [],
     lightTemp: 2700,
-    lightOverlay: '',
     dirty: false,
     activeTab: 'furniture',
-    tabs: [{ key: 'furniture', name: '家具', short: '具' }, { key: 'floor', name: '地板', short: '板' }, { key: 'light', name: '灯光', short: '光' }]
+    tabs: [{ key: 'furniture', name: '家具', short: '具' }, { key: 'floor', name: '地板', short: '板' }, { key: 'light', name: '灯光', short: '光' }],
+    // Room Master 预览输入(room-scene 组件属性;预览即最终房间)
+    recordIds: [],
+    characters: [{ id: 'momo', x: 54.6, y: 67, frame: 'idle', facing: 1 }],
+    nowPlaying: { playing: true, title: '晴天' },
+    cells: [] // FURNITURE + on 标记(WXML 表达式不做数组查找,选中态在 JS 计算)
   },
 
   // 工作台分段标签切换（纯 UI 状态，不触碰房间数据）
@@ -34,43 +38,22 @@ Page({
 
   onLoad() {
     const room = app.globalData.room;
-    const floor = FLOORS.find((f) => f.key === room.floor) || FLOORS[0];
     this.setData({
-      selectedFloor: floor.key,
-      floorColor: floor.color,
+      selectedFloor: room.floor,
       selectedFurniture: room.furniture.slice(),
       lightTemp: room.lightTemp,
-      lightOverlay: this.tint(room.lightTemp)
+      recordIds: RecordsUtil.readSelection((k) => wx.getStorageSync(k)).slice()
     });
-    this.rebuildPreview();
-    const selected = RecordsUtil.readSelection((k) => wx.getStorageSync(k));
-    this.setData({
-      previewSlots: Layout.RECORD_SLOTS.slice(0, selected.length)
-        .map((slot, i) => ({ ...slot, key: `slot-${i}`, src: `/assets/img/rec-${selected[i]}.webp` }))
-    });
+    this.rebuildCells();
   },
 
-  // 预览与房间页同一组家具状态：选中即显示对应覆盖层
-  rebuildPreview() {
-    const keys = this.data.selectedFurniture;
-    this.setData({
-      previewLayers: Layout.FURNITURE
-        .filter((f) => keys.includes(f.key))
-        .map((f) => ({ key: f.key, src: f.overlay, z: f.z }))
-    });
-  },
-
-  tint(k) {
-    const t = (k - 2700) / 3300;
-    const warmA = (0.22 * (1 - t)).toFixed(3);
-    const coolA = (0.18 * t).toFixed(3);
-    return `background: linear-gradient(180deg, rgba(255,217,160,${warmA}) 0%, rgba(190,220,255,${coolA}) 100%);`;
+  rebuildCells() {
+    const sel = this.data.selectedFurniture;
+    this.setData({ cells: FURNITURE.map((f) => ({ ...f, on: sel.includes(f.key) })) });
   },
 
   onSelectFloor(e) {
-    const key = e.currentTarget.dataset.key;
-    const floor = FLOORS.find((f) => f.key === key);
-    this.setData({ selectedFloor: key, floorColor: floor.color, dirty: true });
+    this.setData({ selectedFloor: e.currentTarget.dataset.key, dirty: true });
   },
 
   onToggleFurniture(e) {
@@ -80,22 +63,18 @@ Page({
     if (idx >= 0) list.splice(idx, 1);
     else list.push(key);
     this.setData({ selectedFurniture: list, dirty: true });
-    this.rebuildPreview();
+    this.rebuildCells();
   },
 
   onLightChange(e) {
-    this.applyLight(e.detail.value);
+    this.setData({ lightTemp: e.detail.value, dirty: true });
   },
 
-  // 拖动中节流：色温变化 <50K 不触发 setData（渐变字符串拼接有成本）
+  // 拖动中节流：色温变化 <50K 不触发 setData
   onLightChanging(e) {
     const k = e.detail.value;
     if (Math.abs(k - this.data.lightTemp) < 50) return;
-    this.applyLight(k);
-  },
-
-  applyLight(k) {
-    this.setData({ lightTemp: k, lightOverlay: this.tint(k), dirty: true });
+    this.setData({ lightTemp: k, dirty: true });
   },
 
   onSave() {

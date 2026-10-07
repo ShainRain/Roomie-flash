@@ -885,15 +885,15 @@ const OVERLAYS = {
       + `</g>`;
   },
 
-  // 窗边挂帘:帘杆 + 褶皱帘身 + 束带(织物垂坠)
+  // 窗边挂帘:帘杆 + 褶皱帘身 + 束带(织物垂坠;挂在窗户左侧,微距镜头内可见)
   curtain() {
     return `<g transform="matrix(480 250 0 440 414 -205)">`
-      + `<rect x="0.848" y="0.265" width="0.115" height="0.018" rx="0.008" fill="#4E3319"/>`
-      + `<circle cx="0.85" cy="0.274" r="0.011" fill="#3A2413"/><circle cx="0.961" cy="0.274" r="0.011" fill="#3A2413"/>`
-      + `<path d="M0.858 0.285 L0.955 0.285 L0.948 0.51 Q0.925 0.545 0.944 0.59 L0.953 0.83 Q0.908 0.86 0.868 0.83 L0.876 0.59 Q0.894 0.545 0.87 0.51 Z" fill="#A5563F"/>`
-      + `<path d="M0.874 0.29 q0.004 0.27 -0.002 0.53 M0.895 0.29 q0.006 0.28 0 0.54 M0.916 0.29 q0.006 0.27 0.002 0.53 M0.935 0.29 q0.006 0.26 0.004 0.51" stroke="#7A3E28" stroke-width="0.005" opacity=".65" fill="none"/>`
-      + `<path d="M0.884 0.29 q0.003 0.26 -0.002 0.51 M0.906 0.29 q0.004 0.27 0 0.52" stroke="#C97B5A" stroke-width="0.003" opacity=".5" fill="none"/>`
-      + `<path d="M0.868 0.545 q0.04 0.017 0.08 0 l0.002 0.024 q-0.042 0.017 -0.084 0 Z" fill="#D9A441"/>`
+      + `<rect x="0.688" y="0.265" width="0.115" height="0.018" rx="0.008" fill="#4E3319"/>`
+      + `<circle cx="0.69" cy="0.274" r="0.011" fill="#3A2413"/><circle cx="0.801" cy="0.274" r="0.011" fill="#3A2413"/>`
+      + `<path d="M0.698 0.285 L0.795 0.285 L0.788 0.51 Q0.765 0.545 0.784 0.59 L0.793 0.83 Q0.748 0.86 0.708 0.83 L0.716 0.59 Q0.734 0.545 0.71 0.51 Z" fill="#A5563F"/>`
+      + `<path d="M0.714 0.29 q0.004 0.27 -0.002 0.53 M0.735 0.29 q0.006 0.28 0 0.54 M0.756 0.29 q0.006 0.27 0.002 0.53 M0.775 0.29 q0.006 0.26 0.004 0.51" stroke="#7A3E28" stroke-width="0.005" opacity=".65" fill="none"/>`
+      + `<path d="M0.724 0.29 q0.003 0.26 -0.002 0.51 M0.746 0.29 q0.004 0.27 0 0.52" stroke="#C97B5A" stroke-width="0.003" opacity=".5" fill="none"/>`
+      + `<path d="M0.708 0.545 q0.04 0.017 0.08 0 l0.002 0.024 q-0.042 0.017 -0.084 0 Z" fill="#D9A441"/>`
       + `</g>`;
   },
 
@@ -962,19 +962,23 @@ const FURN_META = [
     glowManual: [414, 500, 190],
     lightResponse: { warm: 0.6, cool: 0.2, emissive: 0 }, occludesCharacter: false, interaction: null, hotspot: null },
   { key: 'curtain', name: '挂帘', collision: null,
-    anchorManual: { x: 104, y: 42 }, boundsManual: { left: 98, top: 25, width: 12, height: 34 }, zManual: 300,
+    wallBounds: [0.688, 0.265, 0.803, 0.86],
+    anchorManual: { x: 93.2, y: 31.6 }, zManual: 300,
     lightResponse: { warm: 0.5, cool: 0.45, emissive: 0 }, occludesCharacter: false, interaction: null, hotspot: null },
   { key: 'projector', name: '放映机', uvFoot: [0.30, 0.53, 0.375, 0.59], hPx: 24, collision: null,
     lightResponse: { warm: 0.5, cool: 0.3, emissive: 0.6 }, occludesCharacter: true, interaction: 'projector',
     hotspot: { id: 'projector', icon: '✦', name: '放映机', left: 33, top: 43, width: 10, height: 10 } },
   { key: 'poster', name: '海报', collision: null,
-    anchorManual: { x: 47, y: 52 }, boundsManual: { left: 41, top: 34, width: 12, height: 36 }, zManual: 300,
+    wallBounds: [0.05, 0.44, 0.155, 0.84],
+    anchorManual: { x: 56, y: 13 }, zManual: 300,
     lightResponse: { warm: 0.8, cool: 0.4, emissive: 0 }, occludesCharacter: false, interaction: null, hotspot: null },
   { key: 'coffee', name: '咖啡机', collision: null,
-    anchorManual: { x: 86, y: 55 }, boundsManual: { left: 82, top: 47, width: 8, height: 16 }, zManual: 300,
+    wallBounds: [0.632, 0.648, 0.694, 0.74],
+    anchorManual: { x: 88.6, y: 32.2 }, zManual: 300,
     lightResponse: { warm: 0.7, cool: 0.4, emissive: 0.2 }, occludesCharacter: false, interaction: null, hotspot: null },
   { key: 'bookshelf', name: '书架', collision: null,
-    anchorManual: { x: 66, y: 72 }, boundsManual: { left: 52, top: 62, width: 28, height: 20 }, zManual: 300,
+    wallBounds: [0.32, 0.82, 0.64, 0.955],
+    anchorManual: { x: 77.8, y: 37.3 }, zManual: 300,
     lightResponse: { warm: 0.8, cool: 0.35, emissive: 0 }, occludesCharacter: false, interaction: null, hotspot: null },
   { key: 'doll', name: '玩偶', uvFoot: [0.26, 0.66, 0.30, 0.70], hPx: 80, collision: null,
     lightResponse: { warm: 0.7, cool: 0.2, emissive: 0 }, occludesCharacter: true, interaction: null, hotspot: null },
@@ -1064,13 +1068,19 @@ async function render(svg, outFile, quality = 86) {
 (async () => {
   fs.mkdirSync(OUT_DIR, { recursive: true });
 
-  // 家具 meta 补全(stage anchor/bounds/z/glow)
+  // 家具 meta 补全(stage anchor/bounds/z/glow);wallBounds(墙面 s/t 矩形)→ stage bounds
+  const wallToStage = (wb) => {
+    const corners = [RW(wb[0], wb[1]), RW(wb[2], wb[1]), RW(wb[0], wb[3]), RW(wb[2], wb[3])];
+    const xs = corners.map((c) => Math.max(0, Math.min(828, c[0])));
+    const ys = corners.map((c) => Math.max(0, Math.min(828, c[1])));
+    return { left: pct(Math.min(...xs)), top: pct(Math.min(...ys)), width: pct(Math.max(...xs) - Math.min(...xs)), height: pct(Math.max(...ys) - Math.min(...ys)) };
+  };
   const furns = FURN_META.map((m) => {
     const stage = m.uvFoot ? footToStage(m.uvFoot, m.hPx) : null;
     return {
       ...m,
       anchor: stage ? stage.anchor : m.anchorManual,
-      bounds: stage ? stage.bounds : m.boundsManual,
+      bounds: stage ? stage.bounds : (m.wallBounds ? wallToStage(m.wallBounds) : m.boundsManual),
       z: stage ? stage.z : m.zManual,
       glowAt: stage ? stage.glow : (m.glowManual || null)
     };
@@ -1098,6 +1108,27 @@ async function render(svg, outFile, quality = 86) {
     const kb = await render(svg, path.join(OUT_DIR, `furn-${f.key}.webp`), 86);
     console.log(`OK room/furn-${f.key}.webp ${kb} KB`);
   }
+
+  // 家具真实缩略图(建筑师网格用,取代 furn-icon-*):从覆盖层裁 bounds+padding,等比居进 180×180 透明画布
+  for (const f of furns) {
+    if (f.key === 'table') continue; // 固定件不进 DIY 网格
+    const b = f.bounds;
+    const px = (v) => (v / 100) * 828;
+    const pad = Math.max(px(b.width), px(b.height)) * 0.18 + 6;
+    const left = Math.max(0, Math.floor(px(b.left) - pad));
+    const top = Math.max(0, Math.floor(px(b.top) - pad));
+    const width = Math.min(828 - left, Math.ceil(px(b.width) + pad * 2));
+    const height = Math.min(828 - top, Math.ceil(px(b.height) + pad * 2));
+    const crop = await sharp(path.join(OUT_DIR, `furn-${f.key}.webp`)).extract({ left, top, width, height }).png().toBuffer();
+    const meta = await sharp(crop).metadata();
+    const fit = Math.min(168 / meta.width, 168 / meta.height);
+    const resized = await sharp(crop).resize({ width: Math.max(1, Math.round(meta.width * fit)) }).png().toBuffer();
+    const rmeta = await sharp(resized).metadata();
+    await sharp({ create: { width: 180, height: 180, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
+      .composite([{ input: resized, left: Math.round((180 - rmeta.width) / 2), top: Math.round((180 - rmeta.height) / 2) }])
+      .webp({ quality: 88 }).toFile(path.join(OUT_DIR, `furn-thumb-${f.key}.webp`));
+  }
+  console.log(`OK room/furn-thumb-*.webp ×${furns.length - 1}`);
 
   // 唱片板材 ×24(封套/黑胶节奏按槽位奇偶)
   for (const rec of RECORDS) {
@@ -1132,7 +1163,7 @@ module.exports = ${JSON.stringify({
       label: m.name,
       name: m.name,
       asset: `/assets/img/room/furn-${m.key}.webp`,
-      thumb: `/assets/img/room/furn-${m.key}.webp`,
+      thumb: `/assets/img/room/furn-thumb-${m.key}.webp`,
       anchor: m.anchor,
       bounds: m.bounds,
       scale: 1,
