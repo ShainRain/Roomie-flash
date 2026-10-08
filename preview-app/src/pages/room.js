@@ -15,7 +15,7 @@ import RoomSync from '../adapters/socket.js';
 import Avatar from '../adapters/avatar.js';
 import { getStorageSync } from '../adapters/storage.js';
 import { showToast, showActionSheet } from '../adapters/platform.js';
-import { back } from '../router/router.js';
+import { back, navigate } from '../router/router.js';
 
 // Room Master Scene 地图实例：新几何 + 碰撞/障碍由 room-scene-layout 单一数据源驱动
 const map = createMap(SceneLayout.GEOMETRY, SceneLayout);
@@ -60,7 +60,7 @@ export function mount(container) {
   const shareBtn = document.createElement('button');
   shareBtn.className = 'nav-ic';
   shareBtn.textContent = '↗';
-  shareBtn.addEventListener('click', () => showToast({ title: '明信片分享见「创建」页', icon: 'none' }));
+  shareBtn.addEventListener('click', () => navigate('/postcard')); // web 分享入口 = 明信片
   topbar.append(backBtn, livePill, shareBtn);
   page.appendChild(topbar);
 
