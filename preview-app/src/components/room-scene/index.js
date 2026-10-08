@@ -240,7 +240,8 @@ export class RoomScene {
         sprite.style.filter = item.filter
           ? `${item.filter} drop-shadow(0 3px 4px rgba(20, 12, 6, 0.28))`
           : '';
-        const src = assetUrl(item.spriteSrc || `/assets/img/char-${item.id}-${item.frame || 'idle'}.webp`);
+        // spriteBase：角色资产名与 id 解耦（duo 中非 KIKI 好友复用 momo 精灵 + 色相滤镜变体）
+        const src = assetUrl(item.spriteSrc || `/assets/img/char-${item.spriteBase || item.id}-${item.frame || 'idle'}.webp`);
         if (sprite.dataset.src !== src) {
           sprite.src = src;
           sprite.dataset.src = src;

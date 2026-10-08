@@ -6,7 +6,7 @@
 import Player from '../../state/player.js';
 import { navigate } from '../../router/router.js';
 
-export function createMiniPlayer(container, { subtitle = '', tapTarget = 'song' } = {}) {
+export function createMiniPlayer(container, { subtitle = '', tapTarget = 'song', onControl = null } = {}) {
   const el = document.createElement('div');
   el.className = 'mp-card';
   el.innerHTML = `
@@ -49,9 +49,11 @@ export function createMiniPlayer(container, { subtitle = '', tapTarget = 'song' 
   const openDetail = () => { if (tapTarget === 'song') navigate('/song'); };
   vinyl.addEventListener('click', openDetail);
   el.querySelector('.mp-info').addEventListener('click', openDetail);
-  el.querySelector('.mp-ctrl-play').addEventListener('click', () => Player.toggle());
-  el.querySelector('.mp-prev').addEventListener('click', () => Player.prev());
-  el.querySelector('.mp-next').addEventListener('click', () => Player.next());
+  // onControl(action)：duo 页用于标记"用户主动操作过播放器"（退出还原判定）
+  const control = (action, fn) => () => { fn(); if (onControl) onControl(action); };
+  el.querySelector('.mp-ctrl-play').addEventListener('click', control('toggle', () => Player.toggle()));
+  el.querySelector('.mp-prev').addEventListener('click', control('prev', () => Player.prev()));
+  el.querySelector('.mp-next').addEventListener('click', control('next', () => Player.next()));
 
   container.appendChild(el);
 

@@ -68,6 +68,11 @@ export function getInviting() {
   return inviting;
 }
 
+// 按名字查好友（duo 路由 ?peer=NAME 解析用）；未命中返回 null
+export function findFriend(name) {
+  return FRIENDS_ONLINE.concat(FRIENDS_OFFLINE).find((f) => f.name === name) || null;
+}
+
 export function subscribeInviting(fn) {
   listeners.add(fn);
   return () => listeners.delete(fn);
@@ -103,4 +108,4 @@ export function cancelInvite() {
   }
 }
 
-export default { FRIENDS_ONLINE, FRIENDS_OFFLINE, HOME_FRIENDS, getInviting, subscribeInviting, invite, cancelInvite };
+export default { FRIENDS_ONLINE, FRIENDS_OFFLINE, HOME_FRIENDS, getInviting, subscribeInviting, invite, cancelInvite, findFriend };

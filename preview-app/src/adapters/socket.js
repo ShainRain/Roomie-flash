@@ -57,6 +57,46 @@ export function startSimPeer() {
   }, 4000);
 }
 
+// ---- 模拟 peer 的播放器活动（duo 演示用，opt-in）----
+// 消息形状与 room-sync 'player' 协议一致：{ index, position, playing, sentAt }，
+// 页面侧经 Player.applyRemote 应用（source='remote'，不回播）。
+let simPlayerTimer = null;
+let simPlayerGetSnap = null;
+let simPlayerCount = 0;
+
+function startSimPlayerActivity() {
+  if (simPlayerTimer || typeof simPlayerGetSnap !== 'function') return;
+  const act = () => {
+    const snap = simPlayerGetSnap();
+    if (!snap || !handlers.onPeerPlayer) return;
+    simPlayerCount += 1;
+    if (!snap.playing) {
+      // 对端放上了唱片
+      handlers.onPeerPlayer({ index: snap.index, position: snap.position, playing: true, sentAt: Date.now() });
+      if (handlers.onPeerAction) handlers.onPeerAction({ label: '对方放上了唱片' });
+      return;
+    }
+    // 每两次活动切一次歌（演示节奏克制）
+    if (simPlayerCount % 2 === 0) {
+      handlers.onPeerPlayer({ index: (snap.index + 1) % snap.playlistLength, position: 0, playing: true, sentAt: Date.now() });
+      if (handlers.onPeerAction) handlers.onPeerAction({ label: '对方换了一张唱片' });
+    }
+  };
+  // 首次 12s（进房不久即有同步感），之后每 24s
+  simPlayerTimer = setTimeout(function loop() {
+    act();
+    simPlayerTimer = setTimeout(loop, 24000);
+  }, 12000);
+}
+
+function stopSimPlayerActivity() {
+  if (simPlayerTimer) {
+    clearTimeout(simPlayerTimer);
+    simPlayerTimer = null;
+  }
+  simPlayerCount = 0;
+}
+
 export function stopSimPeer() {
   if (simTimer) {
     clearInterval(simTimer);
@@ -120,13 +160,16 @@ function degrade() {
 }
 
 // 幂等：已连线或连接中只更新事件处理，不重复建连
+// options.simPlayer: 可选，() => Player.snapshot()——duo 页传入以开启模拟 peer 播放活动
 export function join(options = {}) {
   handlers = options.handlers || {};
   myName = options.name || 'MOMO';
   myRoom = options.room || '0731';
   if (options.peerBase) simPos = { ...options.peerBase };
+  simPlayerGetSnap = typeof options.simPlayer === 'function' ? options.simPlayer : null;
   if (status !== 'idle') return;
   startSimPeer(); // 连接建立前先由模拟 peer 兜底
+  startSimPlayerActivity();
   const mode = options.mode || MODE;
   if (mode === 'websocket') connect();
 }
@@ -158,6 +201,8 @@ export function sendAction(label) {
 
 export function leave() {
   stopSimPeer();
+  stopSimPlayerActivity();
+  simPlayerGetSnap = null;
   if (moveFlushTimer) {
     clearTimeout(moveFlushTimer);
     moveFlushTimer = null;
