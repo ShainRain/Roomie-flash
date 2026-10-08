@@ -26,6 +26,7 @@ import postcard from './pages/postcard.js';
 if (!getStorageSync('roomie_unread')) setStorageSync('roomie_unread', 2);
 
 router.register('/', home);
+router.register('/home', home); // 显式别名：深链 #/home 与 / 等价
 router.register('/room', room);
 router.register('/friends', friends);
 router.register('/duo', duo);
