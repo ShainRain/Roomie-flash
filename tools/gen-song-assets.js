@@ -8,11 +8,12 @@ const { RECORDS } = require('../miniprogram/utils/records');
 
 const IMG = path.join(__dirname, '..', 'miniprogram', 'assets', 'img');
 
-// 曲目 → 唱片色(records.js 前 3 张)
+// 曲目 → 唱片色(records.js 前 3 张 + Aruarian_Dance 接真实音频那张)
 const TRACKS = [
   { id: 'sunny', rec: RECORDS[0] },
   { id: 'sea', rec: RECORDS[1] },
-  { id: 'night', rec: RECORDS[2] }
+  { id: 'night', rec: RECORDS[2] },
+  { id: 'aruarian', rec: RECORDS[RECORDS.length - 1] }
 ];
 
 // 确定性散点(纸张颗粒/磨损)

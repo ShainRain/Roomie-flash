@@ -18,7 +18,17 @@ const RECORDS = RECORD_TITLES.map((title, i) => ({
   color: RECORD_COLORS[i % RECORD_COLORS.length]
 }));
 
-const DEFAULT_SELECTION = [1, 2, 3, 5, 8, 19];
+// 真实音频唱片：点击即通过播放器播放到工程根目录的 mp3（与 miniprogram/ 同级，随工程迁移）。
+// audio 标记驱动 player.js 的真实音频层；trackId 对应 PLAYLIST 里的曲目 id。
+RECORDS.push({
+  id: RECORD_TITLES.length + 1,
+  title: 'Aruarian_Dance',
+  color: RECORD_COLORS[RECORD_TITLES.length % RECORD_COLORS.length],
+  audio: true,
+  trackId: 'aruarian'
+});
+
+const DEFAULT_SELECTION = [1, 2, 3, 5, 8, 19, RECORDS.length];
 
 // 读取本地唱片墙选择，过滤失效 id；无存档时回退默认选择
 function readSelection(storageGet) {

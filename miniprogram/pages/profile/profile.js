@@ -1,6 +1,7 @@
 const app = getApp();
 const { RECORDS, readSelection, MAX_PICK } = require('../../utils/records');
 const Avatar = require('../../utils/avatar');
+const Player = require('../../utils/player');
 
 const FLOOR_NAMES = { 'blue-gray': '夜蓝灰', walnut: '胡桃木', slate: '深石板' };
 
@@ -57,6 +58,24 @@ Page({
 
   onToggleRecord(e) {
     const id = e.currentTarget.dataset.id;
+    const rec = RECORDS.find((r) => r.id === id);
+    // 真实音频唱片：点击是「播放」入口——只挂上墙不摘下，同时链接播放对应音频
+    //（寻址见 utils/player.js 迁移约定）
+    if (rec && rec.audio && rec.trackId) {
+      const list = this.data.selected.slice();
+      if (list.indexOf(id) < 0) {
+        if (list.length >= this.data.maxPick) {
+          wx.showToast({ title: `最多挂 ${this.data.maxPick} 张`, icon: 'none' });
+        } else {
+          list.push(id);
+          this.setData({ selected: list, dirty: true });
+          this.rebuildCells();
+        }
+      }
+      Player.playTrack(rec.trackId, true);
+      wx.showToast({ title: `♪ 正在播放《${rec.title}》`, icon: 'none' });
+      return;
+    }
     const list = this.data.selected.slice();
     const idx = list.indexOf(id);
     if (idx >= 0) {
