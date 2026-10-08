@@ -1,0 +1,108 @@
+/* ===== Roomie 设计令牌 · 深夜放映室 (v3 · 视觉重置基准) =====
+   Converted from miniprogram/app.wxss — single source of truth, values unchanged.
+   rpx→px: 1rpx = 390/750 px = 0.52px, exposed as --rpx so ported rules stay
+   traceable to the original rpx numbers (calc(var(--rpx) * N)). */
+
+@font-face {
+  font-family: 'Oranienbaum';
+  src: url('/fonts/Oranienbaum-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+/* MiSans / NotoSerifSC intentionally NOT loaded: 8–14MB per weight, needs
+   subsetting before shipping. System CJK stack is the fallback for now. */
+
+:root {
+  /* ---- 换算基 ---- */
+  --rpx: 0.52px; /* 390px 基准视口 */
+
+  /* ---- 外部 · 深夜 ---- */
+  --night-950: #08111D;
+  --night-900: #0E1A29;
+  --night-850: #162537;
+  --night-800: #203248;
+  --night-line: rgba(247, 243, 234, 0.12);
+  --night-text: #F7F0E4;
+  --night-sub: #93A0B1;
+
+  /* ---- 内部 · 纸张 ---- */
+  --paper-100: #F3EBDD;
+  --paper-95: #F8F2E6;
+  --paper-90: #EDE3D1;
+  --ink-900: #1F2329;
+  --ink-700: #4B5563;
+  --ink-500: #8A8F98;
+  --line: #ECE7DA;
+
+  /* ---- 交互 · Roomie Green ---- */
+  --green: #2BC96B;
+  --green-deep: #1E9F54;
+  --green-soft: #E5F4E9;
+
+  /* ---- 强调 · 琥珀 / 胡桃木 / 2700K 暖光 ---- */
+  --amber: #E9A942;
+  --amber-deep: #A96B20;
+  --amber-soft: #FBEAC6;
+  --walnut-900: #24140D;
+  --walnut-700: #3E2618;
+  --walnut-500: #704628;
+  --warm-light: #F6C77A;
+
+  --danger: #D96B55;
+
+  /* ---- 兼容别名 ---- */
+  --night: var(--night-950);
+  --night-2: var(--night-900);
+  --night-3: var(--night-850);
+  --paper: var(--paper-100);
+  --paper-2: var(--paper-90);
+  --ink: var(--ink-900);
+  --ink-2: var(--ink-700);
+  --ink-3: var(--ink-500);
+  --wood: var(--walnut-500);
+  --wood-deep: var(--walnut-700);
+  --cream: var(--night);
+  --sky: var(--night-2);
+  --white: #FFFFFF;
+
+  /* ---- 字号 (rpx, 375 逻辑宽基准) ---- */
+  --fs-display-xl: calc(var(--rpx) * 64);
+  --fs-display: calc(var(--rpx) * 56);
+  --fs-hero: calc(var(--rpx) * 44);
+  --fs-title: calc(var(--rpx) * 44);
+  --fs-section: calc(var(--rpx) * 34);
+  --fs-sub: calc(var(--rpx) * 27);
+  --fs-body: calc(var(--rpx) * 29);
+  --fs-caption: calc(var(--rpx) * 23);
+  --fs-micro: calc(var(--rpx) * 20);
+
+  /* ---- 间距 (4px 基准) ---- */
+  --sp-micro: calc(var(--rpx) * 8);
+  --sp-compact: calc(var(--rpx) * 16);
+  --sp-small: calc(var(--rpx) * 24);
+  --sp-normal: calc(var(--rpx) * 32);
+  --sp-medium: calc(var(--rpx) * 40);
+  --sp-card: calc(var(--rpx) * 48);
+  --sp-section: calc(var(--rpx) * 64);
+  --sp-hero: calc(var(--rpx) * 80);
+
+  /* ---- 圆角 ---- */
+  --r-pill: 999px;
+  --r-card-lg: calc(var(--rpx) * 42);
+  --r-card: calc(var(--rpx) * 32);
+  --r-card-sm: calc(var(--rpx) * 22);
+  --r-image: calc(var(--rpx) * 28);
+
+  /* ---- 阴影 ---- */
+  --shadow-paper: 0 calc(var(--rpx) * 16) calc(var(--rpx) * 42) rgba(5, 10, 18, 0.18);
+  --shadow-float: 0 calc(var(--rpx) * 14) calc(var(--rpx) * 34) rgba(2, 8, 15, 0.30);
+  --shadow-green: 0 calc(var(--rpx) * 10) calc(var(--rpx) * 22) rgba(43, 201, 107, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+@media (max-width: 767px) {
+  :root {
+    /* 移动端铺满：rpx 跟随真实视口宽等比缩放 */
+    --rpx: calc(100vw / 750);
+  }
+}

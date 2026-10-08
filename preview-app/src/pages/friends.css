@@ -1,0 +1,250 @@
+/* friends — port of miniprogram/pages/friends/friends.wxss + live RoomScene vignette */
+
+.p-friends {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--night-950) 0%, var(--night-900) 55%, var(--night-950) 100%);
+}
+.p-friends .page-scroll {
+  padding-bottom: calc(var(--rpx) * 220);
+}
+
+.p-friends .head {
+  margin-top: calc(var(--rpx) * 6);
+}
+
+.p-friends .head-sub {
+  font-size: var(--fs-caption);
+  color: var(--night-sub);
+}
+
+/* ---- 好友房间 vignette 横排（live RoomScene，Master 资产实时合成） ---- */
+.v-row {
+  display: flex;
+  gap: calc(var(--rpx) * 24);
+  margin: calc(var(--rpx) * 20) calc(var(--rpx) * -40) 0;
+  padding: 0 calc(var(--rpx) * 40);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.v-row::-webkit-scrollbar { display: none; }
+
+.v-card {
+  position: relative;
+  flex-shrink: 0;
+  width: calc(var(--rpx) * 464);
+  border-radius: var(--r-card-sm);
+  overflow: hidden;
+  border: 1px solid var(--night-line);
+  box-shadow: var(--shadow-float);
+  cursor: pointer;
+  background: var(--night-900);
+}
+
+/* 取景对齐 tools/gen-friends-vignettes.js：extract(30,110,768,600) / 828 画布 */
+.v-scene {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 768 / 600;
+  overflow: hidden;
+}
+
+.v-stage {
+  position: absolute;
+  width: 107.81%; /* 828/768 */
+  aspect-ratio: 1 / 1;
+  left: -3.91%;  /* -30/768 */
+  top: -18.33%; /* -110/600 */
+}
+
+.v-meta {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: calc(var(--rpx) * 14) calc(var(--rpx) * 20) calc(var(--rpx) * 16);
+  background: rgba(8, 17, 29, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+.v-name-row {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--rpx) * 12);
+}
+
+.v-name {
+  flex: 1;
+  font-size: calc(var(--rpx) * 24);
+  font-weight: 700;
+  color: var(--night-text);
+}
+
+.v-dot {
+  width: calc(var(--rpx) * 12);
+  height: calc(var(--rpx) * 12);
+  border-radius: 50%;
+  background: var(--green);
+  flex-shrink: 0;
+}
+
+.v-act {
+  font-size: calc(var(--rpx) * 20);
+  font-weight: 700;
+  background: var(--green);
+  color: var(--white);
+  border-radius: var(--r-pill);
+  padding: calc(var(--rpx) * 8) calc(var(--rpx) * 22);
+  box-shadow: var(--shadow-green);
+}
+
+.v-act-wait { opacity: 0.6; }
+
+.v-status {
+  display: block;
+  margin-top: calc(var(--rpx) * 6);
+  font-size: calc(var(--rpx) * 18);
+  color: var(--night-sub);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---- 好友纸张卡 ---- */
+.p-friends .friend-card {
+  position: relative;
+  z-index: 8;
+  padding: calc(var(--rpx) * 40) calc(var(--rpx) * 36) calc(var(--rpx) * 16);
+}
+
+.p-friends .online-card { margin-top: calc(var(--rpx) * 28); }
+
+/* 离线区块：整体降不透明度（沿用小程序语义，令牌之外零新色值） */
+.p-friends .offline-card {
+  margin-top: calc(var(--rpx) * 28);
+  opacity: 0.6;
+}
+
+.p-friends .card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: calc(var(--rpx) * 12);
+}
+
+.p-friends .card-head-en {
+  font-size: var(--fs-micro);
+  color: var(--ink-500);
+}
+
+.p-friends .friend {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--rpx) * 20);
+  padding: calc(var(--rpx) * 24) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.p-friends .friend:last-child { border-bottom: none; }
+
+.p-friends .f-avatar {
+  position: relative;
+  width: calc(var(--rpx) * 80);
+  height: calc(var(--rpx) * 80);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-size: var(--fs-body);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.p-friends .f-dot {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: calc(var(--rpx) * 20);
+  height: calc(var(--rpx) * 20);
+  border-radius: 50%;
+  background: var(--green);
+  border: calc(var(--rpx) * 4) solid var(--paper-100);
+}
+
+.p-friends .f-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--rpx) * 4);
+}
+
+.p-friends .f-name-row {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--rpx) * 12);
+}
+
+.p-friends .f-name {
+  font-size: var(--fs-body);
+  font-weight: 700;
+  color: var(--ink-900);
+}
+
+.p-friends .f-tag {
+  font-size: var(--fs-micro);
+  color: var(--green-deep);
+  background: var(--green-soft);
+  border-radius: var(--r-pill);
+  padding: calc(var(--rpx) * 4) calc(var(--rpx) * 16);
+  font-weight: 600;
+}
+
+.p-friends .f-status {
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+}
+
+.p-friends .f-btn {
+  flex-shrink: 0;
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  padding: calc(var(--rpx) * 14) calc(var(--rpx) * 30);
+  border-radius: var(--r-pill);
+  cursor: pointer;
+}
+
+.p-friends .f-btn-solid {
+  background: var(--green);
+  color: var(--white);
+  box-shadow: var(--shadow-green);
+  border: none;
+}
+
+.p-friends .f-btn-ghost {
+  background: transparent;
+  border: calc(var(--rpx) * 2) solid var(--ink-500);
+  color: var(--ink-500);
+}
+
+.p-friends .f-btn-wait { opacity: 0.6; }
+
+/* ---- 邀请好友（页面唯一主 CTA） ---- */
+.p-friends .invite-cta {
+  margin-top: calc(var(--rpx) * 40);
+  height: calc(var(--rpx) * 108);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--rpx) * 16);
+  font-size: var(--fs-body);
+  letter-spacing: 1px;
+  width: 100%;
+}
+
+.p-friends .invite-cta-arrow {
+  font-size: var(--fs-section);
+  font-weight: 400;
+}

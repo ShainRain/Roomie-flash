@@ -1,0 +1,127 @@
+/* ===== 通用组件类 — ported from miniprogram/app.wxss ===== */
+
+.en-serif {
+  font-family: 'Oranienbaum', 'Times New Roman', serif;
+  letter-spacing: calc(var(--rpx) * 4);
+  text-transform: uppercase;
+}
+
+/* Paper Card */
+.card,
+.paper-card {
+  background: var(--paper-100);
+  background-image:
+    radial-gradient(rgba(112, 70, 40, 0.045) 1px, transparent 1.6px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0));
+  background-size: calc(var(--rpx) * 16) calc(var(--rpx) * 16), 100% 100%;
+  color: var(--ink-900);
+  border-radius: var(--r-card-lg);
+  box-shadow: var(--shadow-paper);
+}
+
+/* Status Pill 基底 */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--r-pill);
+  padding: calc(var(--rpx) * 8) calc(var(--rpx) * 24);
+  font-size: var(--fs-caption);
+}
+
+.pill-live {
+  background: var(--green);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 calc(var(--rpx) * 5) calc(var(--rpx) * 14) rgba(43, 201, 107, 0.20);
+}
+
+.pill-dark {
+  background: rgba(247, 243, 234, 0.10);
+  color: var(--night-text);
+  border: 1px solid var(--night-line);
+}
+
+.pill-green-soft {
+  background: var(--green-soft);
+  color: var(--green-deep);
+  font-weight: 600;
+}
+
+.pill-amber {
+  background: var(--amber-soft);
+  color: var(--amber-deep);
+  font-weight: 600;
+}
+
+/* Green CTA */
+.btn-primary {
+  background: linear-gradient(180deg, #35D477 0%, #24B961 100%);
+  color: #ffffff;
+  border-radius: var(--r-pill);
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 calc(var(--rpx) * 8) calc(var(--rpx) * 20) rgba(43, 201, 107, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.20);
+  cursor: pointer;
+  border: none;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--green-deep);
+  border: calc(var(--rpx) * 2) solid var(--green);
+  border-radius: var(--r-pill);
+  text-align: center;
+  cursor: pointer;
+}
+
+.btn-ghost-night {
+  background: transparent;
+  color: var(--night-text);
+  border: calc(var(--rpx) * 2) solid var(--night-line);
+  border-radius: var(--r-pill);
+  text-align: center;
+  cursor: pointer;
+}
+
+.btn-ghost-danger {
+  background: transparent;
+  color: var(--danger);
+  border: calc(var(--rpx) * 2) solid var(--danger);
+  border-radius: var(--r-pill);
+  text-align: center;
+  cursor: pointer;
+}
+
+.btn-hover,
+.btn-primary:active,
+.btn-ghost:active,
+.btn-ghost-night:active {
+  opacity: 0.86;
+}
+
+/* 页面左右留白 (375 基准 20–24px → 40–48rpx) */
+.page-pad {
+  padding: 0 calc(var(--rpx) * 40);
+}
+
+.section-title {
+  font-size: var(--fs-section);
+  font-weight: 700;
+  color: var(--night-text);
+}
+
+.text-sub {
+  color: var(--night-sub);
+  font-size: var(--fs-caption);
+}
+
+.paper-title {
+  font-size: var(--fs-section);
+  font-weight: 700;
+  color: var(--ink-900);
+}
+
+.paper-sub {
+  color: var(--ink-500);
+  font-size: var(--fs-caption);
+}

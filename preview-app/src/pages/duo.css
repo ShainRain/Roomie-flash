@@ -1,0 +1,167 @@
+/* duo — port of miniprogram/pages/duo/duo.wxss */
+
+.p-duo {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--night-950) 0%, var(--night-900) 55%, var(--night-950) 100%);
+}
+
+.p-duo .page-scroll {
+  padding: 0 calc(var(--rpx) * 40) calc(var(--rpx) * 72);
+  overflow-x: hidden; /* 舞台 106% 出血裁边 */
+}
+
+/* ---- 入场 ---- */
+.p-duo .rise-in { opacity: 0; animation: rise-in 0.24s ease-out forwards; }
+.p-duo .rise-1 { animation-delay: 0.05s; }
+.p-duo .rise-2 { animation-delay: 0.1s; }
+.p-duo .rise-3 { animation-delay: 0.15s; }
+.p-duo .rise-4 { animation-delay: 0.2s; }
+
+/* ---- 自绘顶栏 ---- */
+.p-duo .topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: calc(var(--rpx) * 36);
+}
+
+.p-duo .nav-ic {
+  background: var(--night-850);
+  box-shadow: var(--shadow-float);
+}
+
+.nav-ic-ghost { visibility: hidden; }
+
+/* ---- 刊头 ---- */
+.duo-title-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: calc(var(--rpx) * 28);
+}
+
+.duo-title-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.duo-page-title {
+  font-size: var(--fs-display);
+  font-weight: 700;
+  color: var(--night-text);
+  letter-spacing: 1px;
+}
+
+.duo-page-title-en {
+  margin-top: calc(var(--rpx) * 6);
+  font-size: var(--fs-caption);
+  color: var(--night-sub);
+}
+
+/* 同频状态：低幅度呼吸 */
+.pill-breathe { animation: pill-breathe 2.4s ease-in-out infinite; }
+
+@keyframes pill-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+/* ---- 双人房间：放大正方形舞台（左右各裁 3% 夜景边），房间主导页面 ---- */
+.duo-stage-wrap {
+  position: relative;
+  margin-top: calc(var(--rpx) * 8);
+  margin-left: calc(-3% - var(--rpx) * 40);
+  width: 106%;
+  aspect-ratio: 1 / 1;
+}
+
+/* ---- 米白纸张共享播放卡（叠上舞台下缘） ---- */
+.play-card {
+  position: relative;
+  z-index: 12;
+  margin-top: calc(var(--rpx) * -56);
+  padding: calc(var(--rpx) * 28) calc(var(--rpx) * 28) calc(var(--rpx) * 20);
+  box-shadow: 0 calc(var(--rpx) * 14) calc(var(--rpx) * 38) rgba(5, 10, 18, 0.20);
+}
+
+.play-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: calc(var(--rpx) * 20);
+  margin-bottom: calc(var(--rpx) * 4);
+  border-bottom: 1px solid var(--line);
+}
+
+.play-head-info {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--rpx) * 6);
+  min-width: 0;
+}
+
+.duo-names {
+  font-size: var(--fs-body);
+  font-weight: 700;
+  color: var(--ink-900);
+}
+
+.duo-sync {
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  color: var(--green-deep);
+}
+
+/* 绿色 CSS 波形：4 根竖条高低错落，轻微律动 */
+.sync-wave {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--rpx) * 6);
+  height: calc(var(--rpx) * 48);
+  flex-shrink: 0;
+}
+
+.wave-bar {
+  width: calc(var(--rpx) * 8);
+  border-radius: var(--r-pill);
+  background: var(--green);
+  animation: wave 1.2s ease-in-out infinite;
+}
+
+.wave-bar:nth-child(1) { height: calc(var(--rpx) * 18); }
+.wave-bar:nth-child(2) { height: calc(var(--rpx) * 36); animation-delay: 0.15s; }
+.wave-bar:nth-child(3) { height: calc(var(--rpx) * 26); animation-delay: 0.3s; }
+.wave-bar:nth-child(4) { height: calc(var(--rpx) * 42); animation-delay: 0.45s; }
+
+@keyframes wave {
+  0%, 100% { transform: scaleY(0.6); }
+  50% { transform: scaleY(1); }
+}
+
+/* 纸张内的 mini-player：去掉深夜卡壳，融入纸面 */
+.play-card .mp-card {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: calc(var(--rpx) * 20) 0 calc(var(--rpx) * 8);
+}
+
+.play-card .mp-title { color: var(--ink-900); }
+.play-card .mp-subtitle { color: var(--ink-500); }
+.play-card .mp-time { color: var(--ink-500); }
+.play-card .mp-track { background: var(--line); }
+.play-card .mp-ctrl-sm { color: var(--ink-700); }
+
+/* ---- 退出双人房（柔和描边警示） ---- */
+.exit-btn {
+  margin-top: calc(var(--rpx) * 20);
+  height: calc(var(--rpx) * 96);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-body);
+  font-weight: 600;
+  width: 100%;
+}

@@ -1,0 +1,96 @@
+/* postcard — port of miniprogram/pages/postcard/postcard.wxss */
+
+.p-postcard {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 24%, rgba(245, 184, 61, 0.07) 0%, rgba(245, 184, 61, 0) 52%),
+    linear-gradient(180deg, var(--night-950) 0%, var(--night-900) 55%, var(--night-950) 100%);
+}
+
+.p-postcard .page-scroll {
+  padding: calc(var(--rpx) * 40) calc(var(--rpx) * 40) calc(var(--rpx) * 96);
+}
+
+/* ---- 编辑式刊头 ---- */
+.pc-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: calc(var(--rpx) * 44);
+}
+
+.pc-head-main {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--rpx) * 8);
+}
+
+.pc-head-title {
+  font-size: var(--fs-title);
+  font-weight: 700;
+  color: var(--night-text);
+  letter-spacing: 1px;
+}
+
+.pc-head-en {
+  font-size: var(--fs-micro);
+  color: var(--night-sub);
+}
+
+.pc-room-pill {
+  margin-bottom: calc(var(--rpx) * 8);
+  letter-spacing: 1px;
+}
+
+/* ---- 明信片舞台：整张微倾斜 ---- */
+.pc-stage {
+  display: flex;
+  justify-content: center;
+}
+
+.pc-wrap {
+  position: relative;
+  width: 100%;
+  transform: rotate(-3deg);
+}
+
+.pc-canvas {
+  display: block;
+  width: 100%;
+  height: calc(var(--rpx) * 880);
+  border-radius: var(--r-card);
+  box-shadow: 0 calc(var(--rpx) * 24) calc(var(--rpx) * 64) rgba(4, 8, 18, 0.55);
+  background: var(--paper-100);
+}
+
+/* ---- 底部行动 ---- */
+.pc-btn-row {
+  display: flex;
+  gap: calc(var(--rpx) * 24);
+  margin-top: calc(var(--rpx) * 56);
+}
+
+.pc-btn {
+  flex: 1;
+  padding: calc(var(--rpx) * 26) 0;
+  font-size: var(--fs-body);
+}
+
+/* ---- 入场 ---- */
+.p-postcard .rise {
+  animation: rise-in 0.24s ease-out both;
+}
+
+.p-postcard .tilt {
+  animation: pc-rise-in-tilt 0.24s ease-out both;
+}
+
+.p-postcard .rise-d1 { animation-delay: 0.06s; }
+.p-postcard .rise-d2 { animation-delay: 0.12s; }
+
+@keyframes pc-rise-in-tilt {
+  from { opacity: 0; transform: translateY(calc(var(--rpx) * 16)) rotate(-3deg); }
+  to { opacity: 1; transform: translateY(0) rotate(-3deg); }
+}

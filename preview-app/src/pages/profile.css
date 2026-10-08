@@ -1,0 +1,358 @@
+/* profile — port of miniprogram/pages/profile/profile.wxss */
+
+.p-profile {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--night-950) 0%, var(--night-900) 55%, var(--night-950) 100%);
+}
+
+.p-profile .page-scroll {
+  padding-bottom: calc(var(--rpx) * 220);
+}
+
+/* ---- 编辑式刊头 ---- */
+.pf-masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: calc(var(--rpx) * 20);
+  margin-bottom: calc(var(--rpx) * 28);
+}
+
+.pf-masthead-text {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--rpx) * 4);
+}
+
+.pf-masthead-title {
+  font-size: var(--fs-title);
+  font-weight: 700;
+  color: var(--night-text);
+  line-height: 1.2;
+}
+
+.pf-masthead-en {
+  font-size: var(--fs-micro);
+  color: var(--night-sub);
+}
+
+.pf-masthead-gear {
+  width: calc(var(--rpx) * 72);
+  height: calc(var(--rpx) * 72);
+  border-radius: 50%;
+  background: var(--night-850);
+  border: 1px solid var(--night-line);
+  color: var(--night-sub);
+  font-size: calc(var(--rpx) * 34);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+/* ---- Personal Room Hero：live RoomScene（当前 roomie_room），身份浮层 ---- */
+.pf-hero {
+  position: relative;
+  margin: 0 calc(var(--rpx) * -40);
+  height: calc(var(--rpx) * 460);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* 取景 = vignette-momo 同源裁切（extract 30,110,768,600）纵向居中 aspectFill */
+.pf-hero-stage {
+  position: absolute;
+  width: 107.81%; /* 828/768 */
+  aspect-ratio: 1 / 1;
+  left: -3.91%;
+  top: -37.1%;
+}
+
+.pf-hero-id {
+  position: absolute;
+  left: calc(var(--rpx) * 32);
+  bottom: calc(var(--rpx) * 28);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: calc(var(--rpx) * 14);
+  padding: calc(var(--rpx) * 14) calc(var(--rpx) * 22);
+  border-radius: var(--r-pill);
+  background: rgba(8, 17, 29, 0.78);
+  backdrop-filter: blur(4px);
+}
+
+.pf-hero-name {
+  font-size: calc(var(--rpx) * 28);
+  font-weight: 700;
+  color: var(--night-text);
+}
+
+.pf-hero-room {
+  position: absolute;
+  right: calc(var(--rpx) * 32);
+  bottom: calc(var(--rpx) * 28);
+  z-index: 10;
+  background: rgba(8, 17, 29, 0.78);
+  backdrop-filter: blur(4px);
+}
+
+/* ---- 次级入口：形象定制 ---- */
+.pf-dress-row {
+  display: flex;
+  gap: calc(var(--rpx) * 20);
+  margin: calc(var(--rpx) * 20) 0 calc(var(--rpx) * 8);
+  align-items: center;
+}
+
+.pf-me-btn {
+  font-size: var(--fs-caption);
+  padding: calc(var(--rpx) * 8) calc(var(--rpx) * 28);
+}
+
+.pf-dress-avatar {
+  width: calc(var(--rpx) * 72);
+  height: calc(var(--rpx) * 72);
+  border-radius: 50%;
+  border: 1px solid var(--night-line);
+  background: var(--night-850);
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.pf-dress-meta {
+  margin: 0 0 calc(var(--rpx) * 24);
+}
+
+.pf-dress-hint {
+  display: block;
+  font-size: var(--fs-micro);
+  color: var(--night-sub);
+  line-height: 1.5;
+}
+
+.pf-dress-links {
+  display: flex;
+  gap: calc(var(--rpx) * 24);
+  margin-top: calc(var(--rpx) * 8);
+}
+
+.pf-me-link {
+  font-size: var(--fs-micro);
+  color: var(--green);
+  text-decoration: underline;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.pf-me-link-reset { color: var(--night-sub); }
+
+/* ---- 纸张档案卡 ---- */
+.pf-sheet {
+  padding: calc(var(--rpx) * 36) calc(var(--rpx) * 32) calc(var(--rpx) * 40);
+}
+
+.pf-sheet-line {
+  height: 1px;
+  background: var(--line);
+  margin: calc(var(--rpx) * 32) 0 calc(var(--rpx) * 28);
+}
+
+.pf-sec-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+/* ---- 我的唱片墙 ---- */
+.wall-count {
+  font-size: var(--fs-caption);
+  color: var(--green-deep);
+  font-weight: 600;
+}
+
+.wall-desc {
+  display: block;
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+  margin: calc(var(--rpx) * 8) 0 calc(var(--rpx) * 20);
+}
+
+.wall-tip {
+  background: var(--green-soft);
+  color: var(--green-deep);
+  font-size: var(--fs-caption);
+  border-radius: var(--r-card-sm);
+  padding: calc(var(--rpx) * 20) calc(var(--rpx) * 24);
+  margin-bottom: calc(var(--rpx) * 20);
+}
+
+.wall-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--rpx) * 16);
+}
+
+.rec {
+  position: relative;
+  width: calc((100% - var(--rpx) * 48) / 4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--rpx) * 8);
+  padding: calc(var(--rpx) * 14) calc(var(--rpx) * 8);
+  border-radius: var(--r-card-sm);
+  border: 1px solid var(--line);
+  background: var(--paper-95);
+  cursor: pointer;
+}
+
+.rec-on {
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+
+.rec-cover {
+  width: 100%;
+  height: calc(var(--rpx) * 132);
+  object-fit: contain;
+  border-radius: calc(var(--rpx) * 8);
+}
+
+.rec-title {
+  font-size: var(--fs-micro);
+  color: var(--ink-500);
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.rec-check {
+  position: absolute;
+  right: calc(var(--rpx) * 8);
+  top: calc(var(--rpx) * 8);
+  width: calc(var(--rpx) * 28);
+  height: calc(var(--rpx) * 28);
+  border-radius: 50%;
+  background: var(--green);
+  color: var(--white);
+  font-size: calc(var(--rpx) * 18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 末尾虚线「+」添加格 */
+.rec-add {
+  border: 1px dashed var(--ink-500);
+  background: transparent;
+  justify-content: center;
+  min-height: calc(var(--rpx) * 164);
+  opacity: 0.45;
+  cursor: default;
+}
+
+.rec-add-plus {
+  font-size: calc(var(--rpx) * 48);
+  font-weight: 300;
+  color: var(--ink-500);
+  line-height: 1;
+}
+
+/* 保存按钮：已保存=纸面正向确认态 */
+.save-wall {
+  margin-top: calc(var(--rpx) * 28);
+  height: calc(var(--rpx) * 96);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-body);
+  width: 100%;
+}
+
+.save-done {
+  background: var(--green-soft);
+  color: var(--green-deep);
+  box-shadow: none;
+}
+
+/* ---- 我的成就 ---- */
+.ach-row {
+  margin-top: calc(var(--rpx) * 24);
+  display: flex;
+  justify-content: space-between;
+}
+
+.ach {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--rpx) * 8);
+  flex: 1;
+}
+
+.ach-ic {
+  width: calc(var(--rpx) * 96);
+  height: calc(var(--rpx) * 96);
+  border-radius: 50%;
+  color: var(--white);
+  font-size: calc(var(--rpx) * 40);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.ach-name {
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  color: var(--ink-900);
+}
+
+.ach-lv {
+  font-size: var(--fs-micro);
+  color: var(--ink-500);
+}
+
+/* ---- 房间档案 ---- */
+.pf-room-row {
+  margin-top: calc(var(--rpx) * 20);
+  padding: calc(var(--rpx) * 16);
+  border-radius: var(--r-card-sm);
+  background: var(--paper-95);
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: calc(var(--rpx) * 20);
+  cursor: pointer;
+}
+
+.pf-room-meta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--rpx) * 4);
+}
+
+.pf-room-now {
+  font-size: var(--fs-sub);
+  font-weight: 700;
+  color: var(--ink-900);
+}
+
+.pf-room-sub {
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+}
+
+.pf-room-arrow {
+  font-size: calc(var(--rpx) * 44);
+  color: var(--ink-500);
+}

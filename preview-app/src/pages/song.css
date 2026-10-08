@@ -1,0 +1,404 @@
+/* song — port of miniprogram/pages/song/song.wxss (rpx → calc(var(--rpx)*N)) */
+
+.p-song {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 24%, rgba(233, 169, 66, 0.10), rgba(233, 169, 66, 0) 34%),
+    linear-gradient(180deg, var(--night-950) 0%, #0C1827 52%, var(--night-950) 100%);
+}
+
+.p-song .page-scroll {
+  padding: 0 calc(var(--rpx) * 40) calc(var(--rpx) * 80);
+}
+
+/* ---- 入场 ---- */
+.p-song .rise-in { animation: rise-in 0.24s ease-out both; }
+.p-song .rise-d1 { animation-delay: 0.06s; }
+.p-song .rise-d2 { animation-delay: 0.12s; }
+
+/* ---- 顶部栏 ---- */
+.p-song .topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(var(--rpx) * 44) 0 calc(var(--rpx) * 8);
+}
+
+.p-song .topbar-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--rpx) * 4);
+}
+
+.p-song .tt-brand {
+  font-size: var(--fs-caption);
+  color: var(--night-text);
+}
+
+.p-song .tt-sub {
+  font-size: var(--fs-micro);
+  color: var(--night-sub);
+}
+
+/* ---- Hero：Hi-Fi 背景 + 封套 + 抽出的黑胶 ---- */
+.song-hero {
+  position: relative;
+  margin: calc(var(--rpx) * 8) calc(var(--rpx) * -40) 0;
+  height: calc(var(--rpx) * 620);
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(8, 17, 29, 0.45) 0%, rgba(8, 17, 29, 0) 28%, rgba(8, 17, 29, 0) 60%, rgba(8, 17, 29, 0.6) 100%);
+  pointer-events: none;
+}
+
+.hero-sleeve {
+  position: absolute;
+  left: 7%;
+  bottom: 12%;
+  width: calc(var(--rpx) * 330);
+  height: calc(var(--rpx) * 330);
+  object-fit: contain;
+  transform: rotate(-7deg);
+  filter: drop-shadow(calc(var(--rpx) * 12) calc(var(--rpx) * 20) calc(var(--rpx) * 22) rgba(10, 6, 2, 0.45));
+}
+
+.hero-disc {
+  position: absolute;
+  right: 9%;
+  bottom: 16%;
+  width: calc(var(--rpx) * 356);
+  height: calc(var(--rpx) * 356);
+  object-fit: contain;
+  filter: drop-shadow(0 calc(var(--rpx) * 22) calc(var(--rpx) * 30) rgba(6, 4, 2, 0.55));
+}
+
+/* 播放时黑胶 6s/圈匀速旋转（class 由 Player snapshot.playing 唯一驱动） */
+.hero-disc-spin {
+  animation: spin 6s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ---- 纸张卡片（叠上 Hero） ---- */
+.song-card {
+  position: relative;
+  z-index: 2;
+  margin-top: calc(var(--rpx) * -32);
+  padding: calc(var(--rpx) * 40) calc(var(--rpx) * 40) calc(var(--rpx) * 32);
+  display: flex;
+  flex-direction: column;
+}
+
+.song-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(var(--rpx) * 16);
+}
+
+.song-names {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--rpx) * 6);
+  min-width: 0;
+}
+
+.song-kicker {
+  font-size: var(--fs-micro);
+  color: var(--ink-500);
+}
+
+.song-title {
+  font-size: var(--fs-section);
+  font-weight: 700;
+  color: var(--ink-900);
+}
+
+.song-artist {
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+}
+
+.song-head .pill {
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+/* ---- 进度条 ---- */
+.seek-row {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--rpx) * 8);
+  margin-top: calc(var(--rpx) * 32);
+}
+
+.p-song .time {
+  font-size: var(--fs-micro);
+  color: var(--ink-500);
+  font-variant-numeric: tabular-nums;
+  width: calc(var(--rpx) * 72);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.seek {
+  flex: 1;
+  min-width: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  height: calc(var(--rpx) * 6);
+  border-radius: var(--r-pill);
+  background: var(--line);
+  outline: none;
+  cursor: pointer;
+}
+
+.seek::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: calc(var(--rpx) * 28);
+  height: calc(var(--rpx) * 28);
+  border-radius: 50%;
+  background: var(--green);
+  border: calc(var(--rpx) * 6) solid var(--paper-95);
+  box-shadow: 0 calc(var(--rpx) * 2) calc(var(--rpx) * 8) rgba(43, 201, 107, 0.35);
+}
+
+.seek::-moz-range-thumb {
+  width: calc(var(--rpx) * 16);
+  height: calc(var(--rpx) * 16);
+  border-radius: 50%;
+  background: var(--green);
+  border: calc(var(--rpx) * 6) solid var(--paper-95);
+}
+
+/* ---- 传输控制 ---- */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(var(--rpx) * 24) calc(var(--rpx) * 8) calc(var(--rpx) * 8);
+}
+
+.ctl-side, .ctl-skip {
+  width: calc(var(--rpx) * 72);
+  height: calc(var(--rpx) * 72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.ctl-side { color: var(--ink-500); }
+.ctl-skip { color: var(--ink-900); }
+
+.ctl-play {
+  width: calc(var(--rpx) * 120);
+  height: calc(var(--rpx) * 120);
+  border-radius: 50%;
+  background: var(--green);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-green);
+  cursor: pointer;
+}
+
+.ic-play-lg {
+  width: 0;
+  height: 0;
+  border-top: calc(var(--rpx) * 22) solid transparent;
+  border-bottom: calc(var(--rpx) * 22) solid transparent;
+  border-left: calc(var(--rpx) * 34) solid var(--white);
+  margin-left: calc(var(--rpx) * 8);
+}
+
+.ic-pause-lg {
+  width: calc(var(--rpx) * 32);
+  height: calc(var(--rpx) * 40);
+  border-left: calc(var(--rpx) * 11) solid var(--white);
+  border-right: calc(var(--rpx) * 11) solid var(--white);
+}
+
+.p-song .ic-prev,
+.p-song .ic-next {
+  border-top-width: calc(var(--rpx) * 14);
+  border-bottom-width: calc(var(--rpx) * 14);
+}
+
+.p-song .ic-prev { border-right: calc(var(--rpx) * 21) solid currentColor; }
+.p-song .ic-prev::before {
+  left: calc(var(--rpx) * -9);
+  top: calc(var(--rpx) * -14);
+  width: calc(var(--rpx) * 6);
+  height: calc(var(--rpx) * 28);
+}
+
+.p-song .ic-next { border-left: calc(var(--rpx) * 21) solid currentColor; }
+.p-song .ic-next::before {
+  right: calc(var(--rpx) * -9);
+  top: calc(var(--rpx) * -14);
+  width: calc(var(--rpx) * 6);
+  height: calc(var(--rpx) * 28);
+}
+
+/* 随机：两支交叉箭头 */
+.ic-shuffle {
+  position: relative;
+  width: calc(var(--rpx) * 32);
+  height: calc(var(--rpx) * 32);
+}
+
+.ic-shuffle-a, .ic-shuffle-b {
+  position: absolute;
+  left: 0;
+  top: calc(var(--rpx) * 14);
+  width: calc(var(--rpx) * 26);
+  height: calc(var(--rpx) * 4);
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.ic-shuffle-a { transform: rotate(30deg); }
+.ic-shuffle-b { transform: rotate(-30deg); }
+
+.ic-shuffle-a::before, .ic-shuffle-b::before {
+  content: '';
+  position: absolute;
+  right: calc(var(--rpx) * -8);
+  top: calc(var(--rpx) * -6);
+  width: 0;
+  height: 0;
+  border-top: calc(var(--rpx) * 8) solid transparent;
+  border-bottom: calc(var(--rpx) * 8) solid transparent;
+  border-left: calc(var(--rpx) * 10) solid currentColor;
+}
+
+/* 循环：缺口圆环 + 顺时针箭头 */
+.ic-loop {
+  position: relative;
+  width: calc(var(--rpx) * 26);
+  height: calc(var(--rpx) * 26);
+  border: calc(var(--rpx) * 4) solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+}
+
+.ic-loop::before {
+  content: '';
+  position: absolute;
+  top: calc(var(--rpx) * -9);
+  right: calc(var(--rpx) * -2);
+  width: 0;
+  height: 0;
+  border-top: calc(var(--rpx) * 8) solid transparent;
+  border-bottom: calc(var(--rpx) * 8) solid transparent;
+  border-left: calc(var(--rpx) * 11) solid currentColor;
+  transform: rotate(48deg);
+}
+
+/* ---- 歌词 / 评论 分段 ---- */
+.song-tabs {
+  display: flex;
+  justify-content: center;
+  gap: calc(var(--rpx) * 64);
+  padding: calc(var(--rpx) * 24) 0 calc(var(--rpx) * 8);
+}
+
+.song-tab {
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  color: var(--ink-500);
+  padding-bottom: calc(var(--rpx) * 8);
+  border-bottom: calc(var(--rpx) * 4) solid transparent;
+  cursor: pointer;
+}
+
+.song-tab-on {
+  color: var(--green-deep);
+  font-weight: 700;
+  border-bottom-color: var(--green);
+}
+
+/* ---- 歌词 ---- */
+.lyrics {
+  position: relative; /* 使 lyric-line 的 offsetTop 相对容器，滚动定位与页面滚动/动画解耦 */
+  height: calc(var(--rpx) * 300);
+  margin-top: calc(var(--rpx) * 8);
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.lyrics::-webkit-scrollbar { display: none; }
+
+.lyric-line {
+  text-align: center;
+  font-size: var(--fs-body);
+  color: var(--ink-500);
+  padding: calc(var(--rpx) * 12) calc(var(--rpx) * 24);
+  transition: color 0.3s ease;
+}
+
+.lyric-on {
+  color: var(--green-deep);
+  font-weight: 700;
+}
+
+.lyrics-tail { height: calc(var(--rpx) * 140); }
+
+/* ---- 评论 ---- */
+.comments {
+  height: calc(var(--rpx) * 300);
+  margin-top: calc(var(--rpx) * 8);
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.comments::-webkit-scrollbar { display: none; }
+
+.comment {
+  padding: calc(var(--rpx) * 20) calc(var(--rpx) * 8);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--rpx) * 8);
+}
+
+.comment-head {
+  display: flex;
+  justify-content: space-between;
+}
+
+.comment-user {
+  font-size: var(--fs-caption);
+  font-weight: 700;
+  color: var(--ink-700);
+}
+
+.comment-likes {
+  font-size: var(--fs-micro);
+  color: var(--ink-500);
+}
+
+.comment-text {
+  font-size: var(--fs-body);
+  color: var(--ink-900);
+}
