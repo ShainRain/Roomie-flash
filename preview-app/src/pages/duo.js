@@ -22,6 +22,7 @@ import RoomStore from '../state/room.js';
 import RecordsUtil from '../state/records.js';
 import { findFriend } from '../state/friends.js';
 import RoomSync from '../adapters/socket.js';
+import Avatar from '../adapters/avatar.js';
 import { getStorageSync } from '../adapters/storage.js';
 import { showToast, showModal, showActionSheet } from '../adapters/platform.js';
 import { back } from '../router/router.js';
@@ -148,9 +149,10 @@ export function mount(container, ctx = {}) {
 
   // ---- 场景 ----
   function syncCharacters() {
+    const outfit = Avatar.path('outfit'); // 自定义服装替换默认 MOMO 精灵（对齐小程序 duo.js）
     scene.setProps({
       characters: [
-        { id: 'momo', x: state.player.left, y: state.player.top, frame: state.playerSprite, facing: state.player.direction === 'left' ? -1 : 1, label: LOCAL_USER.name },
+        { id: 'momo', x: state.player.left, y: state.player.top, frame: state.playerSprite, facing: state.player.direction === 'left' ? -1 : 1, label: LOCAL_USER.name, spriteSrc: outfit || undefined },
         { id: peerChar.id, spriteBase: peerChar.spriteBase, filter: peerChar.filter, x: state.peerPosition.left, y: state.peerPosition.top, frame: state.peerSprite, facing: state.peerDirection === 'left' ? -1 : 1, label: peerChar.label }
       ]
     });
