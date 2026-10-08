@@ -48,6 +48,9 @@ async function render() {
   if (current && current.page && typeof current.page.unmount === 'function') {
     try { current.page.unmount(); } catch (e) { console.error('[router] unmount error', e); }
   }
+  // wx 语义：路由切换即丢弃全局浮层（toast/modal/actionSheet 不跨页存活）
+  const overlay = document.getElementById('wx-overlay-root');
+  if (overlay) overlay.innerHTML = '';
   rootEl.innerHTML = '';
   if (page && typeof page.mount === 'function') {
     await page.mount(rootEl, { params, query, path, navigate });

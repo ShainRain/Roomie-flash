@@ -35,8 +35,9 @@ a { color: inherit; text-decoration: none; }
 
 #app {
   position: relative;
-  min-height: 100vh;
-  min-height: 100dvh;
+  /* 移动端：固定为视口高（min-height 会导致百分比高度失效、tabbar 掉到内容下方） */
+  height: 100vh;
+  height: 100dvh;
   background: linear-gradient(180deg, var(--night-950) 0%, var(--night-900) 55%, var(--night-950) 100%);
   overflow: hidden;
 }
@@ -262,11 +263,11 @@ a { color: inherit; text-decoration: none; }
 .p-home {
   position: relative;
   height: 100%;
-  overflow-y: auto;
-  scrollbar-width: none;
+  overflow: hidden;
+}
+.p-home .page-scroll {
   padding-bottom: calc(var(--rpx) * 220);
 }
-.p-home::-webkit-scrollbar { display: none; }
 
 .anim-in {
   opacity: 0;

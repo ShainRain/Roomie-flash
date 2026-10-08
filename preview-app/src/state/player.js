@@ -1,10 +1,12 @@
 /**
+ * GENERATED from miniprogram/utils/player.js by scripts/sync-shared.mjs — do not hand-edit.
+ * Run `npm run sync:shared` to regenerate; `npm test` fails on drift.
+ */
+/**
  * Roomie 全局播放器状态机
- * ESM port of miniprogram/utils/player.js — API identical, logic unchanged.
- *
- * - mock 歌单与模拟走秒（Demo 阶段不接真实音频，规避版权风险）
+ * - mock 歌单与模拟走秒（比赛 Demo 阶段不接真实音频，规避版权风险）
  * - 页面通过 subscribe() 订阅快照，Player 单例统一管理计时器
- * - 真实音频挂载点见 src/adapters/audio.js（no-op driver seam）
+ * - 歌词行按时间戳高亮，供歌曲详情页使用
  */
 
 const PLAYLIST = [
@@ -191,3 +193,4 @@ export function applyRemote(msg) {
 }
 
 export default { subscribe, toggle, play, next, prev, seek, switchTo, applyRemote, snapshot };
+

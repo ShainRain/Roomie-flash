@@ -20,8 +20,12 @@ const USER = { name: 'MOMO', level: 7, badge: '建筑师', roomId: '0731', roomN
 export function mount(container) {
   const page = document.createElement('div');
   page.className = 'p-home page';
+  // 滚动容器独立于 page：tabbar 绝对定位于 page 底部，不随内容滚动
+  const scroller = document.createElement('div');
+  scroller.className = 'page-scroll';
+  page.appendChild(scroller);
 
-  const header = createHeader(page, {
+  const header = createHeader(scroller, {
     subtitle: `${USER.roomName} · ${USER.roomId}`,
     avatar: USER.name[0],
     share: true,
@@ -149,7 +153,7 @@ export function mount(container) {
   cta.addEventListener('click', () => navigate('/room'));
   pad.appendChild(cta);
 
-  page.appendChild(pad);
+  scroller.appendChild(pad);
   const tabbar = createTabbar(page);
   container.appendChild(page);
 

@@ -5,12 +5,13 @@
   "type": "module",
   "scripts": {
     "sync-assets": "node scripts/sync-assets.mjs",
-    "predev": "node scripts/sync-assets.mjs",
+    "sync:shared": "node scripts/sync-shared.mjs",
+    "predev": "node scripts/sync-assets.mjs && node scripts/sync-shared.mjs",
     "dev": "vite",
-    "prebuild": "node scripts/sync-assets.mjs",
+    "prebuild": "node scripts/sync-assets.mjs && node scripts/sync-shared.mjs",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "node tests/player.test.mjs && node tests/room-map.test.mjs"
+    "test": "node scripts/sync-shared.mjs --check && node tests/player.test.mjs && node tests/room-map.test.mjs"
   },
   "devDependencies": {
     "vite": "^5.4.0"

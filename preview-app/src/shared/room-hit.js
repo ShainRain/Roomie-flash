@@ -1,9 +1,12 @@
 /**
+ * GENERATED from miniprogram/utils/room-hit.js by scripts/sync-shared.mjs — do not hand-edit.
+ * Run `npm run sync:shared` to regenerate; `npm test` fails on drift.
+ */
+/**
  * 家具互动命中测试（hitArea 管道,与 room-map 的 collision 完全分离）
- * ESM port of miniprogram/utils/room-hit.js — logic unchanged.
  *
- * 规则：
- * - tap 点先转到舞台百分比坐标（room-scene renderer 已完成归一化）;
+ * 规则（见 Phase 交互修复规格）：
+ * - tap 点先转到舞台百分比坐标（组件 onStageTap 已完成归一化）;
  * - 从最高 z-index 家具开始检查 hitArea;
  * - 命中 → furnituretap;未命中 → floor tap(寻路);
  * - hitArea 只服务互动,绝不进 A*;collision 只服务移动,绝不触发互动。

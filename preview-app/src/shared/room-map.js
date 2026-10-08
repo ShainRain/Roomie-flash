@@ -1,22 +1,29 @@
 /**
+ * GENERATED from miniprogram/utils/room-map.js by scripts/sync-shared.mjs — do not hand-edit.
+ * Run `npm run sync:shared` to regenerate; `npm test` fails on drift.
+ * Legacy room-layout require + default instance removed: factory-only path.
+ */
+/**
  * 房间共享地图（百分比坐标系，与底图对齐）
- * ESM port of miniprogram/utils/room-map.js — logic unchanged.
+ * room 页与 duo 页共用，避免两处拷贝漂移。
  *
- * Web demo difference: the legacy top-level `require('./room-layout')` and the
- * default legacy-geometry instance are REMOVED. Only the createMap(geometry, layout)
- * factory path exists here; callers must pass SceneLayout.GEOMETRY + SceneLayout
- * from shared/room-scene-layout.js (Room Master Scene single data source).
+ * 可行走区域 = 底图地板菱形（uv 参数化，见下）内缩边界；
+ * 角色位置始终被约束在菱形内，不会走上墙面或天空。
  *
- * 可行走区域 = 底图地板菱形（uv 参数化）内缩边界；
- * 障碍由布局数据 FURNITURE[].collision + FIXED_COLLIDERS 构建。
+ * Phase 1 起：
+ * - 障碍不再手写，由 utils/room-layout.js 的 FURNITURE[].collision +
+ *   FIXED_COLLIDERS 构建（uv 参数化矩形，单一数据源，杜绝双源漂移）；
+ * - createMap(geometry) 工厂允许另一套几何（Room Master Scene）复用同一套
+ *   寻路/碰撞逻辑；模块默认导出保持旧几何（828 底图, SX=274/SY=144），
+ *   duo/architect 行为不变。
  */
 
 const PX = 8.28; // 画布 px / 百分比
 const UV_MIN = 0.06;
 const UV_MAX = 0.94;
-const RADIUS_UV = 0.06; // 角色碰撞半径（uv 单位）
+const RADIUS_UV = 0.06; // 角色碰撞半径（uv 单位，≈旧制 2.4% 屏幕半径）
 
-// 兜底几何；web 版始终由 createMap(SceneLayout.GEOMETRY, SceneLayout) 显式传入
+// 旧底图 828×828：地板菱形四角 (140,558) (414,414) (688,558) (414,710)
 const DEFAULT_GEOMETRY = {
   X0: 414,
   Y0: 235,
@@ -26,7 +33,8 @@ const DEFAULT_GEOMETRY = {
   depthTopMax: 85
 };
 
-// 碰撞体（uv 矩形）由布局数据派生
+// 碰撞体（uv 矩形）由布局数据派生；id 沿用旧障碍 id，furniture 为 DIY 家具 key
+// （null = 固定件，始终生效）
 function buildObstacles(layout) {
   return layout.FURNITURE
     .filter((f) => f.collision)

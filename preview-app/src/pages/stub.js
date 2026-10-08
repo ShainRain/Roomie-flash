@@ -10,8 +10,12 @@ export function makeStubPage({ title, subtitle, en, note, live = false }) {
   return {
     mount(container, ctx = {}) {
       const page = document.createElement('div');
-      page.className = 'page page-scroll';
-      const header = createHeader(page, {
+      page.className = 'page';
+      page.style.cssText = 'height: 100%; overflow: hidden;';
+      const scroller = document.createElement('div');
+      scroller.className = 'page-scroll';
+      page.appendChild(scroller);
+      const header = createHeader(scroller, {
         subtitle: '深夜放映室 · 0731',
         avatar: 'M',
         live,
@@ -40,7 +44,7 @@ export function makeStubPage({ title, subtitle, en, note, live = false }) {
         card.appendChild(n);
       }
       wrap.appendChild(card);
-      page.appendChild(wrap);
+      scroller.appendChild(wrap);
       const tabbar = createTabbar(page);
       container.appendChild(page);
       this._ctx = { page, header, tabbar };

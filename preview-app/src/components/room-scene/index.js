@@ -195,9 +195,11 @@ export class RoomScene {
       .map((f) => ({ type: 'furn', key: `f-${f.id}`, src: f.asset, z: f.z }));
     const chars = (p.characters || []).map((c) => {
       const depth = sceneMap.depthFor(c.y);
-      const hPct = (SceneLayout.CHAR.baseHeight * depth.scale) / 8.28;
+      // vignette 等构图允许显式覆盖 scale/z（对齐 gen-friends-vignettes.js 的 plan 语义）
+      const scale = typeof c.scale === 'number' ? c.scale : depth.scale;
+      const hPct = (SceneLayout.CHAR.baseHeight * scale) / 8.28;
       const wPct = hPct / SceneLayout.CHAR.spriteAspect;
-      return { type: 'char', key: `c-${c.id}`, ...c, z: depth.z, scale: depth.scale, wPct, shadowW: wPct * 0.62 };
+      return { type: 'char', key: `c-${c.id}`, ...c, z: typeof c.z === 'number' ? c.z : depth.z, scale, wPct, shadowW: wPct * 0.62 };
     });
     const stack = furns.concat(chars).sort((a, b) => a.z - b.z);
 
@@ -234,6 +236,10 @@ export class RoomScene {
         frame.className = `sc-frame sc-frame-${item.frame || 'idle'}`;
         const sprite = node.querySelector('.sc-sprite');
         sprite.classList.toggle('sc-flip', item.facing < 0);
+        // 可选角色滤镜（vignette 变体：charHue/charSat，对齐 tools/gen-friends-vignettes.js 的 modulate 语义）
+        sprite.style.filter = item.filter
+          ? `${item.filter} drop-shadow(0 3px 4px rgba(20, 12, 6, 0.28))`
+          : '';
         const src = assetUrl(item.spriteSrc || `/assets/img/char-${item.id}-${item.frame || 'idle'}.webp`);
         if (sprite.dataset.src !== src) {
           sprite.src = src;

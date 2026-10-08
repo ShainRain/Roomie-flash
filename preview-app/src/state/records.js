@@ -1,7 +1,11 @@
 /**
+ * GENERATED from miniprogram/utils/records.js by scripts/sync-shared.mjs — do not hand-edit.
+ * Run `npm run sync:shared` to regenerate; `npm test` fails on drift.
+ */
+/**
  * Roomie 唱片库共享数据
- * ESM port of miniprogram/utils/records.js — logic unchanged.
- * readSelection takes an injected storage getter (pass adapters/storage.getStorageSync).
+ * profile（唱片墙选择）、room（槽位展示）、postcard（明信片封面）共用同一份，
+ * tools/gen-room-scene.js 生成唱片封面板材时也引用本文件，保证颜色/标题一致。
  */
 
 export const RECORD_COLORS = ['#23262B', '#3B4A6B', '#6B3B3B', '#3B6B4F', '#6B5A3B', '#4F3B6B', '#2F5D6B', '#6B3B5A'];
@@ -19,7 +23,6 @@ export const RECORDS = RECORD_TITLES.map((title, i) => ({
 }));
 
 export const DEFAULT_SELECTION = [1, 2, 3, 5, 8, 19];
-export const MAX_PICK = 12;
 
 // 读取本地唱片墙选择，过滤失效 id；无存档时回退默认选择
 export function readSelection(storageGet) {
@@ -31,5 +34,7 @@ export function readSelection(storageGet) {
 export function byId(id) {
   return RECORDS.find((r) => r.id === id) || null;
 }
+
+export const MAX_PICK = 12;
 
 export default { RECORDS, RECORD_COLORS, DEFAULT_SELECTION, readSelection, byId, MAX_PICK };
