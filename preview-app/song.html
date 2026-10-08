@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Roomie · 歌曲</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 390px; }
+  body { font-family: -apple-system, "PingFang SC", "MiSans", "Microsoft YaHei", sans-serif; font-size: 13.52px; color: #F2ECDC; background: #0C1424; }
+  .en-serif { font-family: "Oranienbaum", "Times New Roman", serif; letter-spacing: 3.12px; text-transform: uppercase; }
+  .page { min-height: 844px; background: linear-gradient(180deg, #0C1424 0%, #101B30 55%, #0C1424 100%); padding: 0 16.64px 24px; display: flex; flex-direction: column; }
+  .card { background: #F6EFDD; background-image: radial-gradient(rgba(138,90,51,.05) .52px, transparent .83px); background-size: 7.28px 7.28px; color: #26221A; border-radius: 16.64px; box-shadow: 0 6.24px 16.64px rgba(4,8,18,.45); }
+  .pill-green-soft { display: inline-flex; align-items: center; border-radius: 999px; padding: 4.16px 12.48px; font-size: 11.44px; background: #DFF5E9; color: #1F9D5A; font-weight: 600; }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 52px 0 4.16px; }
+  .nav-ic { width: 31.2px; height: 31.2px; border-radius: 50%; background: rgba(18,29,50,.72); border: .52px solid rgba(246,239,221,.14); display: flex; align-items: center; justify-content: center; font-size: 18.72px; color: #F2ECDC; }
+  .topbar-title { display: flex; flex-direction: column; align-items: center; gap: 1.04px; }
+  .tt-room { font-size: 13.52px; color: #F2ECDC; letter-spacing: 3.12px; }
+  .tt-sub { font-size: 10.4px; color: #8B96AC; }
+
+  .turntable { position: relative; display: flex; align-items: center; justify-content: center; padding: 16.64px 0 14.56px; }
+  .turntable-glow { position: absolute; width: 322.4px; height: 322.4px; border-radius: 50%; background: radial-gradient(circle, rgba(240,169,60,.16) 0%, rgba(240,169,60,0) 62%); }
+  .disc { width: 228.8px; height: 228.8px; border-radius: 50%; background-color: #14110c; background-image: repeating-radial-gradient(circle at center, #14110c 0, #14110c 2.6px, #23262b 2.6px, #23262b 5.2px); box-shadow: 0 12.48px 31.2px rgba(4,8,18,.6), 0 0 24.96px rgba(240,169,60,.22), 0 0 0 5.2px rgba(246,239,221,.05); display: flex; align-items: center; justify-content: center; }
+  .disc-label { position: relative; width: 91.52px; height: 91.52px; border-radius: 50%; overflow: hidden; border: 4.16px solid #14110c; display: flex; align-items: center; justify-content: center; }
+  .disc-sunset { position: absolute; inset: 0; background: linear-gradient(180deg, #F0A93C 0%, #E8784A 46%, #F6EFDD 46.5%, #F6EFDD 48.5%, #22384A 49%, #0D1B30 100%); }
+  .disc-label-text { position: relative; color: #fff; font-size: 14.56px; font-weight: 700; text-shadow: 0 1.04px 4.16px rgba(13,27,48,.6); }
+  .tonearm { position: absolute; right: 45.76px; top: 0; width: 5.2px; height: 104px; background: linear-gradient(180deg, #8A5A33, #54371D); border-radius: 4.16px; transform-origin: top center; transform: rotate(-6deg); }
+  .tonearm::before { content: ''; position: absolute; top: -9.36px; left: -6.76px; width: 18.72px; height: 18.72px; border-radius: 50%; background: #54371D; border: 2.08px solid #8A5A33; }
+
+  .song-card { padding: 16.64px 16.64px 10.4px; display: flex; flex-direction: column; }
+  .song-head { display: flex; align-items: center; justify-content: space-between; gap: 8.32px; }
+  .song-names { display: flex; flex-direction: column; gap: 1.04px; min-width: 0; }
+  .song-title { font-size: 20.8px; font-weight: 700; color: #26221A; }
+  .song-artist { font-size: 11.44px; color: #9A9080; }
+  .seek-row { display: flex; align-items: center; gap: 4.16px; margin-top: 10.4px; }
+  .time { font-size: 10.4px; color: #9A9080; font-variant-numeric: tabular-nums; width: 37.44px; text-align: center; }
+  .seek { flex: 1; height: 4.16px; border-radius: 999px; background: #E3D9C2; position: relative; }
+  .seek-fill { position: absolute; left: 0; top: 0; height: 100%; width: 49.8%; border-radius: 999px; background: #2FBF71; }
+  .seek-thumb { position: absolute; left: calc(49.8% - 3.64px); top: -1.56px; width: 7.28px; height: 7.28px; border-radius: 50%; background: #fff; box-shadow: 0 1.04px 3.12px rgba(38,34,26,.3); }
+  .controls { display: flex; align-items: center; justify-content: space-between; padding: 8.32px 12.48px 2.08px; }
+  .ctl-side { font-size: 18.72px; color: #9A9080; width: 37.44px; text-align: center; }
+  .ctl-skip { font-size: 18.72px; color: #26221A; width: 37.44px; text-align: center; }
+  .ctl-play { width: 62.4px; height: 62.4px; border-radius: 50%; background: #2FBF71; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 22.88px; box-shadow: 0 5.2px 12.48px rgba(47,191,113,.38), inset 0 1.04px 0 rgba(255,255,255,.28); }
+  .tabs { display: flex; justify-content: center; gap: 33.28px; padding: 10.4px 0 4.16px; }
+  .tab-item { font-size: 13.52px; color: #9A9080; padding-bottom: 4.16px; border-bottom: 2.08px solid transparent; }
+  .tab-on { color: #1F9D5A; font-weight: 700; border-bottom-color: #2FBF71; }
+  .lyrics { padding: 4.16px 0; }
+  .lyric-line { text-align: center; font-size: 13.52px; color: #9A9080; padding: 7.28px 0; }
+  .lyric-on { color: #1F9D5A; font-size: 15.6px; font-weight: 700; }
+  .actions { display: flex; justify-content: space-around; padding: 8.32px 0 2.08px; border-top: 1.04px solid #E3D9C2; margin-top: 4.16px; }
+  .action { display: flex; align-items: center; gap: 4.16px; font-size: 16.64px; color: #6E6656; }
+  .action-num { font-size: 11.44px; color: #9A9080; }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-ic">⌄</div>
+      <div class="topbar-title">
+        <span class="tt-room en-serif">Roomie</span>
+        <span class="tt-sub">从放映室取出一张唱片</span>
+      </div>
+      <div class="nav-ic">↗</div>
+    </div>
+    <div class="turntable">
+      <div class="turntable-glow"></div>
+      <div class="disc">
+        <div class="disc-label">
+          <div class="disc-sunset"></div>
+          <span class="disc-label-text">晴天</span>
+        </div>
+      </div>
+      <div class="tonearm"></div>
+    </div>
+    <div class="card song-card">
+      <div class="song-head">
+        <div class="song-names">
+          <span class="song-title">晴天</span>
+          <span class="song-artist">周杰伦 · MOMO 的收藏</span>
+        </div>
+        <div class="pill-green-soft">♥ 收藏中</div>
+      </div>
+      <div class="seek-row">
+        <span class="time">2:14</span>
+        <div class="seek"><div class="seek-fill"></div><div class="seek-thumb"></div></div>
+        <span class="time">4:29</span>
+      </div>
+      <div class="controls">
+        <div class="ctl-side">🔀</div>
+        <div class="ctl-skip">⏮</div>
+        <div class="ctl-play">⏸</div>
+        <div class="ctl-skip">⏭</div>
+        <div class="ctl-side">≡</div>
+      </div>
+      <div class="tabs">
+        <div class="tab-item tab-on">歌词</div>
+        <div class="tab-item">评论</div>
+      </div>
+      <div class="lyrics">
+        <div class="lyric-line lyric-on">从前从前 有个人爱你很久</div>
+        <div class="lyric-line">但偏偏 风渐渐把距离吹得好远</div>
+        <div class="lyric-line">好不容易 又能再多爱一天</div>
+      </div>
+      <div class="actions">
+        <div class="action">♡<span class="action-num">99w+</span></div>
+        <div class="action">💬<span class="action-num">1.2w</span></div>
+        <div class="action">⬇</div>
+        <div class="action">⋯</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -586,7 +586,7 @@ module.exports = {
       "left": 3.62,
       "top": 0,
       "width": 40.58,
-      "height": 49.88,
+      "height": 29,
       "z": 340,
       "interaction": "records"
     },

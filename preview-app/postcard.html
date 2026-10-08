@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Roomie · 明信片</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 390px; }
+  body { font-family: -apple-system, "PingFang SC", "MiSans", "Microsoft YaHei", sans-serif; font-size: 13.52px; color: #F2ECDC; background: #0C1424; }
+  .en-serif { font-family: "Oranienbaum", "Times New Roman", serif; letter-spacing: 2.08px; text-transform: uppercase; }
+  .page { min-height: 844px; background: radial-gradient(circle at 50% 30%, rgba(240,169,60,.08) 0%, rgba(240,169,60,0) 55%), linear-gradient(180deg, #0C1424 0%, #101B30 55%, #0C1424 100%); padding: 56px 16.64px 40px; }
+  .pill-live { display: inline-flex; align-items: center; border-radius: 999px; padding: 4.16px 12.48px; font-size: 11.44px; background: #2FBF71; color: #fff; font-weight: 600; box-shadow: 0 3.12px 8.32px rgba(47,191,113,.35); }
+  .btn-primary { background: #2FBF71; color: #fff; border-radius: 999px; font-weight: 600; text-align: center; box-shadow: 0 5.2px 12.48px rgba(47,191,113,.38), inset 0 1.04px 0 rgba(255,255,255,.28); }
+  .btn-ghost-night { background: transparent; color: #F2ECDC; border: 1.04px solid rgba(246,239,221,.14); border-radius: 999px; text-align: center; }
+
+  .head { display: flex; flex-direction: column; gap: 2.08px; margin-bottom: 12.48px; }
+  .section-title { font-size: 18.72px; font-weight: 700; color: #F2ECDC; }
+  .head-en { font-size: 10.4px; color: #8B96AC; }
+  .stamp { margin-bottom: 10.4px; font-weight: 700; letter-spacing: 1.04px; align-self: flex-start; }
+
+  /* 明信片(模拟 canvas 成品):纸张 + 房间照片 + 唱片色块 + 手写标语 */
+  .postcard {
+    background: #F6EFDD;
+    background-image: radial-gradient(rgba(138,90,51,.05) .52px, transparent .83px);
+    background-size: 7.28px 7.28px;
+    border-radius: 16.64px;
+    box-shadow: 0 12.48px 31.2px rgba(4,8,18,.6);
+    transform: rotate(-2deg);
+    padding: 8.32px 8.32px 16.64px;
+    position: relative;
+  }
+  .pc-photo { width: 100%; height: 249px; object-fit: cover; border-radius: 6.24px; display: block; }
+  .pc-stamp {
+    position: absolute; top: 14.56px; right: 14.56px;
+    width: 41.6px; height: 41.6px; border-radius: 50%;
+    background: #F0A93C; border: 2.6px dashed #F6EFDD;
+    display: flex; align-items: center; justify-content: center;
+    color: #54371D; font-size: 16.64px; font-weight: 800;
+    box-shadow: 0 2.08px 6.24px rgba(4,8,18,.35);
+  }
+  .pc-records { display: flex; justify-content: center; gap: 5.2px; margin-top: 10.4px; }
+  .pc-rec { width: 15.6px; height: 15.6px; border-radius: 3.12px; display: flex; align-items: center; justify-content: center; }
+  .pc-rec i { width: 7.28px; height: 7.28px; border-radius: 50%; background: #10161F; border: 1.56px solid #F6EFDD; display: block; }
+  .pc-slogan { text-align: center; font-size: 14.56px; font-weight: 600; color: #26221A; margin-top: 10.4px; letter-spacing: 1.04px; }
+  .pc-divider { width: 18.72px; height: 1.04px; background: #D8CBB0; margin: 8.32px auto; }
+  .pc-footer { text-align: center; font-size: 9.36px; color: #9A9080; }
+
+  .btn-row { display: flex; gap: 12.48px; margin-top: 24.96px; }
+  .pc-btn { flex: 1; padding: 12.48px 0; font-size: 14.56px; }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="head">
+      <span class="section-title">明信片</span>
+      <span class="head-en en-serif">Postcard</span>
+    </div>
+    <div class="stamp pill-live">ROOM ID 0731</div>
+
+    <div class="postcard">
+      <img class="pc-photo" src="../miniprogram/assets/img/room-postcard.jpg" alt="">
+      <div class="pc-stamp">R</div>
+      <div class="pc-records">
+        <div class="pc-rec" style="background:#6B3B3B;"><i></i></div>
+        <div class="pc-rec" style="background:#3B6B4F;"><i></i></div>
+        <div class="pc-rec" style="background:#6B5A3B;"><i></i></div>
+        <div class="pc-rec" style="background:#3B4A6B;"><i></i></div>
+        <div class="pc-rec" style="background:#2F5D6B;"><i></i></div>
+        <div class="pc-rec" style="background:#6B3B5A;"><i></i></div>
+      </div>
+      <div class="pc-slogan">有音乐的房间,抵千万句寒暄。</div>
+      <div class="pc-divider"></div>
+      <div class="pc-footer">一间安静的放映室 · Roomie · ROOM ID 0731</div>
+    </div>
+
+    <div class="btn-row">
+      <div class="btn-ghost-night pc-btn">保存到相册</div>
+      <div class="btn-primary pc-btn">分享</div>
+    </div>
+  </div>
+</body>
+</html>

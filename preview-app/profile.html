@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Roomie · 我的放映室</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 390px; }
+  body { font-family: -apple-system, "PingFang SC", "MiSans", "Microsoft YaHei", sans-serif; font-size: 13.52px; color: #F2ECDC; background: #0C1424; }
+  .en-serif { font-family: "Oranienbaum", "Times New Roman", serif; letter-spacing: 2.08px; text-transform: uppercase; }
+  .page { min-height: 844px; background: linear-gradient(180deg, #0C1424 0%, #101B30 55%, #0C1424 100%); padding: 0 16.64px 100px; }
+  .card { background: #F6EFDD; background-image: radial-gradient(rgba(138,90,51,.05) .52px, transparent .83px); background-size: 7.28px 7.28px; color: #26221A; border-radius: 16.64px; box-shadow: 0 6.24px 16.64px rgba(4,8,18,.45); }
+  .btn-primary { background: #2FBF71; color: #fff; border-radius: 999px; font-weight: 600; text-align: center; box-shadow: 0 5.2px 12.48px rgba(47,191,113,.38), inset 0 1.04px 0 rgba(255,255,255,.28); }
+  .pill { display: inline-flex; align-items: center; border-radius: 999px; padding: 2.6px 10.4px; font-size: 10.4px; }
+  .pill-amber { background: rgba(240,169,60,.16); color: #C9821E; font-weight: 600; }
+  .pill-wood { background: #8A5A33; color: #fff; font-weight: 600; }
+
+  /* 状态栏 */
+  .statusbar { height: 44px; display: flex; align-items: center; justify-content: space-between; padding: 0 28px 0 32px; font-size: 14px; font-weight: 600; color: #F2ECDC; margin: 0 -16.64px; }
+  .sb-right { display: flex; align-items: center; gap: 6px; }
+  .sb-signal { display: flex; align-items: flex-end; gap: 1.5px; height: 11px; }
+  .sb-signal i { width: 3px; background: #F2ECDC; border-radius: 1px; display: block; }
+  .sb-signal i:nth-child(1) { height: 4px; } .sb-signal i:nth-child(2) { height: 6px; } .sb-signal i:nth-child(3) { height: 8px; } .sb-signal i:nth-child(4) { height: 10px; }
+  .sb-battery { width: 22px; height: 11px; border: 1.5px solid rgba(242,236,220,.5); border-radius: 3px; position: relative; display: block; }
+  .sb-battery::before { content: ''; position: absolute; left: 1.5px; top: 1.5px; bottom: 1.5px; width: 70%; background: #F2ECDC; border-radius: 1px; }
+
+  .rh { display: flex; align-items: center; justify-content: space-between; padding: 12.48px 0 4.16px; }
+  .rh-left { display: flex; flex-direction: column; gap: 1.04px; }
+  .rh-brand { font-size: 17.68px; color: #F2ECDC; letter-spacing: 4.16px; line-height: 1.2; }
+  .rh-sub { font-size: 10.4px; color: #8B96AC; letter-spacing: 1.04px; }
+  .rh-right { display: flex; align-items: center; gap: 8.32px; }
+  .rh-live { display: flex; align-items: center; gap: 4.16px; padding: 4.16px 11.44px; border-radius: 999px; background: #2FBF71; color: #fff; font-size: 10.4px; font-weight: 700; letter-spacing: 1.04px; box-shadow: 0 3.12px 8.32px rgba(47,191,113,.35); }
+  .rh-live-dot { width: 5.2px; height: 5.2px; border-radius: 50%; background: #fff; }
+  .rh-avatar { width: 27.04px; height: 27.04px; border-radius: 50%; background: #F0A93C; color: #fff; font-size: 12.48px; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 1.56px solid rgba(246,239,221,.35); }
+
+  .head { display: flex; flex-direction: column; gap: 2.08px; margin-top: 10.4px; margin-bottom: 12.48px; }
+  .section-title { font-size: 18.72px; font-weight: 700; color: #F2ECDC; }
+  .head-en { font-size: 10.4px; color: #8B96AC; }
+
+  .me-card { display: flex; gap: 14.56px; padding: 16.64px 14.56px; }
+  .me-avatar { width: 72.8px; height: 72.8px; border-radius: 50%; background: #F0A93C; color: #fff; font-size: 29.12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4.16px 10.4px rgba(240,169,60,.35), inset 0 1.04px 0 rgba(255,255,255,.3); }
+  .me-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6.24px; }
+  .me-name-row { display: flex; align-items: center; gap: 7.28px; flex-wrap: wrap; }
+  .me-name { font-size: 18.72px; font-weight: 800; color: #26221A; }
+  .me-quote { font-size: 11.44px; color: #6E6656; border-left: 3.12px solid #F0A93C; padding-left: 8.32px; line-height: 1.6; }
+
+  .wall-head { display: flex; align-items: baseline; justify-content: space-between; margin-top: 18.72px; }
+  .panel-title { font-size: 14.56px; font-weight: 700; color: #F2ECDC; }
+  .wall-count { font-size: 11.44px; color: #2FBF71; font-weight: 600; }
+  .wall-card { margin-top: 10.4px; padding: 14.56px; }
+  .wall-grid { display: flex; flex-wrap: wrap; gap: 10.4px; }
+  .record { position: relative; width: calc((100% - 31.2px) / 4); display: flex; flex-direction: column; align-items: center; gap: 4.16px; padding: 8.32px 0; border-radius: 10.4px; border: 1.04px solid transparent; }
+  .record-on { border-color: #2FBF71; background: #DFF5E9; }
+  .record-disc { width: 49.92px; height: 49.92px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 3.12px rgba(255,255,255,.08); }
+  .record-label { width: 15.6px; height: 15.6px; border-radius: 50%; background: #F0A93C; border: 2.08px solid #26221A; }
+  .record-title { font-size: 10.4px; color: #6E6656; }
+  .record-check { position: absolute; right: 5.2px; top: 5.2px; width: 16.64px; height: 16.64px; border-radius: 50%; background: #2FBF71; color: #fff; font-size: 10.4px; display: flex; align-items: center; justify-content: center; }
+
+  .save-wall { margin-top: 14.56px; padding: 12.48px 0; font-size: 14.56px; }
+
+  .ach-card { margin-top: 10.4px; padding: 14.56px; display: flex; justify-content: space-between; }
+  .ach { display: flex; flex-direction: column; align-items: center; gap: 4.16px; flex: 1; }
+  .ach-ic { width: 49.92px; height: 49.92px; border-radius: 50%; color: #fff; font-size: 20.8px; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 1.04px 0 rgba(255,255,255,.28), 0 4.16px 10.4px rgba(4,8,18,.3); }
+  .ach-name { font-size: 11.44px; font-weight: 600; color: #26221A; }
+  .ach-lv { font-size: 10.4px; color: #9A9080; }
+
+  .room-card { margin-top: 10.4px; padding: 12.48px 14.56px; display: flex; align-items: center; gap: 10.4px; }
+  .room-thumb { width: 62.4px; height: 62.4px; border-radius: 12.48px; object-fit: cover; background: #0C1424; flex-shrink: 0; }
+  .room-meta { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2.08px; }
+  .room-now { font-size: 13.52px; font-weight: 700; color: #26221A; }
+  .room-sub { font-size: 11.44px; color: #9A9080; }
+  .room-arrow { font-size: 22.88px; color: #9A9080; }
+
+  /* tabbar */
+  .tabbar { position: fixed; left: 0; width: 390px; bottom: 0; display: flex; align-items: flex-end; height: 66.56px; background: #0E1830; border-top: .52px solid rgba(246,239,221,.10); box-shadow: 0 -4.16px 16.64px rgba(4,8,18,.55); z-index: 10; }
+  .tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 57.2px; color: #7A8398; }
+  .tab-on { color: #2FBF71; }
+  .tab-label { font-size: 10.4px; margin-top: 3.12px; }
+  .ic { position: relative; width: 22.88px; height: 22.88px; }
+  .ic-home::before { content: ''; position: absolute; left: 4.16px; top: 10.4px; width: 14.56px; height: 10.4px; border: 2.08px solid currentColor; border-radius: 2.08px; }
+  .ic-home::after { content: ''; position: absolute; left: 5.72px; top: 1.04px; width: 10.4px; height: 10.4px; border-left: 2.08px solid currentColor; border-top: 2.08px solid currentColor; transform: rotate(45deg); border-radius: 1.56px; }
+  .ic-friends::before { content: ''; position: absolute; left: 2.08px; top: 3.12px; width: 7.28px; height: 7.28px; border: 2.08px solid currentColor; border-radius: 50%; box-shadow: 11.44px 3.12px 0 -2.08px #0E1830, 11.44px 3.12px 0 0 currentColor; }
+  .ic-friends::after { content: ''; position: absolute; left: 1.04px; top: 13.52px; width: 9.36px; height: 6.24px; border: 2.08px solid currentColor; border-radius: 5.2px 5.2px 2.08px 2.08px; }
+  .ic-msg::before { content: ''; position: absolute; left: 3.12px; top: 4.16px; width: 16.64px; height: 11.44px; border: 2.08px solid currentColor; border-radius: 6.24px; }
+  .ic-msg::after { content: ''; position: absolute; left: 8.32px; top: 14.56px; width: 6.24px; height: 6.24px; border-left: 2.08px solid currentColor; border-bottom: 2.08px solid currentColor; transform: rotate(-45deg) skew(-12deg, -12deg); }
+  .ic-me::before { content: ''; position: absolute; left: 6.76px; top: 2.08px; width: 8.32px; height: 8.32px; border: 2.08px solid currentColor; border-radius: 50%; }
+  .ic-me::after { content: ''; position: absolute; left: 3.64px; top: 13.52px; width: 14.56px; height: 7.28px; border: 2.08px solid currentColor; border-radius: 7.28px 7.28px 2.08px 2.08px; }
+  .tab-create { justify-content: flex-start; }
+  .create-btn { width: 49.92px; height: 49.92px; margin-top: -18.72px; border-radius: 50%; background: #2FBF71; display: flex; align-items: center; justify-content: center; box-shadow: 0 5.2px 12.48px rgba(47,191,113,.45), inset 0 1.04px 0 rgba(255,255,255,.28), 0 0 0 5.2px #0C1424; }
+  .create-plus { color: #fff; font-size: 31.2px; font-weight: 300; line-height: 1; margin-top: -2.08px; }
+</style>
+</head>
+<body>
+  <div class="statusbar">
+    <span>9:41</span>
+    <span class="sb-right"><span class="sb-signal"><i></i><i></i><i></i><i></i></span><span class="sb-battery"></span></span>
+  </div>
+  <div class="page">
+    <div class="rh">
+      <div class="rh-left">
+        <div class="rh-brand en-serif">ROOMIE</div>
+        <div class="rh-sub">深夜放映室 · 0731</div>
+      </div>
+      <div class="rh-right">
+        <div class="rh-live"><div class="rh-live-dot"></div>LIVE</div>
+        <div class="rh-avatar">M</div>
+      </div>
+    </div>
+    <div class="head">
+      <span class="section-title">我的放映室</span>
+      <span class="head-en en-serif">My Room</span>
+    </div>
+
+    <div class="card me-card">
+      <div class="me-avatar">M</div>
+      <div class="me-info">
+        <div class="me-name-row">
+          <span class="me-name">MOMO</span>
+          <span class="pill pill-amber">Lv.7</span>
+          <span class="pill pill-wood">建筑师</span>
+        </div>
+        <span class="me-quote">「好的音乐,会让房间变成另一个世界。」</span>
+      </div>
+    </div>
+
+    <div class="wall-head">
+      <span class="panel-title">我的唱片墙</span>
+      <span class="wall-count">已选 6 / 12</span>
+    </div>
+    <div class="card wall-card">
+      <div class="wall-grid">
+        <div class="record record-on"><div class="record-disc" style="background:#6B3B3B;"><div class="record-label"></div></div><span class="record-title">晴天</span><div class="record-check">✓</div></div>
+        <div class="record record-on"><div class="record-disc" style="background:#3B6B4F;"><div class="record-label"></div></div><span class="record-title">花海</span><div class="record-check">✓</div></div>
+        <div class="record record-on"><div class="record-disc" style="background:#6B5A3B;"><div class="record-label"></div></div><span class="record-title">夜曲</span><div class="record-check">✓</div></div>
+        <div class="record"><div class="record-disc" style="background:#23262B;"><div class="record-label"></div></div><span class="record-title">稻香</span></div>
+        <div class="record record-on"><div class="record-disc" style="background:#3B4A6B;"><div class="record-label"></div></div><span class="record-title">半岛铁盒</span><div class="record-check">✓</div></div>
+        <div class="record"><div class="record-disc" style="background:#4F3B6B;"><div class="record-label"></div></div><span class="record-title">简单爱</span></div>
+        <div class="record record-on"><div class="record-disc" style="background:#2F5D6B;"><div class="record-label"></div></div><span class="record-title">星晴</span><div class="record-check">✓</div></div>
+        <div class="record record-on"><div class="record-disc" style="background:#6B3B5A;"><div class="record-label"></div></div><span class="record-title">安静</span><div class="record-check">✓</div></div>
+      </div>
+    </div>
+    <div class="btn-primary save-wall">保存布置</div>
+
+    <div class="wall-head"><span class="panel-title">我的成就</span></div>
+    <div class="card ach-card">
+      <div class="ach"><div class="ach-ic" style="background:#F0A93C;">♪</div><span class="ach-name">新晋达人</span><span class="ach-lv">Lv.3</span></div>
+      <div class="ach"><div class="ach-ic" style="background:#8A5A33;">⚒</div><span class="ach-name">建筑师傅</span><span class="ach-lv">Lv.4</span></div>
+      <div class="ach"><div class="ach-ic" style="background:#3B4A6B;">✦</div><span class="ach-name">愈音之友</span><span class="ach-lv">Lv.2</span></div>
+    </div>
+
+    <div class="wall-head"><span class="panel-title">我的房间</span></div>
+    <div class="card room-card">
+      <img class="room-thumb" src="legacy-assets/room-hero.webp" alt="">
+      <div class="room-meta">
+        <span class="room-now">当前使用 · 深夜放映室</span>
+        <span class="room-sub">MOMO 的放映室 · Lv.7</span>
+      </div>
+      <span class="room-arrow">›</span>
+    </div>
+  </div>
+
+  <div class="tabbar">
+    <div class="tab"><div class="ic ic-home"></div><span class="tab-label">房间</span></div>
+    <div class="tab"><div class="ic ic-friends"></div><span class="tab-label">好友</span></div>
+    <div class="tab tab-create"><div class="create-btn"><span class="create-plus">+</span></div></div>
+    <div class="tab"><div class="ic ic-msg"></div><span class="tab-label">消息</span></div>
+    <div class="tab tab-on"><div class="ic ic-me"></div><span class="tab-label">我</span></div>
+  </div>
+</body>
+</html>

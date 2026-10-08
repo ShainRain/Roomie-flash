@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Roomie · 双人同频</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 390px; }
+  body { font-family: -apple-system, "PingFang SC", "MiSans", "Microsoft YaHei", sans-serif; font-size: 13.52px; color: #F2ECDC; background: #0C1424; }
+  .en-serif { font-family: "Oranienbaum", "Times New Roman", serif; letter-spacing: 2.08px; text-transform: uppercase; }
+  .page { min-height: 844px; background: linear-gradient(180deg, #0C1424 0%, #101B30 55%, #0C1424 100%); padding: 0 16.64px 24px; }
+  .pill-live { display: inline-flex; align-items: center; border-radius: 999px; padding: 4.16px 12.48px; font-size: 11.44px; background: #2FBF71; color: #fff; font-weight: 600; box-shadow: 0 3.12px 8.32px rgba(47,191,113,.35); }
+  .card { background: #F6EFDD; background-image: radial-gradient(rgba(138,90,51,.05) .52px, transparent .83px); background-size: 7.28px 7.28px; color: #26221A; border-radius: 16.64px; box-shadow: 0 6.24px 16.64px rgba(4,8,18,.45); }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding-top: 52px; }
+  .nav-ic { width: 31.2px; height: 31.2px; border-radius: 50%; background: rgba(18,29,50,.72); border: .52px solid rgba(246,239,221,.14); display: flex; align-items: center; justify-content: center; font-size: 18.72px; color: #F2ECDC; box-shadow: 0 4.16px 12.48px rgba(4,8,18,.45); }
+  .nav-ghost { visibility: hidden; }
+
+  .title-row { display: flex; align-items: flex-end; justify-content: space-between; margin-top: 14.56px; }
+  .title-left { display: flex; align-items: baseline; gap: 7.28px; }
+  .page-title { font-size: 20.8px; font-weight: 700; color: #F2ECDC; }
+  .page-title-en { font-size: 12.48px; color: #8B96AC; }
+
+  .art-wrap { margin-top: 6.24px; position: relative; }
+  .duo-stage { position: relative; width: 100%; height: 357.76px; }
+  .duo-stage img.stage { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+  .stage-peer { position: absolute; left: 55%; top: 62%; width: 34px; transform: translate(-50%, -88%); z-index: 640; }
+  .stage-peer img { width: 34px; filter: drop-shadow(0 3px 4px rgba(4,8,18,.4)); }
+
+  .duo-card { margin-top: 6.24px; padding: 12.48px 14.56px; display: flex; align-items: center; gap: 10.4px; }
+  .duo-avatars { display: flex; padding-left: 4.16px; }
+  .d-avatar { width: 33.28px; height: 33.28px; border-radius: 50%; border: 2.08px solid #F6EFDD; margin-left: -6.24px; color: #fff; font-size: 13.52px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .d-me { background: #2FBF71; z-index: 1; }
+  .duo-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2.08px; }
+  .duo-names { font-size: 14.56px; font-weight: 700; color: #26221A; }
+  .duo-sync { font-size: 11.44px; color: #1F9D5A; }
+  .sync-wave { display: flex; align-items: center; gap: 3.12px; height: 24.96px; }
+  .wave-bar { width: 4.16px; border-radius: 999px; background: #2FBF71; animation: wave 1.1s ease-in-out infinite; }
+  .wave-bar:nth-child(1) { height: 10.4px; }
+  .wave-bar:nth-child(2) { height: 20.8px; animation-delay: .15s; }
+  .wave-bar:nth-child(3) { height: 14.56px; animation-delay: .3s; }
+  .wave-bar:nth-child(4) { height: 22.88px; animation-delay: .45s; }
+  @keyframes wave { 0%,100% { transform: scaleY(.55); } 50% { transform: scaleY(1); } }
+
+  .player-card { margin-top: 10.4px; padding: 12.48px 14.56px; display: flex; align-items: center; gap: 10.4px; background: #121D32; border: .52px solid rgba(246,239,221,.10); border-radius: 16.64px; box-shadow: 0 6.24px 16.64px rgba(4,8,18,.5); }
+  .vinyl { width: 45.76px; height: 45.76px; border-radius: 50%; background-color: #23262b; background-image: repeating-radial-gradient(circle at center, #23262b 0, #23262b 2.08px, #33373d 2.08px, #33373d 4.16px); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .vinyl-hole { width: 13.52px; height: 13.52px; border-radius: 50%; background: #F0A93C; border: 3.12px solid #121D32; }
+  .player-info { flex: 1; display: flex; flex-direction: column; gap: 2.08px; min-width: 0; }
+  .song-title { font-size: 14.56px; font-weight: 700; color: #F6EFDD; }
+  .song-artist { font-size: 11.44px; color: #8B96AC; }
+  .progress-row { display: flex; align-items: center; gap: 6.24px; margin-top: 4.16px; }
+  .time { font-size: 10.4px; color: #8B96AC; font-variant-numeric: tabular-nums; }
+  .progress-track { flex: 1; height: 4.16px; border-radius: 999px; background: rgba(246,239,221,.14); overflow: hidden; }
+  .progress-fill { height: 100%; width: 49.8%; border-radius: 999px; background: #2FBF71; }
+  .player-ctrl { display: flex; align-items: center; gap: 8.32px; flex-shrink: 0; }
+  .ctrl-sm { font-size: 15.6px; color: #B8C0D0; }
+  .ctrl-play { width: 37.44px; height: 37.44px; border-radius: 50%; background: #2FBF71; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 15.6px; box-shadow: 0 4.16px 10.4px rgba(47,191,113,.4), inset 0 1.04px 0 rgba(255,255,255,.28); }
+
+  .exit-btn { margin-top: 12.48px; height: 49.92px; display: flex; align-items: center; justify-content: center; font-size: 14.56px; font-weight: 600; color: #E2604C; border: 1.04px solid #E2604C; border-radius: 999px; background: transparent; }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="topbar">
+      <div class="nav-ic">‹</div>
+      <div class="pill-live">● 和 KIKI 一起听 · LIVE</div>
+      <div class="nav-ic nav-ghost"></div>
+    </div>
+    <div class="title-row">
+      <div class="title-left">
+        <span class="page-title">双人同频</span>
+        <span class="page-title-en en-serif">Duo</span>
+      </div>
+      <div class="pill-live">同频中 · 95%</div>
+    </div>
+    <div class="art-wrap">
+      <div class="duo-stage">
+        <img class="stage" src="legacy-assets/room-hero.webp" alt="">
+        <div class="stage-peer"><img src="../miniprogram/assets/img/char-kiki-sit.webp" alt=""></div>
+      </div>
+    </div>
+    <div class="card duo-card">
+      <div class="duo-avatars">
+        <div class="d-avatar d-me">M</div>
+        <div class="d-avatar" style="background:#F5B83D;">K</div>
+      </div>
+      <div class="duo-info">
+        <span class="duo-names">与 KIKI 一起听</span>
+        <span class="duo-sync">同频中 · 95%</span>
+      </div>
+      <div class="sync-wave">
+        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      </div>
+    </div>
+    <div class="player-card">
+      <div class="vinyl"><div class="vinyl-hole"></div></div>
+      <div class="player-info">
+        <span class="song-title">晴天</span>
+        <span class="song-artist">歌单由 MOMO 控制</span>
+        <div class="progress-row">
+          <span class="time">2:14</span>
+          <div class="progress-track"><div class="progress-fill"></div></div>
+          <span class="time">4:29</span>
+        </div>
+      </div>
+      <div class="player-ctrl">
+        <div class="ctrl-sm">⏮</div>
+        <div class="ctrl-play">⏸</div>
+        <div class="ctrl-sm">⏭</div>
+      </div>
+    </div>
+    <div class="exit-btn">退出双人房</div>
+  </div>
+</body>
+</html>

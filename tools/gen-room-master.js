@@ -1202,12 +1202,9 @@ module.exports = ${JSON.stringify({
     FIXED_COLLIDERS: [{ id: 'table', furniture: null, collision: { u0: 0.28, v0: 0.50, u1: 0.44, v1: 0.64 } }],
     FIXTURE_OBJECTS: [
       // 固定互动件:hitArea 收紧到真实内容(唱片墙=左墙层板区,地面唱片=散落黑胶簇)
-      { id: 'record-wall', icon: '◉', name: '唱片墙', hitArea: (() => {
-        const cs = [LW(0.10, 0.40), LW(0.80, 0.40), LW(0.10, 0.95), LW(0.80, 0.95)];
-        const xs = cs.map((c) => Math.max(0, Math.min(828, c[0])));
-        const ys = cs.map((c) => Math.max(0, Math.min(828, c[1])));
-        return { type: 'rect', left: pct(Math.min(...xs)), top: pct(Math.min(...ys)), width: pct(Math.max(...xs) - Math.min(...xs)), height: pct(Math.max(...ys) - Math.min(...ys)) };
-      })(), z: 340, interaction: 'records' },
+      // 唱片墙点击区=上层可见层板(唱片槽 slot0–slot7 分布带),底边 29% 收于沙发 hitArea(top 30.6%)之上,互不重叠;
+      // 下层槽位(slot8–11)在沙发靠背/左侧,被沙发遮挡,不纳入点击区
+      { id: 'record-wall', icon: '◉', name: '唱片墙', hitArea: { type: 'rect', left: 3.62, top: 0, width: 40.58, height: 29 }, z: 340, interaction: 'records' },
       { id: 'floor-records', icon: '●', name: '地面唱片', hitArea: { type: 'rect', left: 42.5, top: 63.5, width: 8.5, height: 7 }, z: 100, interaction: 'play-hint' }
     ],
     RECORD_SLOTS: slots,

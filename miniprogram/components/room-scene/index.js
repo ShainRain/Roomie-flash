@@ -15,8 +15,20 @@ const RoomHit = require('../../utils/room-hit');
 const sceneMap = RoomMap.createMap(SceneLayout.GEOMETRY);
 
 // 互动命中清单(降序 z 命中检测用):hitArea 与 collision 完全分离
-const HIT_ITEMS = SceneLayout.FIXTURE_OBJECTS
-  .map((o) => ({ id: o.id, z: o.z || 0, hitArea: o.hitArea }))
+// 注:生成器落地时部分版本的 FIXTURE_OBJECTS 把 hitArea 拍平到顶层(left/top/width/height),
+// 这里统一归一化为嵌套 hitArea,两种结构都能消费(room.js 侧使用拍平字段,不受影响)
+const FIXTURE_ITEMS = SceneLayout.FIXTURE_OBJECTS.map((o) => ({
+  id: o.id,
+  icon: o.icon,
+  name: o.name,
+  z: o.z || 0,
+  hitArea: o.hitArea || (typeof o.left === 'number'
+    ? { left: o.left, top: o.top, width: o.width, height: o.height }
+    : null)
+}));
+
+const HIT_ITEMS = FIXTURE_ITEMS
+  .map((o) => ({ id: o.id, z: o.z, hitArea: o.hitArea }))
   .concat(SceneLayout.FURNITURE
     .filter((f) => f.hitArea)
     .map((f) => ({ id: f.hotspot.id, z: f.z, hitArea: f.hitArea })));
@@ -116,7 +128,10 @@ Component({
         const wPct = hPct / SceneLayout.CHAR.spriteAspect;
         return {
           type: 'char', key: `c-${c.id}`, ...c,
-          z: depth.z, scale: depth.scale,
+          // zBoost：坐在家具上时由页面抬高（如沙发坐垫：z=450 会被沙发 z=519 整只遮挡），
+          // 站立角色恒为 0，保持"走近前景变大、走到家具后被遮挡"的景深规则不变
+          z: depth.z + (c.zBoost || 0),
+          scale: depth.scale,
           wPct: wPct.toFixed(2), shadowW: (wPct * 0.62).toFixed(2)
         };
       });
@@ -130,7 +145,7 @@ Component({
       }
       const selected = Array.isArray(this.data.furniture) ? this.data.furniture : [];
       // 热点视图纯视觉化(不再吞点击);几何 = hitArea
-      const list = SceneLayout.FIXTURE_OBJECTS
+      const list = FIXTURE_ITEMS
         .map((o) => ({ id: o.id, icon: o.icon, name: o.name, z: o.z, ...o.hitArea }))
         .concat(SceneLayout.FURNITURE
           .filter((f) => f.hotspot && (f.fixed || selected.includes(f.id)))
@@ -148,7 +163,7 @@ Component({
         return;
       }
       const selected = Array.isArray(this.data.furniture) ? this.data.furniture : [];
-      const debugHits = SceneLayout.FIXTURE_OBJECTS
+      const debugHits = FIXTURE_ITEMS
         .concat(SceneLayout.FURNITURE.filter((f) => f.hotspot && (f.fixed || selected.includes(f.id))))
         .filter((o) => o.hitArea)
         .map((o) => ({ id: o.hotspot ? o.hotspot.id : o.id, ...o.hitArea }));
