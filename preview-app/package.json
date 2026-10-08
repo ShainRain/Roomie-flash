@@ -1,0 +1,18 @@
+{
+  "name": "roomie-web-demo",
+  "private": true,
+  "version": "0.2.0",
+  "type": "module",
+  "scripts": {
+    "sync-assets": "node scripts/sync-assets.mjs",
+    "predev": "node scripts/sync-assets.mjs",
+    "dev": "vite",
+    "prebuild": "node scripts/sync-assets.mjs",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node tests/player.test.mjs && node tests/room-map.test.mjs"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}

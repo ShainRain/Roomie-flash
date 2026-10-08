@@ -1,0 +1,45 @@
+/* room-scene Web Renderer — port of miniprogram/components/room-scene/index.wxss
+   舞台为正方形（容器由页面提供，组件填充 100%）。 */
+
+.sc-stage { position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; }
+.sc-ly { position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+.sc-screen { mix-blend-mode: screen; }
+.sc-floor-tint { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 100; pointer-events: none; }
+.sc-slot { position: absolute; z-index: 350; object-fit: contain; pointer-events: none; }
+.sc-dim { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 965; background: #06090F; pointer-events: none; transition: opacity .25s ease; }
+
+/* ---- 角色：呼吸 / 步态 / 坐姿 / 接触阴影随景深缩放 ---- */
+.sc-char { position: absolute; transform-origin: 50% 100%; cursor: pointer; }
+.sc-sprite { display: block; width: 100%; filter: drop-shadow(0 3px 4px rgba(20, 12, 6, 0.28)); }
+.sc-flip { transform: scaleX(-1); }
+.sc-char-shadow { position: absolute; left: 19%; bottom: -2%; width: 62%; height: 1.1vw; border-radius: 50%; background: rgba(20, 12, 6, 0.3); }
+.sc-char-name { position: absolute; top: 102%; left: 50%; transform: translateX(-50%); padding: 1.5px 6px; border-radius: 999px; background: rgba(247, 243, 234, 0.88); color: #26221A; font-size: 10.4px; white-space: nowrap; }
+.sc-frame-idle, .sc-frame-walk-a, .sc-frame-walk-b, .sc-frame-sit { width: 100%; }
+.sc-frame-idle { animation: sc-breathe 2.6s ease-in-out infinite; transform-origin: 50% 100%; }
+.sc-frame-sit .sc-sprite { transform: translateY(3px) scaleY(.96); transform-origin: 50% 100%; }
+.sc-frame-walk-a { animation: sc-bob-a .22s ease-in-out infinite; }
+.sc-frame-walk-b { animation: sc-bob-b .22s ease-in-out infinite; }
+@keyframes sc-breathe { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.025); } }
+@keyframes sc-bob-a { 0%, 100% { transform: translateY(0) rotate(-1.2deg); } 50% { transform: translateY(-2.6px) rotate(0); } }
+@keyframes sc-bob-b { 0%, 100% { transform: translateY(0) rotate(1.2deg); } 50% { transform: translateY(-2.6px) rotate(0); } }
+
+/* ---- 正在播放反馈 ---- */
+.sc-turntable-spin { position: absolute; z-index: 702; width: calc(var(--rpx) * 44); height: calc(var(--rpx) * 44); margin: calc(var(--rpx) * -22) 0 0 calc(var(--rpx) * -22); border-radius: 50%; background: repeating-radial-gradient(circle, #1F2329 0 1.5px, #E9A942 2px 3px); animation: sc-spin .9s linear infinite; pointer-events: none; }
+.sc-wall-badge { position: absolute; z-index: 960; padding: calc(var(--rpx) * 6) calc(var(--rpx) * 16); border-radius: var(--r-pill); background: rgba(43, 201, 107, 0.88); color: #FFFFFF; font-size: calc(var(--rpx) * 18); pointer-events: none; animation: sc-toast-in .25s ease-out; white-space: nowrap; }
+@keyframes sc-spin { to { transform: rotate(360deg); } }
+@keyframes sc-toast-in { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ---- 热点：纯视觉标签（点击判定走 hitArea 管道），不吞点击 ---- */
+.sc-hotspot { position: absolute; display: flex; align-items: center; justify-content: center; border: 1px dashed transparent; border-radius: calc(var(--rpx) * 20); transition: background .25s, border-color .25s; pointer-events: none; }
+.sc-hint .sc-hotspot { border-color: rgba(247, 243, 234, 0.38); animation: sc-hint-pulse 1.8s ease-in-out infinite; }
+.sc-hotspot-lit { background: rgba(247, 243, 234, 0.16); border-color: rgba(247, 243, 234, 0.72); }
+.sc-hotspot-badge { display: flex; align-items: center; gap: 2.5px; padding: 2.5px 5px; border-radius: 999px; background: rgba(31, 35, 41, 0.48); color: rgba(247, 243, 234, 0.92); font-size: 9.4px; opacity: 0; transform: scale(.9); transition: opacity .2s, transform .2s; white-space: nowrap; }
+.sc-hotspot-lit .sc-hotspot-badge { opacity: 1; transform: scale(1); }
+@keyframes sc-hint-pulse { 0%, 100% { background: rgba(247, 243, 234, 0); } 50% { background: rgba(247, 243, 234, 0.12); } }
+
+/* ---- Debug：红=hitArea 蓝=collision ---- */
+.sc-dbg-hit { position: absolute; z-index: 1500; border: 1px dashed rgba(255, 80, 80, 0.95); background: rgba(255, 80, 80, 0.10); font-size: 8px; color: #FF8080; pointer-events: none; }
+.sc-dbg-col { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1499; background: rgba(80, 140, 255, 0.16); pointer-events: none; }
+
+/* ---- 气泡 ---- */
+.sc-bubble { position: absolute; z-index: 1000; transform: translateX(-50%); padding: calc(var(--rpx) * 12) calc(var(--rpx) * 24); border-radius: var(--r-pill); background: rgba(31, 35, 41, 0.82); color: #FFFFFF; font-size: calc(var(--rpx) * 24); white-space: nowrap; pointer-events: none; }

@@ -1,0 +1,66 @@
+/* tabbar — 5-tab bar (房间/好友/＋/消息/我), deep-night chrome */
+
+.tabbar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3000;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-around;
+  padding: calc(var(--rpx) * 10) calc(var(--rpx) * 20) calc(var(--rpx) * 24);
+  background: rgba(14, 26, 41, 0.92);
+  border-top: 1px solid var(--night-line);
+  backdrop-filter: blur(8px);
+}
+
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--rpx) * 4);
+  padding: calc(var(--rpx) * 6) calc(var(--rpx) * 18);
+  color: var(--night-sub);
+  font-size: calc(var(--rpx) * 20);
+  position: relative;
+  border-radius: var(--r-card-sm);
+}
+
+.tab-item.active { color: var(--night-text); }
+
+.tab-glyph {
+  font-size: calc(var(--rpx) * 36);
+  line-height: 1;
+}
+
+.tab-create {
+  width: calc(var(--rpx) * 88);
+  height: calc(var(--rpx) * 88);
+  margin-top: calc(var(--rpx) * -30);
+  border-radius: 50%;
+  background: linear-gradient(180deg, #35D477 0%, #24B961 100%);
+  color: #fff;
+  font-size: calc(var(--rpx) * 44);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-green);
+  align-self: center;
+}
+
+.tab-badge {
+  position: absolute;
+  top: 0;
+  right: calc(var(--rpx) * 10);
+  min-width: calc(var(--rpx) * 28);
+  height: calc(var(--rpx) * 28);
+  border-radius: var(--r-pill);
+  background: var(--danger);
+  color: #fff;
+  font-size: calc(var(--rpx) * 18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 calc(var(--rpx) * 6);
+}

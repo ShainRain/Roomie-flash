@@ -1,0 +1,106 @@
+/* roomie-header — masthead, port of components/roomie-header/index.wxss */
+
+.rh {
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--rpx) * 28) calc(var(--rpx) * 40) calc(var(--rpx) * 8);
+}
+
+.rh-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rh-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.rh-brand {
+  font-size: calc(var(--rpx) * 23);
+  color: var(--night-text);
+  letter-spacing: calc(var(--rpx) * 12);
+  line-height: 1.2;
+}
+
+.rh-sub {
+  font-size: calc(var(--rpx) * 22);
+  color: var(--night-sub);
+  letter-spacing: 1px;
+}
+
+.rh-right {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--rpx) * 16);
+}
+
+.rh-live {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--rpx) * 8);
+  padding: calc(var(--rpx) * 7) calc(var(--rpx) * 18);
+  border-radius: var(--r-pill);
+  background: rgba(43, 201, 107, 0.94);
+  color: #fffaf0;
+  font-size: calc(var(--rpx) * 20);
+  font-weight: 650;
+  letter-spacing: 0.5px;
+  box-shadow: 0 calc(var(--rpx) * 5) calc(var(--rpx) * 14) rgba(43, 201, 107, 0.18);
+}
+
+.rh-live-dot {
+  width: calc(var(--rpx) * 10);
+  height: calc(var(--rpx) * 10);
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.rh-share {
+  width: calc(var(--rpx) * 52);
+  height: calc(var(--rpx) * 52);
+  border-radius: 50%;
+  background: rgba(247, 243, 234, 0.10);
+  border: 1px solid var(--night-line);
+  color: var(--night-text);
+  font-size: calc(var(--rpx) * 26);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.rh-avatar {
+  width: calc(var(--rpx) * 52);
+  height: calc(var(--rpx) * 52);
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: calc(var(--rpx) * 24);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: calc(var(--rpx) * 3) solid rgba(247, 243, 234, 0.35);
+}
+
+.rh-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: calc(var(--rpx) * 16);
+  margin-top: calc(var(--rpx) * 20);
+}
+
+.rh-title {
+  font-size: var(--fs-title);
+  font-weight: 700;
+  color: var(--night-text);
+  line-height: 1.25;
+}
+
+.rh-title-en {
+  font-size: calc(var(--rpx) * 22);
+  color: var(--night-sub);
+  letter-spacing: 2px;
+}
