@@ -20,3 +20,11 @@ rmSync(dest, { recursive: true, force: true });
 mkdirSync(dest, { recursive: true });
 cpSync(src, dest, { recursive: true });
 console.log(`[sync-assets] ${src} -> ${dest}`);
+
+// web-only 派生资产（derived-assets/，git 跟踪）覆盖拷贝到 public/assets。
+// 注意本脚本会整体清空 dest，派生资产不能放进 public/assets 提交，必须经此拷贝。
+const derived = join(root, 'derived-assets');
+if (existsSync(derived)) {
+  cpSync(derived, dest, { recursive: true });
+  console.log(`[sync-assets] ${derived} -> ${dest} (web-only overlay)`);
+}

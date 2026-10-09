@@ -11,7 +11,7 @@
     "prebuild": "node scripts/sync-assets.mjs && node scripts/sync-shared.mjs",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "node scripts/sync-shared.mjs --check && node tests/player.test.mjs && node tests/room-map.test.mjs"
+    "test": "node scripts/sync-shared.mjs --check && node tests/player.test.mjs && node tests/room-map.test.mjs && node tests/record-pick.test.mjs && node tests/messages.test.mjs"
   },
   "devDependencies": {
     "vite": "^5.4.0"

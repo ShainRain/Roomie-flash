@@ -11,6 +11,7 @@ import RoomScene from '../components/room-scene/index.js';
 import RoomStore from '../state/room.js';
 import Player from '../state/player.js';
 import { RECORDS, readSelection, MAX_PICK } from '../state/records.js';
+import { toggleSelection } from '../state/record-pick.js';
 import { VIGNETTE_CHAR_AT, VIGNETTE_CHAR_PLAN } from '../state/friends.js';
 import Avatar from '../adapters/avatar.js';
 import { assetUrl } from '../utils/asset-url.js';
@@ -31,8 +32,9 @@ const ACHIEVEMENTS = [
 export function mount(container) {
   const room = RoomStore.getRoom();
   // 唱片墙选择：draft = 当前生效选择（readSelection 自带非法 id 过滤 + 空回退默认）
-  const selected = readSelection(getStorageSync);
+  let selected = readSelection(getStorageSync);
   let dirty = false;
+  const PICK_OPTS = { maxPick: MAX_PICK, maxId: RECORDS.length };
 
   const page = document.createElement('div');
   page.className = 'p-profile page';
@@ -338,10 +340,11 @@ export function mount(container) {
     // 真实音频唱片：点击是「播放」入口——只挂上墙不摘下，同时链接播放对应音频
     if (rec && rec.audio && rec.trackId) {
       if (!selected.includes(id)) {
-        if (selected.length >= MAX_PICK) {
+        const add = toggleSelection(selected, id, PICK_OPTS);
+        if (add.blocked === 'max') {
           showToast({ title: `最多挂 ${MAX_PICK} 张`, icon: 'none' });
         } else {
-          selected.push(id);
+          selected = add.next;
           dirty = true;
           renderWall();
         }
@@ -350,16 +353,13 @@ export function mount(container) {
       showToast({ title: `♪ 正在播放《${rec.title}》`, icon: 'none' });
       return;
     }
-    const idx = selected.indexOf(id);
-    if (idx >= 0) {
-      selected.splice(idx, 1);
-    } else {
-      if (selected.length >= MAX_PICK) {
-        showToast({ title: `最多挂 ${MAX_PICK} 张`, icon: 'none' });
-        return;
-      }
-      selected.push(id);
+    // 普通唱片：点选切换（与 #/records 页同一套规则：上限拦截/非法 id 忽略）
+    const res = toggleSelection(selected, id, PICK_OPTS);
+    if (res.blocked === 'max') {
+      showToast({ title: `最多挂 ${MAX_PICK} 张`, icon: 'none' });
+      return;
     }
+    selected = res.next;
     dirty = true;
     renderWall();
   }

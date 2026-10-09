@@ -16,6 +16,7 @@ import Avatar from '../adapters/avatar.js';
 import { getStorageSync } from '../adapters/storage.js';
 import { showToast, showActionSheet } from '../adapters/platform.js';
 import { back, navigate } from '../router/router.js';
+import { createSofaActions } from '../utils/sofa-interaction.js';
 
 // Room Master Scene 地图实例：新几何 + 碰撞/障碍由 room-scene-layout 单一数据源驱动
 const map = createMap(SceneLayout.GEOMETRY, SceneLayout);
@@ -33,7 +34,6 @@ export function mount(container) {
     // 角色逻辑状态（页面持有，组件只消费渲染快照）
     player: { left: 40, top: 74, direction: 'right' },
     playerSprite: 'idle',
-    preSeatPos: null, // 入座前位置（起身恢复用；绝不回出生点）
     peer: { left: 52, top: 64, name: 'KIKI' },
     peerSprite: 'idle',
     peerDirection: 'left',
@@ -88,11 +88,12 @@ export function mount(container) {
   function syncCharacters() {
     if (!scene) return;
     const outfit = Avatar.path('outfit'); // 自定义服装替换默认 MOMO 精灵（对齐小程序 room.js）
-    // 坐下时 zBoost +80：角色在沙发坐垫层之上（渲染器 renderStack 应用）
-    const zBoost = state.roomState.seated ? 80 : 0;
+    // 坐下时 zBoost +80（角色在沙发体之前）+ 前沿遮挡层（沙发前挡板盖过小腿 → 读作坐进沙发）
+    const seated = state.roomState.seated;
+    const zBoost = seated ? 80 : 0;
     scene.setProps({
       characters: [
-        { id: 'momo', x: state.player.left, y: state.player.top, frame: state.playerSprite, facing: state.player.direction === 'left' ? -1 : 1, label: '我', spriteSrc: outfit || undefined, zBoost },
+        { id: 'momo', x: state.player.left, y: state.player.top, frame: state.playerSprite, facing: state.player.direction === 'left' ? -1 : 1, label: '我', spriteSrc: outfit || undefined, zBoost, overlaySrc: seated ? '/assets/img/room/furn-sofa-front.webp' : undefined },
         { id: 'kiki', x: state.peer.left, y: state.peer.top, frame: state.peerSprite, facing: state.peerDirection === 'left' ? -1 : 1, label: state.peer.name }
       ]
     });
@@ -242,10 +243,12 @@ export function mount(container) {
     if (!known) return;
     const actions = {
       'record-wall': () => {
-        Player.play(); // 文案即「正在播」——必须真实播放（全局 Player）
-        const t = Player.snapshot().track.title;
+        // 唱片墙 = 独立唱片选择页入口（选择/挂墙 ≠ 播放，播放走 turntable/floor-records）
         setFurnitureState(id, true);
-        flashAction(`唱片墙：已挂 ${state.recordIds.length} 张收藏 · 正在播《${t}》`);
+        flashAction(`唱片墙 · 已挂 ${state.recordIds.length} 张收藏，去挑一张新的`);
+        if (timers.wallNav) clearTimeout(timers.wallNav);
+        // 轻微反馈后即跳转，动效不阻断导航
+        timers.wallNav = setTimeout(() => navigate('/records'), 240);
       },
       turntable: () => {
         Player.toggle(); // 全局 Player 真实播放/暂停
@@ -259,22 +262,7 @@ export function mount(container) {
         setFurnitureState(id, enabled);
         flashAction(enabled ? '放映机已打开 · 房间进入观影模式' : '放映机已关闭');
       },
-      sofa: () => {
-        // 座位点 = 沙发 collision 的 uv 中心（数据源唯一，不写死坐标）
-        const sofaCol = SceneLayout.FURNITURE.find((f) => f.id === 'sofa').collision;
-        const seat = map.resolveTarget(state.player, map.fromUV((sofaCol.u0 + sofaCol.u1) / 2, (sofaCol.v0 + sofaCol.v1) / 2));
-        if (state.roomState.seated) {
-          standUp();
-          return;
-        }
-        if (map.distance(state.player, seat) > 10) {
-          // 第一次点沙发：无论多远都走过去并坐下（完整入座）
-          state.preSeatPos = { left: state.player.left, top: state.player.top };
-          moveAlongPath(state.player, seat, sitDown);
-          return;
-        }
-        sitDown();
-      },
+      sofa: () => sofaActions.onSofaTap(),
       lamp: () => {
         const enabled = !state.roomState.lampOn;
         setRoomState({ lampOn: enabled });
@@ -300,36 +288,6 @@ export function mount(container) {
       }
     };
     if (actions[id]) actions[id]();
-  }
-
-  // 坐下：阻断行走覆写坐姿；preSeatPos 只记录一次（走近就坐的情形已在点按时记录）
-  function sitDown() {
-    if (timers.move) {
-      clearInterval(timers.move);
-      timers.move = null;
-    }
-    if (!state.preSeatPos) state.preSeatPos = { left: state.player.left, top: state.player.top };
-    setRoomState({ seated: true });
-    setFurnitureState('sofa', true);
-    state.playerSprite = 'sit';
-    syncCharacters();
-    flashAction('你坐进了沙发 · 继续播放');
-  }
-
-  // 起身：回 preSeatPos（走回，不回出生点）、清坐姿、恢复 idle
-  function standUp() {
-    setRoomState({ seated: false });
-    setFurnitureState('sofa', false);
-    const back = state.preSeatPos;
-    state.preSeatPos = null;
-    flashAction('你从沙发上站了起来');
-    if (back) {
-      moveAlongPath(state.player, back);
-    } else {
-      state.playerSprite = 'idle';
-      syncCharacters();
-    }
-    RoomSync.sendMove({ left: state.player.left, top: state.player.top, direction: state.player.direction, walking: false });
   }
 
   function onSceneTap({ left, top }) {
@@ -467,6 +425,21 @@ export function mount(container) {
   refreshRoomConfig();
   syncCharacters();
 
+  // 沙发入座/起身共享控制器（与 duo 页同一实现，见 utils/sofa-interaction.js）
+  const sofaActions = createSofaActions({
+    map,
+    getPlayer: () => state.player,
+    setPlayer: (pos) => { state.player = { ...state.player, ...pos }; },
+    getSeated: () => state.roomState.seated,
+    setSeated: (v) => { setRoomState({ seated: v }); setFurnitureState('sofa', v); },
+    setSprite: (frame) => { state.playerSprite = frame; },
+    syncCharacters,
+    moveAlongPath,
+    clearMoveTimer: () => { if (timers.move) { clearInterval(timers.move); timers.move = null; } },
+    flashAction,
+    sendMove: (pos) => RoomSync.sendMove(pos)
+  });
+
   const unsubPlayer = Player.subscribe(onPlayerSnap);
   const unsubRoom = RoomStore.subscribe(() => refreshRoomConfig());
   timers.hint = setTimeout(() => {
@@ -481,6 +454,7 @@ export function mount(container) {
       RoomSync.leave();
       unsubPlayer();
       unsubRoom();
+      sofaActions.reset();
       Object.keys(timers).forEach((k) => {
         if (timers[k]) {
           clearInterval(timers[k]);

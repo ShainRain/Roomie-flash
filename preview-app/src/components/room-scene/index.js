@@ -280,12 +280,33 @@ export class RoomScene {
         seenChars.add(item.id);
       }
       frag.appendChild(node);
+      // 角色前沿遮挡层（如入座沙发：沙发前挡板盖过小腿，角色读作坐进沙发内部）
+      if (item.type === 'char' && item.overlaySrc) {
+        let ov = this.overlayNodes && this.overlayNodes.get(item.id);
+        if (!ov) {
+          ov = document.createElement('img');
+          ov.className = 'sc-ly';
+          ov.alt = '';
+          ov.src = assetUrl(item.overlaySrc);
+          ov.onerror = () => console.error('[room-scene] char overlay failed to load:', item.overlaySrc);
+          (this.overlayNodes || (this.overlayNodes = new Map())).set(item.id, ov);
+        }
+        ov.style.zIndex = item.z + 1;
+        frag.appendChild(ov);
+      } else if (item.type === 'char' && this.overlayNodes && this.overlayNodes.has(item.id)) {
+        this.overlayNodes.get(item.id).remove();
+        this.overlayNodes.delete(item.id);
+      }
     });
     // 移除已消失的角色/家具节点（其余就地更新，不重建）
     this.charNodes.forEach((node, id) => {
       if (!seenChars.has(id)) {
         node.remove();
         this.charNodes.delete(id);
+        if (this.overlayNodes && this.overlayNodes.has(id)) {
+          this.overlayNodes.get(id).remove();
+          this.overlayNodes.delete(id);
+        }
       }
     });
     if (this.furnNodes) {

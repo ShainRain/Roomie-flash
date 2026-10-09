@@ -26,6 +26,7 @@ import Avatar from '../adapters/avatar.js';
 import { getStorageSync } from '../adapters/storage.js';
 import { showToast, showModal, showActionSheet } from '../adapters/platform.js';
 import { back } from '../router/router.js';
+import { createSofaActions } from '../utils/sofa-interaction.js';
 
 // 与 room 页同一套 Master 几何与碰撞（单一数据源）；独立实例持有自己的 activeFurniture 状态
 const map = createMap(SceneLayout.GEOMETRY, SceneLayout);
@@ -41,7 +42,7 @@ export function mount(container, ctx = {}) {
     peerId: peerUser.name,
     localUser: LOCAL_USER,
     peerUser,
-    roomState: { lampOn: true, projectorOn: false }, // 会话瞬态
+    roomState: { lampOn: true, projectorOn: false, seated: false }, // 会话瞬态（不写 roomie_room）
     playerState: null, // = Player 单例快照（不复制持有）
     connectionState: 'simPeer'
   };
@@ -150,9 +151,12 @@ export function mount(container, ctx = {}) {
   // ---- 场景 ----
   function syncCharacters() {
     const outfit = Avatar.path('outfit'); // 自定义服装替换默认 MOMO 精灵（对齐小程序 duo.js）
+    // 坐下时 zBoost +80 + 沙发前沿遮挡层（与 room 页同一视觉规则）
+    const seated = session.roomState.seated;
+    const zBoost = seated ? 80 : 0;
     scene.setProps({
       characters: [
-        { id: 'momo', x: state.player.left, y: state.player.top, frame: state.playerSprite, facing: state.player.direction === 'left' ? -1 : 1, label: LOCAL_USER.name, spriteSrc: outfit || undefined },
+        { id: 'momo', x: state.player.left, y: state.player.top, frame: state.playerSprite, facing: state.player.direction === 'left' ? -1 : 1, label: LOCAL_USER.name, spriteSrc: outfit || undefined, zBoost, overlaySrc: seated ? '/assets/img/room/furn-sofa-front.webp' : undefined },
         { id: peerChar.id, spriteBase: peerChar.spriteBase, filter: peerChar.filter, x: state.peerPosition.left, y: state.peerPosition.top, frame: state.peerSprite, facing: state.peerDirection === 'left' ? -1 : 1, label: peerChar.label }
       ]
     });
@@ -200,6 +204,22 @@ export function mount(container, ctx = {}) {
   refreshScene();
   syncCharacters();
   renderSyncPill();
+
+  // 沙发入座/起身共享控制器（与 room 页同一实现，见 utils/sofa-interaction.js）
+  // 只作用于本地可控角色；seated 为会话瞬态，不写 roomie_room，不动对端
+  const sofaActions = createSofaActions({
+    map,
+    getPlayer: () => state.player,
+    setPlayer: (pos) => { state.player = { ...state.player, ...pos }; },
+    getSeated: () => session.roomState.seated,
+    setSeated: (v) => { session.roomState.seated = v; },
+    setSprite: (frame) => { state.playerSprite = frame; },
+    syncCharacters,
+    moveAlongPath,
+    clearMoveTimer: () => { if (timers.move) { clearInterval(timers.move); timers.move = null; } },
+    flashAction: flashBubble,
+    sendMove: (pos) => RoomSync.sendMove(pos)
+  });
 
   // ---- 播放器同步（订阅全局单例；对端 remote 应用不回播）----
   let lastBroadcast = null;
@@ -281,6 +301,7 @@ export function mount(container, ctx = {}) {
 
   function onSceneTap({ left, top }) {
     if (typeof left !== 'number') return;
+    if (session.roomState.seated) return; // 坐着时点地不移动（与 room 页一致）
     const next = map.resolveTarget(state.player, { left, top });
     moveAlongPath(state.player, next);
     const dx = next.left - state.peerPosition.left;
@@ -288,15 +309,18 @@ export function mount(container, ctx = {}) {
     if (Math.sqrt(dx * dx + dy * dy) < 18) flashBubble(`靠近了 ${session.peerId}，点击对方互动`);
   }
 
-  // 双人房家具热点：灯光/放映机即时生效，其余给轻量反馈（不写房间状态机）
+  // 双人房家具热点：灯光/放映机即时生效，沙发走共享入座控制器，其余给轻量反馈
   function onFurnitureTap({ id }) {
     const flavor = {
       'record-wall': `唱片墙：已挂 ${state.recordIds.length} 张收藏 · 正在播《${state.nowPlaying.title}》`,
       turntable: '黑胶在转，别停',
-      sofa: '沙发留给你们俩',
       guitar: `${session.peerId} 最喜欢这一段 Riff`,
       'floor-records': '地面的唱片是昨晚没放完的'
     };
+    if (id === 'sofa') {
+      sofaActions.onSofaTap();
+      return;
+    }
     if (id === 'lamp') {
       session.roomState.lampOn = !session.roomState.lampOn;
       scene.setProps({ lampOn: session.roomState.lampOn });
@@ -312,10 +336,13 @@ export function mount(container, ctx = {}) {
     if (flavor[id]) flashBubble(flavor[id]);
   }
 
-  function moveAlongPath(start, target) {
+  function moveAlongPath(start, target, onComplete) {
     const path = map.findPath(start, target);
     const walkNext = (index) => {
-      if (index >= path.length) return;
+      if (index >= path.length) {
+        if (onComplete) onComplete();
+        return;
+      }
       const point = path[index];
       animatePlayer(point.left, point.top, () => walkNext(index + 1));
     };
@@ -353,7 +380,7 @@ export function mount(container, ctx = {}) {
       if (step >= steps) {
         clearInterval(timers.move);
         timers.move = null;
-        state.playerSprite = 'idle';
+        state.playerSprite = session.roomState.seated ? 'sit' : 'idle';
         syncCharacters();
         if (onComplete) onComplete();
       }
@@ -384,6 +411,7 @@ export function mount(container, ctx = {}) {
     unmount() {
       RoomSync.leave();
       unsubPlayer();
+      sofaActions.reset();
       Object.keys(timers).forEach((k) => {
         if (timers[k]) {
           clearInterval(timers[k]);
