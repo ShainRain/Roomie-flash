@@ -1,7 +1,7 @@
 # Roomie 微信小程序规格文档
 
 > 规格版本：1.0（2026-10-04）
-> 依据：`PLAN.md`、`PROGRESS.md`、`SUBMISSION.md`、`DEMO-SCRIPT.md`、`miniprogram/README.md` 及当前代码。
+> 依据：`docs/project/PLAN.md`、`docs/project/PROGRESS.md`、`docs/competition/SUBMISSION.md`、`docs/competition/DEMO-SCRIPT.md`、`miniprogram/README.md` 及当前代码。
 
 ## 1. 文档职责声明
 
@@ -9,7 +9,7 @@
 
 - 本文档定义“必须交付”的用户行为、状态边界、页面职责和验证证据。
 - `miniprogram/` 是运行时行为的事实来源；当文档与代码冲突时，先修正文档或提出变更，再修改实现。
-- `PLAN.md` 负责排期，`PROGRESS.md` 负责事实记录，`DEMO-SCRIPT.md` 负责讲解顺序，本文档不替代它们。
+- `docs/project/PLAN.md` 负责排期，`docs/project/PROGRESS.md` 负责事实记录，`docs/competition/DEMO-SCRIPT.md` 负责讲解顺序，本文档不替代它们。
 - 需求使用规范性词语：**必须**表示验收门槛，**应该**表示默认实现，**可以**表示非阻塞增强。
 - 任何标记为“代码已实现但依赖环境”的条目，都必须附阻塞条件；不能写成“已验证”。
 
@@ -230,7 +230,7 @@
 | A10 | 明信片 Canvas 可保存并处理权限失败 | `postcard.png` + 保存成功截图或授权失败弹窗截图 | 代码已实现；相册权限依赖真机 |
 | A11 | 分享入口存在且使用合规缩略图 | `home.js`/`postcard.js` 的 `onShareAppMessage` + 开发者工具分享面板截图 | 已实现；账号/工具环境依赖 |
 | A12 | Demo 不加载版权音频 | `miniprogram/utils/player.js` mock 歌单与 README 版权说明 | 已验证 |
-| A13 | 主包和运行时资产可控 | 导入后构建信息或包体记录；分层场景资产化后约 620KB（见 `PROGRESS.md` 记录） | 已记录，需以最终构建值为准 |
+| A13 | 主包和运行时资产可控 | 导入后构建信息或包体记录；分层场景资产化后约 620KB（见 `docs/project/PROGRESS.md` 记录） | 已记录，需以最终构建值为准 |
 | A14 | 两套角色资源可复用且无白底 | 执行 `node tools/gen-characters.js` 后生成 8 个原创角色 WebP（深色脚底阴影），并在房间/双人页截图确认透明边缘、脚底落地和行走帧稳定 | 已验证（原创团子，2026-10-05 替换抠图素材） |
 | A15 | 室内布局和唱片墙具备生活感与秩序 | 房间缩略图、2700K/6000K 对比截图，以及唱片墙/唱机/层板交互录屏；检查路径留白、材质层次和版权替代素材 | 规格已定义；需在视觉迭代后验收 |
 

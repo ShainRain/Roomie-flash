@@ -2,7 +2,7 @@
 
 > 文档状态：基于仓库当前实现整理（2026-10-04）。
 > 适用范围：`miniprogram/` 小程序代码、`tools/` 验证与同步工具、`figma-assets/` 与 `preview-app/` 演示资产。
-> 配套规格：`docs/specs/ROOMIE-MINIPROGRAM-SPEC.md`。
+> 配套规格：`./ROOMIE-MINIPROGRAM-SPEC.md`。
 
 ## 1. 目标
 
@@ -37,10 +37,10 @@ Roomie 是一间有音乐的虚拟放映室：用户通过房间空间、唱片�
 | `reference-assets/room-inspiration/` | 室内布局与唱片墙参考图 | 只用于设计评审，不进入小程序运行时包 |
 | `preview-app/` | HTML 高保真演示页和截图 | 用于缺少开发者工具时的视觉证据，不替代小程序验收 |
 | `tools/` | 压缩、同步、静态校验和自动化脚本 | Node CommonJS；依赖只放在 `tools/node_modules/` |
-| `PLAN.md` | 交付节奏与每日验收记录 | 记录阶段目标，不新增产品机制 |
-| `PROGRESS.md` | 实际完成项、风险与阻塞 | 事实优先；明确区分已验证与待环境验证 |
-| `SUBMISSION.md` | 比赛提交检查表 | 提交材料和评分维度映射 |
-| `DEMO-SCRIPT.md` | 3 分钟演示讲稿 | 演示顺序必须与规格中的闭环一致 |
+| `docs/project/PLAN.md` | 交付节奏与每日验收记录 | 记录阶段目标，不新增产品机制 |
+| `docs/project/PROGRESS.md` | 实际完成项、风险与阻塞 | 事实优先；明确区分已验证与待环境验证 |
+| `docs/competition/SUBMISSION.md` | 比赛提交检查表 | 提交材料和评分维度映射 |
+| `docs/competition/DEMO-SCRIPT.md` | 3 分钟演示讲稿 | 演示顺序必须与规格中的闭环一致 |
 
 ## 3. 实现约束
 
@@ -121,7 +121,7 @@ Get-ChildItem miniprogram -Recurse -Filter *.js |
   ForEach-Object { node --check $_.FullName }
 ```
 
-开发者工具人工验收必须覆盖规格文档中的 9 步闭环，并保存首页、房间、歌曲、双人、建筑师、我的、明信片截图。若受 AppID 或工具版本阻塞，必须在 `PROGRESS.md` 记录阻塞原因，不能把 HTML 复刻截图标记为真机证据。
+开发者工具人工验收必须覆盖规格文档中的 9 步闭环，并保存首页、房间、歌曲、双人、建筑师、我的、明信片截图。若受 AppID 或工具版本阻塞，必须在 `docs/project/PROGRESS.md` 记录阻塞原因，不能把 HTML 复刻截图标记为真机证据。
 
 ## 6. 完成定义
 
