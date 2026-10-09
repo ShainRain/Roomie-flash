@@ -256,7 +256,7 @@ export function mount(container) {
     }
     const actions = {
       'record-wall': () => {
-        Player.play(); // 文案即「正在播」——必须真实播放（全局 Player）
+        // 唱片墙 = 收藏轮播展示，不触发真实播放（播放走 turntable/floor-records）
         const ids = state.recordIds;
         if (!ids.length) {
           flashAction('唱片墙还是空的 · 去「我的」选几张唱片挂上吧');
