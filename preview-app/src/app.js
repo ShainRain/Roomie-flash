@@ -22,6 +22,7 @@ import song from './pages/song.js';
 import profile from './pages/profile.js';
 import postcard from './pages/postcard.js';
 import messages from './pages/messages.js';
+import create from './pages/create.js';
 import { assetUrl } from './utils/asset-url.js';
 
 // Oranienbaum 刊头字体：经 JS 注入 @font-face（url 走 assetUrl，部署子路径安全）
@@ -42,6 +43,7 @@ router.register('/song', song);
 router.register('/profile', profile);
 router.register('/postcard', postcard);
 router.register('/messages', messages);
+router.register('/create', create); // tabbar ＋ 入口：建筑师模式 / 发起放映 / 生成明信片
 router.setNotFound(home);
 
 router.start(document.getElementById('app'));

@@ -1,0 +1,65 @@
+/* create — 创建页（移植 miniprogram/pages/create：建筑师模式 / 发起放映 / 生成明信片 三入口） */
+
+.p-create {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--night-950) 0%, var(--night-900) 55%, var(--night-950) 100%);
+}
+
+.p-create .page-scroll {
+  padding-bottom: calc(var(--rpx) * 220);
+}
+
+/* ---- 入口卡（入场动效复用 app.css 的 .anim-in / .anim-dN） ---- */
+.p-create .entry {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--rpx) * 24);
+  width: 100%;
+  padding: calc(var(--rpx) * 32) calc(var(--rpx) * 28);
+  margin-bottom: calc(var(--rpx) * 24);
+  border: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.p-create .entry:active { opacity: 0.86; } /* web 版 hover-class="btn-hover" */
+
+.entry-glyph {
+  width: calc(var(--rpx) * 96);
+  height: calc(var(--rpx) * 96);
+  border-radius: var(--r-card-sm);
+  background: var(--amber-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--rpx) * 48);
+  color: var(--ink-900);
+  flex-shrink: 0;
+}
+
+.entry-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--rpx) * 6);
+}
+
+.entry-title {
+  font-size: var(--fs-body);
+  font-weight: 700;
+  color: var(--ink-900);
+}
+
+.entry-desc {
+  font-size: var(--fs-caption);
+  color: var(--ink-500);
+}
+
+.entry-arrow {
+  font-size: var(--fs-title);
+  color: var(--ink-500);
+}

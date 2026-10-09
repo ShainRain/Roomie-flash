@@ -49,6 +49,12 @@
   align-self: center;
 }
 
+/* 创建页（tabbar ＋ 目标页）停留时的高亮，与 .tab-item.active 同语言 */
+.tab-create.active {
+  outline: calc(var(--rpx) * 4) solid rgba(53, 212, 119, 0.35);
+  outline-offset: calc(var(--rpx) * 4);
+}
+
 .tab-badge {
   position: absolute;
   top: 0;

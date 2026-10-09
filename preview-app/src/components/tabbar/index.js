@@ -9,7 +9,7 @@ import { getStorageSync } from '../../adapters/storage.js';
 const TABS = [
   { path: '/', text: '房间', glyph: '⌂' },
   { path: '/friends', text: '好友', glyph: '♡' },
-  { path: '/architect', text: '', glyph: '＋', create: true },
+  { path: '/create', text: '', glyph: '＋', create: true },
   { path: '/messages', text: '消息', glyph: '✉', badge: true },
   { path: '/profile', text: '我', glyph: '☺' }
 ];
@@ -22,6 +22,7 @@ export function createTabbar(container) {
     if (tab.create) {
       const btn = document.createElement('button');
       btn.className = 'tab-create';
+      btn.dataset.path = tab.path;
       btn.textContent = tab.glyph;
       btn.setAttribute('aria-label', '创建');
       btn.addEventListener('click', () => navigate(tab.path));
@@ -52,6 +53,9 @@ export function createTabbar(container) {
     el.querySelectorAll('.tab-item').forEach((item) => {
       item.classList.toggle('active', item.dataset.path === current);
     });
+    // 创建页是 tabbar ＋ 的目标 tab：在该页时高亮 ＋ 按钮（对齐小程序 create onShow selected:2）
+    const createBtn = el.querySelector('.tab-create');
+    if (createBtn) createBtn.classList.toggle('active', createBtn.dataset.path === current);
     const unread = Number(getStorageSync('roomie_unread')) || 0;
     const badge = el.querySelector('.tab-badge');
     if (badge) {
