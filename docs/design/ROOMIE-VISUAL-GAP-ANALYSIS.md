@@ -2,7 +2,7 @@
 
 > 文档性质：审计报告，**本次未修改任何代码**。
 > 审计日期：2026-10-05
-> 依据文档：`docs/ROOMIE-DEVELOPMENT-MANUAL.md`、`docs/specs/ROOMIE-MINIPROGRAM-SPEC.md`、`docs/ROOMIE-VISUAL-DESIGN-SPEC.md`、`docs/ROOMIE-VISUAL-ASSET-RESET-SPEC.md`、`.kimi-code/skills/` 三个 Roomie 技能。
+> 依据文档：`docs/product/ROOMIE-DEVELOPMENT-MANUAL.md`、`docs/product/ROOMIE-MINIPROGRAM-SPEC.md`、`docs/design/ROOMIE-VISUAL-DESIGN-SPEC.md`、`docs/design/ROOMIE-VISUAL-ASSET-RESET-SPEC.md`、`.kimi-code/skills/` 三个 Roomie 技能。
 > 证据来源：`miniprogram/` 全量代码、`tools/` 生成脚本、`preview-app/shots/*.png`（2026-10-05 截图）、`figma-assets/`、`reference-assets/`。
 
 ---

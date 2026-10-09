@@ -11,6 +11,13 @@
  *
  *   node scripts/sync-shared.mjs          # regenerate the web copies
  *   node scripts/sync-shared.mjs --check  # verify committed files match; exit 1 on drift
+ *
+ * NOT synced (documented manual ports, do not re-add here):
+ *   src/state/player.js  — miniprogram player.js now carries a wx real-audio layer
+ *                          (createInnerAudioContext) + copyrighted track lyrics;
+ *                          web keeps an API-identical manual port with an
+ *                          HTMLAudioElement device layer (src/adapters/audio.js).
+ *   src/state/records.js — web record titles migrated to instrumental metadata.
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -83,46 +90,13 @@ module.exports = { createMap, ...createMap(DEFAULT_GEOMETRY) };
   return banner('room-map.js', 'Legacy room-layout require + default instance removed: factory-only path.') + out;
 }
 
-function convertPlayer(src) {
-  let out = src;
-  ['snapshot', 'toggle', 'play', 'switchTo', 'next', 'prev', 'seek', 'subscribe', 'applyRemote'].forEach((name) => {
-    out = mustReplace(out, `function ${name}(`, `export function ${name}(`, `player ${name}`);
-  });
-  out = mustReplace(out, `module.exports = {
-  subscribe,
-  toggle,
-  play,
-  next,
-  prev,
-  seek,
-  switchTo,
-  applyRemote,
-  snapshot
-};`, `export default { subscribe, toggle, play, next, prev, seek, switchTo, applyRemote, snapshot };
-`, 'player module.exports');
-  return banner('player.js') + out;
-}
-
-function convertRecords(src) {
-  let out = src;
-  ['RECORD_COLORS', 'RECORD_TITLES', 'RECORDS', 'DEFAULT_SELECTION'].forEach((name) => {
-    out = mustReplace(out, `const ${name} =`, `export const ${name} =`, `records ${name}`);
-  });
-  out = mustReplace(out, 'function readSelection(', 'export function readSelection(', 'records readSelection');
-  out = mustReplace(out, 'function byId(', 'export function byId(', 'records byId');
-  out = mustReplace(out, 'module.exports = { RECORDS, RECORD_COLORS, DEFAULT_SELECTION, readSelection, byId, MAX_PICK: 12 };',
-    `export const MAX_PICK = 12;
-
-export default { RECORDS, RECORD_COLORS, DEFAULT_SELECTION, readSelection, byId, MAX_PICK };`, 'records module.exports');
-  return banner('records.js') + out;
-}
-
 const FILES = [
   { src: 'room-scene-layout.js', dest: 'src/shared/room-scene-layout.js', convert: convertLayout },
   { src: 'room-map.js', dest: 'src/shared/room-map.js', convert: convertRoomMap },
-  { src: 'room-hit.js', dest: 'src/shared/room-hit.js', convert: convertRoomHit },
-  { src: 'player.js', dest: 'src/state/player.js', convert: convertPlayer },
-  { src: 'records.js', dest: 'src/state/records.js', convert: convertRecords }
+  { src: 'room-hit.js', dest: 'src/shared/room-hit.js', convert: convertRoomHit }
+  // player.js / records.js 自合法器乐迁移起为 Web 手动移植（MANUAL PORT）：
+  // 小程序真源含 wx 真实音频层与版权曲目元数据，无法机械转换进 Web 运行时。
+  // 见 docs/architecture/ROOMIE-SOURCE-OF-TRUTH.md 与 src/state/player.js 头注。
 ];
 
 const checkOnly = process.argv.includes('--check');

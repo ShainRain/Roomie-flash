@@ -1,6 +1,6 @@
 # Song 页 Visual Reference Spec — Phase 4B
 
-> 用途：Song 页验收基准书。依据：`docs/ROOMIE-VISUAL-DESIGN-SPEC.md` §7.3、`docs/ROOMIE-VISUAL-ASSET-RESET-SPEC.md` §15.3、Room Master 材质系统。
+> 用途：Song 页验收基准书。依据：`docs/design/ROOMIE-VISUAL-DESIGN-SPEC.md` §7.3、`docs/design/ROOMIE-VISUAL-ASSET-RESET-SPEC.md` §15.3、Room Master 材质系统。
 > 基准图：`reference-assets/ui-reference/song.png`（由本 spec + Master 资产生成，非实现反推）。
 
 ## 概念

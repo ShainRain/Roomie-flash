@@ -1,6 +1,6 @@
 # Postcard 页 Visual Reference Spec — Phase 4D
 
-> 用途：Postcard 验收基准书。依据：`docs/specs/ROOMIE-MINIPROGRAM-SPEC.md` §4.9、`docs/ROOMIE-VISUAL-DESIGN-SPEC.md` §7.7、`docs/ROOMIE-VISUAL-ASSET-RESET-SPEC.md` §15.7。
+> 用途：Postcard 验收基准书。依据：`docs/product/ROOMIE-MINIPROGRAM-SPEC.md` §4.9、`docs/design/ROOMIE-VISUAL-DESIGN-SPEC.md` §7.7、`docs/design/ROOMIE-VISUAL-ASSET-RESET-SPEC.md` §15.7。
 > 基准图：`reference-assets/ui-reference/postcard.png`（由本 spec + Master 资产合成）。
 
 ## 概念

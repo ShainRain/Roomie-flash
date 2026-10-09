@@ -2,7 +2,7 @@
 
 > 状态：Phase 0 工程基础已落地，等待确认后进入 Phase 1（Room Master Scene）。
 > 原则：本阶段**不制作任何新视觉资产**，只建立冻结、目录、指标、接口与架构决策。
-> 前置文档：`docs/ROOMIE-VISUAL-GAP-ANALYSIS.md`（审计结论）。
+> 前置文档：`docs/design/ROOMIE-VISUAL-GAP-ANALYSIS.md`（审计结论）。
 
 ---
 

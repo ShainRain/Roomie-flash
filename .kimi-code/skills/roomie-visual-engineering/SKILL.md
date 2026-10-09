@@ -10,10 +10,10 @@ description: Roomie 视觉工程规范。将 Roomie 的深夜音乐屋、等距�
 
 ## Required references
 先读：
-- `docs/ROOMIE-DEVELOPMENT-MANUAL.md`
-- `docs/specs/ROOMIE-MINIPROGRAM-SPEC.md`
-- `docs/ROOMIE-VISUAL-DESIGN-SPEC.md`
-- `docs/ROOMIE-VISUAL-ASSET-RESET-SPEC.md`
+- `docs/product/ROOMIE-DEVELOPMENT-MANUAL.md`
+- `docs/product/ROOMIE-MINIPROGRAM-SPEC.md`
+- `docs/design/ROOMIE-VISUAL-DESIGN-SPEC.md`
+- `docs/design/ROOMIE-VISUAL-ASSET-RESET-SPEC.md`
 
 ## Visual hierarchy
 1. 房间空间

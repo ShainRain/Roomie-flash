@@ -28,16 +28,22 @@ npm run preview   # 生产构建 + 本地预览（推荐评审路径）
 - **状态全部在浏览器本地**（localStorage）：房间布置 `roomie_room`、唱片墙 `roomie_records`、头像/服装、未读角标。清掉站点数据即恢复出厂。
 - **场景图像**全部来自 Room Master 资产管线（L0–L7 灯光层 + 家具 overlay + 角色精灵），运行时由 DOM 渲染器实时合成，非截图贴图。
 
+## 音频
+
+- **真实音频（1 首）**：`public/audio/aruarian-dance.mp3`（Nujabes — Aruarian_Dance，歌单首曲）。Song 页或「我的」页点该唱片即真实发声（HTMLAudioElement）。
+- **其余音轨**：`src/data/audio-manifest.js` 中 audioAvailable=false，走 mock 定时器（无声占位演示）。
+- 架构：全局 Player 单例（`src/state/player.js`，手动移植、API 与小程序一致）→ 设备层 `src/adapters/audio.js` → `<audio>`。**当前仓库仅含 1 首真实音频；其余音轨接口已准备但未提供文件。**许可核查见 `docs/audio/AUDIO-CATALOG.md`（licenseStatus: unverified）。
+
 ## 技术要点
 
 - `src/components/room-scene/` — DOM 渲染器：图层栈 mix-blend-mode、地板 tint clip-path、角色景深/脚底锚定、热点命中（z 序 hitArea 管道）
 - `src/shared/` — 由 `scripts/sync-shared.mjs` 从 `miniprogram/utils/` 机械同步（`npm test` 含漂移检查，不一致即失败）
-- `src/state/` — Player 单例 / room store（pub/sub）/ records / friends
-- `src/adapters/` — wx API 的 Web 适配（storage/navigation/platform/socket/canvas/avatar）
+- `src/state/` — Player 单例 / room store（pub/sub）/ records / friends（player 与 records 为有文档的手动移植，见 sync-shared.mjs 头注）
+- `src/adapters/` — wx API 的 Web 适配（storage/navigation/platform/socket/audio/canvas/avatar）
 - `legacy-pages/`、`legacy-assets/`、`shots/` — Phase 4 之前的静态复刻归档，仅供历史参考，不进构建
 
 ## 测试
 
 ```bash
-npm test    # shared 漂移检查 + player 25 断言 + room-map 39 断言
+npm test    # shared 漂移检查 + player 30 断言 + room-map 39 断言
 ```

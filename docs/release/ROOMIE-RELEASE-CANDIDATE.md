@@ -71,7 +71,7 @@
 
 ## 8. 真机验证结果
 
-未执行（无设备）。模拟器证据已按页归档（见 §4）。建议按 `docs/specs/ROOMIE-MINIPROGRAM-SPEC.md` §8 的证据格式在真机补录 A6–A11、A13。
+未执行（无设备）。模拟器证据已按页归档（见 §4）。建议按 `docs/product/ROOMIE-MINIPROGRAM-SPEC.md` §8 的证据格式在真机补录 A6–A11、A13。
 
 ## 9. 已知非阻塞问题（P1/P2）
 

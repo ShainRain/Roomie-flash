@@ -9,6 +9,7 @@ import { createHeader } from '../components/header/index.js';
 import { createTabbar } from '../components/tabbar/index.js';
 import RoomScene from '../components/room-scene/index.js';
 import RoomStore from '../state/room.js';
+import Player from '../state/player.js';
 import { RECORDS, readSelection, MAX_PICK } from '../state/records.js';
 import { VIGNETTE_CHAR_AT, VIGNETTE_CHAR_PLAN } from '../state/friends.js';
 import Avatar from '../adapters/avatar.js';
@@ -332,6 +333,22 @@ export function mount(container) {
   }
 
   function toggleRecord(id) {
+    const rec = RECORDS.find((r) => r.id === id);
+    // 真实音频唱片：点击是「播放」入口——只挂上墙不摘下，同时链接播放对应音频
+    if (rec && rec.audio && rec.trackId) {
+      if (!selected.includes(id)) {
+        if (selected.length >= MAX_PICK) {
+          showToast({ title: `最多挂 ${MAX_PICK} 张`, icon: 'none' });
+        } else {
+          selected.push(id);
+          dirty = true;
+          renderWall();
+        }
+      }
+      Player.playTrack(rec.trackId, true);
+      showToast({ title: `♪ 正在播放《${rec.title}》`, icon: 'none' });
+      return;
+    }
     const idx = selected.indexOf(id);
     if (idx >= 0) {
       selected.splice(idx, 1);

@@ -54,20 +54,25 @@ Roomie「深夜放映室」——以音乐和电影为媒介的"同频陪伴"轻
 - `room-scene-layout.js` — Room Master 场景数据（几何/灯光层/家具/唱片槽位；本身由 `tools/gen-room-master.js` 生成）
 - `room-map.js` — A* 寻路 / 碰撞 / 景深（Web 端仅保留 `createMap(geometry, layout)` 工厂路径）
 - `room-hit.js` — 家具热点命中检测
-- `player.js` — 全局播放器状态机（mock 定时器，无真实音频）
-- `records.js` — 唱片库（24 张，readSelection 注入式 storage getter）
+
+### 手动移植（API 契约一致，内容按平台分叉）
+
+- `state/player.js` — 全局播放器状态机：小程序真源含 wx 真实音频层，Web 为
+  API 完全一致的手动移植（设备层 = `adapters/audio.js` HTMLAudioElement，
+  歌单 = `data/audio-manifest.js`：1 首真实音频 + 占位 mock 器乐曲目）
+- `state/records.js` — 唱片库：Web 手动移植（24 张器乐曲名 + #25 Aruarian_Dance）
 
 ## Web 适配层（`preview-app/src/adapters/`）
 
 wx API → Web 的一对一适配，语义对齐：storage（localStorage，缺失 key 返回 `''`）、
 navigation（hash 路由）、platform（showToast/showModal/showActionSheet）、
 socket（默认 simPeer 模拟对端，可选 WebSocket）、avatar（dataURL + localStorage）、
-audio（no-op 接缝，真实音频挂载点）、canvas（toBlob → 下载）。
+audio（HTMLAudioElement 驱动，Player 设备层）、canvas（toBlob → 下载）。
 
 ## Web 状态层（`preview-app/src/state/`）
 
-`player.js`/`records.js` 为同步生成；`room.js`（roomie_room + pub/sub）与
-`friends.js`（好友数据 + 邀请流）是 Web 特有的手动移植。
+`player.js`/`records.js`/`room.js`/`friends.js` 均为手动移植（见上）；
+`data/audio-manifest.js` 为 Web 独有音轨清单。
 
 ## 构建与验证
 
@@ -78,7 +83,9 @@ audio（no-op 接缝，真实音频挂载点）、canvas（toBlob → 下载）�
 
 ## 详索引
 
+- 平台边界：[PLATFORM-BOUNDARIES.md](PLATFORM-BOUNDARIES.md)
 - 场景系统：[ROOMIE-ROOM-SCENE.md](ROOMIE-ROOM-SCENE.md)
 - 状态与持久化：[ROOMIE-STATE.md](ROOMIE-STATE.md)
 - 同步协议：[ROOMIE-SYNC.md](ROOMIE-SYNC.md)
 - 同步机制：[ROOMIE-SOURCE-OF-TRUTH.md](ROOMIE-SOURCE-OF-TRUTH.md)
+- 音频目录与许可核查：[../audio/AUDIO-CATALOG.md](../audio/AUDIO-CATALOG.md)

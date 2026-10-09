@@ -35,7 +35,7 @@ export const FRIENDS_ONLINE = [
 
 export const FRIENDS_OFFLINE = [
   {
-    name: 'RITA', color: '#C9CDD4', status: '2 小时前听过《花海》', action: '邀请', type: 'offline',
+    name: 'RITA', color: '#C9CDD4', status: '2 小时前听过《夜航》', action: '邀请', type: 'offline',
     room: { floor: 'walnut', lightTemp: 2700, lightBright: 100, furniture: DEFAULT_FURNITURE },
     variant: { filter: 'hue-rotate(-8deg) saturate(0.55) brightness(0.62)', char: 'momo', charFilter: 'saturate(0.15)' }
   },
@@ -46,9 +46,9 @@ export const FRIENDS_OFFLINE = [
   }
 ];
 
-// Home 页在线条带用的精简视图
+// Home 页在线条带用的精简视图（KIKI 的听歌状态由 home 页动态拼当前曲目）
 export const HOME_FRIENDS = [
-  { name: 'KIKI', color: '#F5B83D', status: '正在听《晴天》' },
+  { name: 'KIKI', color: '#F5B83D', status: '正在听', nowPlaying: true },
   { name: 'NANA', color: '#7FB5E8', status: '正在逛唱片墙' },
   { name: 'ABO', color: '#E8734A', status: '在房间里发呆' }
 ];

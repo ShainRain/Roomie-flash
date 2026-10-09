@@ -119,7 +119,7 @@ export function mount(container) {
     nm.textContent = f.name;
     const st = document.createElement('span');
     st.className = 'friend-status';
-    st.textContent = f.status;
+    st.textContent = f.nowPlaying ? `${f.status}《${Player.snapshot().track.title}》` : f.status;
     meta.append(nm, st);
     chipEl.append(dot, meta);
     chipEl.addEventListener('click', () => navigate('/friends'));

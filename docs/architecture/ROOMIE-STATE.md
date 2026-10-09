@@ -11,17 +11,26 @@
 
 ## Player（唯一播放器状态机）
 
-`miniprogram/utils/player.js` 单一真源（Web 端为机械同步拷贝）。单例 + pub/sub：
+真源为 `miniprogram/utils/player.js`；**Web 端 `src/state/player.js` 是 API 完全
+一致的手动移植**（设备层不同，状态机语义相同）。单例 + pub/sub：
 
-- mock 歌单 3 首（晴天/花海/夜曲，带时间戳歌词），1s tick 走秒，曲终自动切下一首
-- API：`subscribe / toggle / play / next / prev / seek / switchTo / applyRemote / snapshot`
+- **Web 歌单**（`src/data/audio-manifest.js`）：3 首器乐曲目——`aruarian`
+  （唯一真实音频，HTMLAudioElement 经 `adapters/audio.js` 播放）+ `bluehour` /
+  `mistwindow`（占位 mock 定时器，audioAvailable=false 如实标注）
+- 真实音频曲目：进度以音频时钟为准（timeupdate 写回）、播完 onEnded 切歌、
+  加载失败回退 mock 走秒（Demo 不断链）
+- API：`subscribe / toggle / play / next / prev / seek / switchTo / playTrack /
+  applyRemote / snapshot` + `PLAYLIST` 导出（两侧一致）
 - `applyRemote`（对端播放状态）：last-write-wins；进度误差 ≤2.5s 不校正；
-  playing 时按 `sentAt` 补偿网络延迟
-- **无真实音频**：全项目无音频文件，播放 = mock 定时器。真实音频的挂载点是
-  Web 端 `src/adapters/audio.js`（no-op driver 接缝）
+  playing 时按 `sentAt` 补偿网络延迟；source 标记防回声
+- **歌单顺序是契约**：新曲目只能往尾部追加（房间同步 index 语义）
+- 器乐曲目无版权歌词：lyrics 字段为结构性段落标签（Intro/Theme/Outro 或
+  「纯音乐 · …」描述行）
 
 任何页面只许 subscribe / 读 snapshot / dispatch / unmount 时退订。
 禁止第二状态机、第二计时器（工程上有 grep 级检查）。
+许可核查见 [../audio/AUDIO-CATALOG.md](../audio/AUDIO-CATALOG.md)（当前仅 1 首
+真实音频，licenseStatus: unverified）。
 
 ## roomie_room 编辑闭环（saved ↔ draft）
 

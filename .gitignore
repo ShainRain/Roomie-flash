@@ -4,3 +4,4 @@ tools/node_modules/
 .DS_Store
 # 同步进代码包的真实音频（tools/sync-audio.bat 从工程根目录 mp3 生成，勿入库）
 miniprogram/assets/audio/
+.audio-serve/

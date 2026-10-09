@@ -15,6 +15,7 @@ import RoomScene from '../components/room-scene/index.js';
 import { createTabbar } from '../components/tabbar/index.js';
 import SceneLayout from '../shared/room-scene-layout.js';
 import RoomStore from '../state/room.js';
+import Player from '../state/player.js';
 import RecordsUtil from '../state/records.js';
 import { getStorageSync } from '../adapters/storage.js';
 import { showToast } from '../adapters/platform.js';
@@ -84,7 +85,8 @@ export function mount(container) {
   preview.appendChild(frame);
   const previewTag = document.createElement('div');
   previewTag.className = 'preview-tag pill pill-live';
-  previewTag.textContent = '正在播放 · 晴天';
+  // 对齐小程序"预览为固定演示值"的语义，但取自当前歌单首曲（合法器乐迁移后无版权标题）
+  previewTag.textContent = `正在播放 · ${Player.snapshot().track.title}`;
   frame.appendChild(previewTag);
   const tools = document.createElement('div');
   tools.className = 'preview-tools';
@@ -239,7 +241,7 @@ export function mount(container) {
     projectorOn: true,
     mode: 'preview',
     characters: [{ id: 'momo', x: 54.6, y: 67, frame: 'idle', facing: 1 }],
-    nowPlaying: { playing: true, title: '晴天' }
+    nowPlaying: { playing: true, title: Player.snapshot().track.title }
   });
   // 预览标签插到场景之后（z 序在上）
   frame.appendChild(previewTag);

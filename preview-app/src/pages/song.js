@@ -224,7 +224,7 @@ export function mount(container) {
   function apply(nextSnap) {
     snap = nextSnap;
     disc.classList.toggle('hero-disc-spin', snap.playing);
-    sleeve.src = `/assets/img/song-sleeve-${snap.track.id}.webp`;
+    sleeve.src = snap.track.sleeve || `/assets/img/song-sleeve-${snap.track.id}.webp`;
     titleEl.textContent = snap.track.title;
     artistEl.textContent = `${snap.track.artist} · MOMO 的收藏`;
     posEl.textContent = dragging ? fmtDrag() : snap.positionText;

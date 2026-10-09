@@ -1,6 +1,6 @@
 # Profile 页 Visual Reference Spec — Phase 4C
 
-> 用途：Profile（我的放映室）验收基准书。依据：`docs/ROOMIE-VISUAL-DESIGN-SPEC.md` §7.6、`docs/ROOMIE-VISUAL-ASSET-RESET-SPEC.md` §15.6、Room Master 系统。
+> 用途：Profile（我的放映室）验收基准书。依据：`docs/design/ROOMIE-VISUAL-DESIGN-SPEC.md` §7.6、`docs/design/ROOMIE-VISUAL-ASSET-RESET-SPEC.md` §15.6、Room Master 系统。
 > 基准图：`reference-assets/ui-reference/profile.png`（由本 spec + Master 资产合成）。
 
 ## 概念

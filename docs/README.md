@@ -4,6 +4,7 @@
 
 | 文档 | 内容 |
 |---|---|
+| [architecture/PLATFORM-BOUNDARIES.md](architecture/PLATFORM-BOUNDARIES.md) | 平台边界：小程序 vs Web 的技术/音频/存储/部署差异，"共享逻辑 ≠ 共享运行时文件" |
 | [architecture/ROOMIE-ARCHITECTURE.md](architecture/ROOMIE-ARCHITECTURE.md) | 全栈技术地图：小程序 + Web Demo 双运行时、共享逻辑同步机制、适配层、ASCII 架构图 |
 | [architecture/ROOMIE-ROOM-SCENE.md](architecture/ROOMIE-ROOM-SCENE.md) | Room Master 场景系统：L0–L7 灯光层、家具元数据、bounds/hitArea/collision 三域分离、A* 寻路、角色景深 |
 | [architecture/ROOMIE-STATE.md](architecture/ROOMIE-STATE.md) | 状态架构：Player 单例、roomie_room / roomie_records、好友、形象槽位；Architect 的 saved→draft→save 闭环 |
@@ -31,6 +32,13 @@
 | 文档 | 内容 |
 |---|---|
 | [web/WEB-DEMO-AUDIT.md](web/WEB-DEMO-AUDIT.md) | Web Demo 代码审计（Phase-1 审计：可复用/重构/废弃总表） |
+
+## Audio（音频）
+
+| 文档 | 内容 |
+|---|---|
+| [audio/AUDIO-CATALOG.md](audio/AUDIO-CATALOG.md) | 音频目录与许可核查（文件/SHA-256/大小/licenseStatus；当前仅 1 首真实音频） |
+| [audio/ROOMIE-REAL-AUDIO-PLAYBOOK.md](audio/ROOMIE-REAL-AUDIO-PLAYBOOK.md) | 真实音频接入与复现手册（寻址方案/踩坑记录） |
 
 ## Project（项目管理）
 
