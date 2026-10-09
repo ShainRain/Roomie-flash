@@ -33,12 +33,13 @@ export function mount(container) {
     // 角色逻辑状态（页面持有，组件只消费渲染快照）
     player: { left: 40, top: 74, direction: 'right' },
     playerSprite: 'idle',
+    preSeatPos: null, // 入座前位置（起身恢复用；绝不回出生点）
     peer: { left: 52, top: 64, name: 'KIKI' },
     peerSprite: 'idle',
     peerDirection: 'left',
     syncOnline: false,
-    roomState: { projectorOn: false, lampOn: true, recordPlaying: false, seated: false },
-    nowPlaying: { playing: false, title: Player.snapshot().track.title },
+    roomState: { projectorOn: false, lampOn: true, seated: false },
+    nowPlaying: { playing: Player.snapshot().playing, title: Player.snapshot().track.title },
     recordIds: []
   };
 
@@ -87,9 +88,11 @@ export function mount(container) {
   function syncCharacters() {
     if (!scene) return;
     const outfit = Avatar.path('outfit'); // 自定义服装替换默认 MOMO 精灵（对齐小程序 room.js）
+    // 坐下时 zBoost +80：角色在沙发坐垫层之上（渲染器 renderStack 应用）
+    const zBoost = state.roomState.seated ? 80 : 0;
     scene.setProps({
       characters: [
-        { id: 'momo', x: state.player.left, y: state.player.top, frame: state.playerSprite, facing: state.player.direction === 'left' ? -1 : 1, label: '我', spriteSrc: outfit || undefined },
+        { id: 'momo', x: state.player.left, y: state.player.top, frame: state.playerSprite, facing: state.player.direction === 'left' ? -1 : 1, label: '我', spriteSrc: outfit || undefined, zBoost },
         { id: 'kiki', x: state.peer.left, y: state.peer.top, frame: state.peerSprite, facing: state.peerDirection === 'left' ? -1 : 1, label: state.peer.name }
       ]
     });
@@ -114,7 +117,8 @@ export function mount(container) {
       lightBright: typeof room.lightBright === 'number' ? room.lightBright : 100,
       lampOn: state.roomState.lampOn,
       projectorOn: state.roomState.projectorOn,
-      nowPlaying: { playing: state.roomState.recordPlaying, title: state.nowPlaying.title }
+      // 唱盘/墙上徽标以全局 Player 快照为准（唱机真实播放 = Player.playing）
+      nowPlaying: { playing: Player.snapshot().playing, title: Player.snapshot().track.title }
     });
   }
 
@@ -122,11 +126,12 @@ export function mount(container) {
     if (scene) scene.setProps(partial);
   }
 
-  // ---- 播放器同步 ----
+  // ---- 播放器同步（全局 Player 快照为唯一事实：播放态 + 曲名；走秒 tick 不重绘场景）----
   function onPlayerSnap(snap, source) {
-    if (snap.track.title !== state.nowPlaying.title) {
-      state.nowPlaying = { ...state.nowPlaying, title: snap.track.title };
-      setSceneProps({ nowPlaying: state.nowPlaying });
+    const np = { playing: snap.playing, title: snap.track.title };
+    if (np.playing !== state.nowPlaying.playing || np.title !== state.nowPlaying.title) {
+      state.nowPlaying = np;
+      setSceneProps({ nowPlaying: np });
     }
     // 对端应用过的状态不再回播（防止两地互相回声）
     if (source === 'remote') return;
@@ -183,7 +188,13 @@ export function mount(container) {
 
   // 对端家具/房间状态联动
   function applyPeerState(msg) {
-    if (msg.key) setRoomState({ [msg.key]: msg.value }, false);
+    // 对端 seated 是 PEER 的状态：只驱动对端角色精灵，绝不触碰本地 roomState/位置/preSeatPos
+    if (msg.key === 'seated') {
+      state.peerSprite = msg.value ? 'sit' : 'idle';
+      syncCharacters();
+    } else if (msg.key) {
+      setRoomState({ [msg.key]: msg.value }, false);
+    }
     if (msg.furnitureId) setFurnitureState(msg.furnitureId, msg.furnitureActive !== false, false);
     const labels = {
       projectorOn: msg.value ? 'KIKI 打开了放映机' : 'KIKI 关闭了放映机',
@@ -196,11 +207,9 @@ export function mount(container) {
 
   function setRoomState(next, broadcast = true) {
     state.roomState = { ...state.roomState, ...next };
-    state.nowPlaying = { playing: state.roomState.recordPlaying, title: state.nowPlaying.title };
     setSceneProps({
       lampOn: state.roomState.lampOn,
-      projectorOn: state.roomState.projectorOn,
-      nowPlaying: state.nowPlaying
+      projectorOn: state.roomState.projectorOn
     });
     if (state.roomState.seated === false && state.playerSprite === 'sit') {
       state.playerSprite = 'idle';
@@ -231,18 +240,18 @@ export function mount(container) {
   function onFurnitureTap({ id }) {
     const known = hotspotSpots.find((item) => item.id === id);
     if (!known) return;
-    const title = state.nowPlaying.title || '夜航';
     const actions = {
       'record-wall': () => {
-        setRoomState({ recordPlaying: true });
+        Player.play(); // 文案即「正在播」——必须真实播放（全局 Player）
+        const t = Player.snapshot().track.title;
         setFurnitureState(id, true);
-        flashAction(`唱片墙：已挂 ${state.recordIds.length} 张收藏 · 正在播《${title}》`);
+        flashAction(`唱片墙：已挂 ${state.recordIds.length} 张收藏 · 正在播《${t}》`);
       },
       turntable: () => {
-        const playing = !state.roomState.recordPlaying;
-        setRoomState({ recordPlaying: playing });
+        Player.toggle(); // 全局 Player 真实播放/暂停
+        const playing = Player.snapshot().playing;
         setFurnitureState(id, playing);
-        flashAction(playing ? `唱机柜：黑胶开始旋转 · 《${title}》` : '唱机已停止');
+        flashAction(playing ? `唱机柜：黑胶开始旋转 · 《${Player.snapshot().track.title}》` : '唱机已停止');
       },
       projector: () => {
         const enabled = !state.roomState.projectorOn;
@@ -251,18 +260,20 @@ export function mount(container) {
         flashAction(enabled ? '放映机已打开 · 房间进入观影模式' : '放映机已关闭');
       },
       sofa: () => {
-        const target = map.resolveTarget(state.player, map.fromUV(0.24, 0.47));
-        if (map.distance(state.player, target) > 10) {
-          moveAlongPath(state.player, target);
-          flashAction('走近沙发后即可坐下');
+        // 座位点 = 沙发 collision 的 uv 中心（数据源唯一，不写死坐标）
+        const sofaCol = SceneLayout.FURNITURE.find((f) => f.id === 'sofa').collision;
+        const seat = map.resolveTarget(state.player, map.fromUV((sofaCol.u0 + sofaCol.u1) / 2, (sofaCol.v0 + sofaCol.v1) / 2));
+        if (state.roomState.seated) {
+          standUp();
           return;
         }
-        const seated = !state.roomState.seated;
-        setRoomState({ seated });
-        setFurnitureState(id, seated);
-        state.playerSprite = seated ? 'sit' : 'idle';
-        syncCharacters();
-        flashAction(seated ? '你坐进了沙发 · 继续播放' : '你从沙发上站了起来');
+        if (map.distance(state.player, seat) > 10) {
+          // 第一次点沙发：无论多远都走过去并坐下（完整入座）
+          state.preSeatPos = { left: state.player.left, top: state.player.top };
+          moveAlongPath(state.player, seat, sitDown);
+          return;
+        }
+        sitDown();
       },
       lamp: () => {
         const enabled = !state.roomState.lampOn;
@@ -283,7 +294,7 @@ export function mount(container) {
         RoomSync.sendAction('MOMO 弹了一段吉他');
       },
       'floor-records': () => {
-        setRoomState({ recordPlaying: true });
+        Player.play(); // 「黑胶开始旋转」= 真实播放
         setFurnitureState(id, true);
         flashAction('拾起地面唱片 · 黑胶开始旋转');
       }
@@ -291,16 +302,50 @@ export function mount(container) {
     if (actions[id]) actions[id]();
   }
 
+  // 坐下：阻断行走覆写坐姿；preSeatPos 只记录一次（走近就坐的情形已在点按时记录）
+  function sitDown() {
+    if (timers.move) {
+      clearInterval(timers.move);
+      timers.move = null;
+    }
+    if (!state.preSeatPos) state.preSeatPos = { left: state.player.left, top: state.player.top };
+    setRoomState({ seated: true });
+    setFurnitureState('sofa', true);
+    state.playerSprite = 'sit';
+    syncCharacters();
+    flashAction('你坐进了沙发 · 继续播放');
+  }
+
+  // 起身：回 preSeatPos（走回，不回出生点）、清坐姿、恢复 idle
+  function standUp() {
+    setRoomState({ seated: false });
+    setFurnitureState('sofa', false);
+    const back = state.preSeatPos;
+    state.preSeatPos = null;
+    flashAction('你从沙发上站了起来');
+    if (back) {
+      moveAlongPath(state.player, back);
+    } else {
+      state.playerSprite = 'idle';
+      syncCharacters();
+    }
+    RoomSync.sendMove({ left: state.player.left, top: state.player.top, direction: state.player.direction, walking: false });
+  }
+
   function onSceneTap({ left, top }) {
     if (typeof left !== 'number') return;
+    if (state.roomState.seated) return; // 坐着时点地不移动
     const safeTarget = map.resolveTarget(state.player, { left, top });
     moveAlongPath(state.player, safeTarget);
   }
 
-  function moveAlongPath(start, target) {
+  function moveAlongPath(start, target, onComplete) {
     const path = map.findPath(start, target);
     const walkNext = (index) => {
-      if (index >= path.length) return;
+      if (index >= path.length) {
+        if (onComplete) onComplete();
+        return;
+      }
       const point = path[index];
       animatePlayer(point.left, point.top, () => walkNext(index + 1));
     };

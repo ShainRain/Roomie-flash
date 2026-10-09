@@ -14,9 +14,6 @@ const TABS = [
   { path: '/profile', text: '我', glyph: '☺' }
 ];
 
-// 消息页不在 Phase 2 链路内，落到 friends stub
-const ROUTE_ALIAS = { '/messages': '/friends' };
-
 export function createTabbar(container) {
   const el = document.createElement('nav');
   el.className = 'tabbar';
@@ -34,7 +31,7 @@ export function createTabbar(container) {
     const item = document.createElement('a');
     item.className = 'tab-item';
     item.dataset.path = tab.path;
-    item.href = `#${ROUTE_ALIAS[tab.path] || tab.path}`;
+    item.href = `#${tab.path}`;
     const glyph = document.createElement('span');
     glyph.className = 'tab-glyph';
     glyph.textContent = tab.glyph;
@@ -53,9 +50,7 @@ export function createTabbar(container) {
   function refresh(path) {
     const current = path || currentPath();
     el.querySelectorAll('.tab-item').forEach((item) => {
-      item.classList.toggle('active', item.dataset.path === current
-        || (item.dataset.path === '/' && current === '/')
-        || (item.dataset.path === '/messages' && current === '/friends' && false));
+      item.classList.toggle('active', item.dataset.path === current);
     });
     const unread = Number(getStorageSync('roomie_unread')) || 0;
     const badge = el.querySelector('.tab-badge');

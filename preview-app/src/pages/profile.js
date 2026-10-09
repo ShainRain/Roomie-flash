@@ -13,6 +13,7 @@ import Player from '../state/player.js';
 import { RECORDS, readSelection, MAX_PICK } from '../state/records.js';
 import { VIGNETTE_CHAR_AT, VIGNETTE_CHAR_PLAN } from '../state/friends.js';
 import Avatar from '../adapters/avatar.js';
+import { assetUrl } from '../utils/asset-url.js';
 import { getStorageSync, setStorageSync } from '../adapters/storage.js';
 import { showToast, showModal } from '../adapters/platform.js';
 import { navigate } from '../router/router.js';
@@ -235,7 +236,7 @@ export function mount(container) {
     cell.className = 'rec';
     const cover = document.createElement('img');
     cover.className = 'rec-cover';
-    cover.src = `/assets/img/cover-${r.id}.webp`;
+    cover.src = assetUrl(`/assets/img/cover-${r.id}.webp`);
     cover.alt = r.title;
     const title = document.createElement('span');
     title.className = 'rec-title';

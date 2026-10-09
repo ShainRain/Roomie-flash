@@ -36,6 +36,21 @@ function hexToRgba(hex, alpha) {
   return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${alpha})`;
 }
 
+// 预加载全部角色精灵帧（行走切帧不再触发首次请求闪烁；解码失败暴露 URL，不隐藏角色）
+let spritesPreloaded = false;
+function preloadCharSprites() {
+  if (spritesPreloaded || typeof Image === 'undefined') return;
+  spritesPreloaded = true;
+  ['momo', 'kiki'].forEach((id) => {
+    ['idle', 'walk-a', 'walk-b', 'sit'].forEach((frame) => {
+      const url = assetUrl(`/assets/img/char-${id}-${frame}.webp`);
+      const img = new Image();
+      img.onerror = () => console.error('[room-scene] character sprite failed to load:', url);
+      img.src = url;
+    });
+  });
+}
+
 // 灯光层不透明度规则（与 tools/render-room-master.js 的离线合成镜像一致）
 export function layerOpacity(lightTemp, lampOn, projectorOn) {
   const t = Math.max(0, Math.min(1, ((lightTemp || 2700) - 2700) / 3300));
@@ -123,6 +138,7 @@ export class RoomScene {
     };
     el.addEventListener('click', (e) => this.onStageTap(e));
     this.container.appendChild(el);
+    preloadCharSprites();
   }
 
   setProps(partial) {
@@ -194,12 +210,16 @@ export class RoomScene {
       const scale = typeof c.scale === 'number' ? c.scale : depth.scale;
       const hPct = (SceneLayout.CHAR.baseHeight * scale) / 8.28;
       const wPct = hPct / SceneLayout.CHAR.spriteAspect;
-      return { type: 'char', key: `c-${c.id}`, ...c, z: typeof c.z === 'number' ? c.z : depth.z, scale, wPct, shadowW: wPct * 0.62 };
+      // zBoost：坐下等状态抬高遮挡层（显式 z 覆盖优先，zBoost 叠加其上）
+      const z = (typeof c.z === 'number' ? c.z : depth.z) + (c.zBoost || 0);
+      return { type: 'char', key: `c-${c.id}`, ...c, z, scale, wPct, shadowW: wPct * 0.62 };
     });
     const stack = furns.concat(chars).sort((a, b) => a.z - b.z);
 
-    // 复用角色节点（走步动画每 28ms 一次 setProps，重建会重置 CSS 动画）
-    const seen = new Set();
+    // 就地更新现存节点（z-index 决定遮挡顺序；appendChild 移动即重排）。
+    // 严禁 innerHTML 清空重建——行走时每 28ms 一帧，清空会重置 CSS 动画并导致角色闪烁/消失。
+    const seenChars = new Set();
+    const seenFurns = new Set();
     const frag = document.createDocumentFragment();
     stack.forEach((item) => {
       let node;
@@ -210,9 +230,11 @@ export class RoomScene {
           node.className = 'sc-ly';
           node.alt = '';
           node.src = assetUrl(item.src);
+          node.onerror = () => console.error('[room-scene] furniture asset failed to load:', item.src);
           (this.furnNodes || (this.furnNodes = new Map())).set(item.key, node);
         }
         node.style.zIndex = item.z;
+        seenFurns.add(item.key);
       } else {
         node = this.charNodes.get(item.id);
         if (!node) {
@@ -241,6 +263,8 @@ export class RoomScene {
           sprite.src = src;
           sprite.dataset.src = src;
         }
+        // 解码失败必须暴露 URL，绝不隐藏角色节点
+        sprite.onerror = () => console.error('[room-scene] character sprite failed to load:', src);
         node.style.left = `${item.x}%`;
         node.style.top = `${item.y}%`;
         node.style.width = `${item.wPct.toFixed(2)}%`;
@@ -253,17 +277,25 @@ export class RoomScene {
         } else {
           name.hidden = true;
         }
-        seen.add(item.id);
+        seenChars.add(item.id);
       }
       frag.appendChild(node);
     });
+    // 移除已消失的角色/家具节点（其余就地更新，不重建）
     this.charNodes.forEach((node, id) => {
-      if (!seen.has(id)) {
+      if (!seenChars.has(id)) {
+        node.remove();
         this.charNodes.delete(id);
       }
     });
-    // 注意：frag.appendChild 会把现存节点移动过来，zstack 顺序即 z 序
-    this.els.zstack.innerHTML = '';
+    if (this.furnNodes) {
+      this.furnNodes.forEach((node, key) => {
+        if (!seenFurns.has(key)) {
+          node.remove();
+          this.furnNodes.delete(key);
+        }
+      });
+    }
     this.els.zstack.appendChild(frag);
   }
 

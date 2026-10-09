@@ -14,7 +14,7 @@ const PATH_MAP = {
   '/pages/profile/profile': '/profile',
   '/pages/postcard/postcard': '/postcard',
   '/pages/create/create': '/architect',
-  '/pages/messages/messages': '/friends'
+  '/pages/messages/messages': '/messages'
 };
 
 function toHash(url) {
