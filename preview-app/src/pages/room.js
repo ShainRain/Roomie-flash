@@ -23,6 +23,12 @@ const map = createMap(SceneLayout.GEOMETRY, SceneLayout);
 // 各交互对象的提示锚点（stage %）：吉他音符飘点取吉他锚点
 const GUITAR_BUBBLE_AT = { x: 56.6, y: 64 };
 
+// 沙发坐垫落座点 = collision uv 中心（与小程序 SOFA_SEAT_UV 同源，不写死坐标）
+const SOFA_FURN = SceneLayout.FURNITURE.find((f) => f.id === 'sofa');
+const SOFA_SEAT_UV = SOFA_FURN && SOFA_FURN.collision
+  ? { u: (SOFA_FURN.collision.u0 + SOFA_FURN.collision.u1) / 2, v: (SOFA_FURN.collision.v0 + SOFA_FURN.collision.v1) / 2 }
+  : { u: 0.1, v: 0.45 };
+
 export function mount(container) {
   const state = {
     // 场景输入（room-scene 组件属性）
@@ -89,11 +95,12 @@ export function mount(container) {
   function syncCharacters() {
     if (!scene) return;
     const outfit = Avatar.path('outfit'); // 自定义服装替换默认 MOMO 精灵（对齐小程序 room.js）
-    // 坐下时 zBoost +80：角色在沙发坐垫层之上（渲染器 renderStack 应用）
+    // 坐下时 zBoost +80：角色在沙发坐垫层之上（落座点角色 z=450 < 沙发 z=519，不抬层会被整只遮挡）；
+    // pointerNone：落座中点击穿透，保证压住沙发热点的角色不会吞掉"点沙发站起"的点击
     const zBoost = state.roomState.seated ? 80 : 0;
     scene.setProps({
       characters: [
-        { id: 'momo', x: state.player.left, y: state.player.top, frame: state.playerSprite, facing: state.player.direction === 'left' ? -1 : 1, label: '我', spriteSrc: outfit || undefined, zBoost },
+        { id: 'momo', x: state.player.left, y: state.player.top, frame: state.playerSprite, facing: state.player.direction === 'left' ? -1 : 1, label: '我', spriteSrc: outfit || undefined, zBoost, pointerNone: state.roomState.seated },
         { id: 'kiki', x: state.peer.left, y: state.peer.top, frame: state.peerSprite, facing: state.peerDirection === 'left' ? -1 : 1, label: state.peer.name }
       ]
     });
@@ -242,6 +249,11 @@ export function mount(container) {
   function onFurnitureTap({ id }) {
     const known = hotspotSpots.find((item) => item.id === id);
     if (!known) return;
+    // 落座锁：坐在沙发上只响应"再点沙发站起"，其余家具交互一律拒绝（对齐小程序）
+    if (state.roomState.seated && id !== 'sofa') {
+      flashAction('你正坐在沙发上 · 点击沙发站起后才能互动');
+      return;
+    }
     const actions = {
       'record-wall': () => {
         Player.play(); // 文案即「正在播」——必须真实播放（全局 Player）
@@ -278,20 +290,38 @@ export function mount(container) {
         flashAction(enabled ? '放映机已打开 · 房间进入观影模式' : '放映机已关闭');
       },
       sofa: () => {
-        // 座位点 = 沙发 collision 的 uv 中心（数据源唯一，不写死坐标）
-        const sofaCol = SceneLayout.FURNITURE.find((f) => f.id === 'sofa').collision;
-        const seat = map.resolveTarget(state.player, map.fromUV((sofaCol.u0 + sofaCol.u1) / 2, (sofaCol.v0 + sofaCol.v1) / 2));
+        // —— 站起：传送回点击坐下前保存的坐标，恢复站立（绝不回出生点） ——
         if (state.roomState.seated) {
-          standUp();
+          const back = state.preSeatPos || map.resolveTarget(state.player, map.fromUV(0.24, 0.47));
+          state.preSeatPos = null;
+          setRoomState({ seated: false });
+          setFurnitureState(id, false);
+          state.player.left = back.left;
+          state.player.top = back.top;
+          state.playerSprite = 'idle';
+          syncCharacters();
+          updateNearId(back);
+          RoomSync.sendMove({ left: back.left, top: back.top, direction: state.player.direction, walking: false });
+          flashAction('你从沙发上站了起来');
           return;
         }
-        if (map.distance(state.player, seat) > 10) {
-          // 第一次点沙发：无论多远都走过去并坐下（完整入座）
-          state.preSeatPos = { left: state.player.left, top: state.player.top };
-          moveAlongPath(state.player, seat, sitDown);
-          return;
-        }
-        sitDown();
+        // —— 坐下：保存当前坐标、取消进行中的寻路，直接传送落座到沙发坐垫 ——
+        // 不经 resolveTarget 钳制：坐垫在可行走菱形之外，钳制会把落座点吸到
+        // 沙发前方的地上（即"随地大小坐" bug）。与小程序 room.js sofa 分支同逻辑。
+        state.preSeatPos = { left: state.player.left, top: state.player.top };
+        if (timers.move) { clearInterval(timers.move); timers.move = null; }
+        const seat = map.fromUV(SOFA_SEAT_UV.u, SOFA_SEAT_UV.v);
+        setRoomState({ seated: true });
+        setFurnitureState(id, true);
+        state.player.left = seat.left;
+        state.player.top = seat.top;
+        state.playerSprite = 'sit';
+        syncCharacters();
+        updateNearId(seat);
+        // 层级：落座点角色 z=450 < 沙发 z=519，syncCharacters 的 seated zBoost=+80
+        // 抬到 530（仍低于前景小物/桌面，空间秩序与小程序一致），保证不被沙发遮挡
+        RoomSync.sendMove({ left: seat.left, top: seat.top, direction: state.player.direction, walking: false });
+        flashAction('你坐进了沙发 · 点击沙发可站起');
       },
       lamp: () => {
         const enabled = !state.roomState.lampOn;
@@ -321,38 +351,13 @@ export function mount(container) {
   }
 
   // 坐下：阻断行走覆写坐姿；preSeatPos 只记录一次（走近就坐的情形已在点按时记录）
-  function sitDown() {
-    if (timers.move) {
-      clearInterval(timers.move);
-      timers.move = null;
-    }
-    if (!state.preSeatPos) state.preSeatPos = { left: state.player.left, top: state.player.top };
-    setRoomState({ seated: true });
-    setFurnitureState('sofa', true);
-    state.playerSprite = 'sit';
-    syncCharacters();
-    flashAction('你坐进了沙发 · 继续播放');
-  }
-
-  // 起身：回 preSeatPos（走回，不回出生点）、清坐姿、恢复 idle
-  function standUp() {
-    setRoomState({ seated: false });
-    setFurnitureState('sofa', false);
-    const back = state.preSeatPos;
-    state.preSeatPos = null;
-    flashAction('你从沙发上站了起来');
-    if (back) {
-      moveAlongPath(state.player, back);
-    } else {
-      state.playerSprite = 'idle';
-      syncCharacters();
-    }
-    RoomSync.sendMove({ left: state.player.left, top: state.player.top, direction: state.player.direction, walking: false });
-  }
-
   function onSceneTap({ left, top }) {
     if (typeof left !== 'number') return;
-    if (state.roomState.seated) return; // 坐着时点地不移动
+    // 落座锁：坐着时地面点击不寻路（只能点沙发站起），对齐小程序
+    if (state.roomState.seated) {
+      flashAction('你正坐在沙发上 · 点击沙发站起后才能走动');
+      return;
+    }
     const safeTarget = map.resolveTarget(state.player, { left, top });
     moveAlongPath(state.player, safeTarget);
   }
@@ -427,6 +432,11 @@ export function mount(container) {
 
   function onCharTap({ id }) {
     if (id !== 'kiki') return;
+    // 落座锁：坐着不与同伴互动（只能点沙发站起）
+    if (state.roomState.seated) {
+      flashAction('你正坐在沙发上 · 点击沙发站起后才能互动');
+      return;
+    }
     const dx = state.player.left - state.peer.left;
     const dy = state.player.top - state.peer.top;
     if (Math.sqrt(dx * dx + dy * dy) > 22) {

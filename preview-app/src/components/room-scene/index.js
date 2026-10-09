@@ -270,6 +270,9 @@ export class RoomScene {
         node.style.width = `${item.wPct.toFixed(2)}%`;
         node.style.zIndex = item.z;
         node.style.transform = `translate(-50%, -100%) scale(${item.scale})`;
+        // pointerNone：落座中的玩家角色点击穿透（落座锁要求"点沙发站起"必须可用——
+        // 坐在坐垫上时角色 DOM 正好压住沙发热点中心，catchtap/stopPropagation 会吞掉站起点击）
+        node.style.pointerEvents = item.pointerNone ? 'none' : '';
         const name = node.querySelector('.sc-char-name');
         if (item.label) {
           name.hidden = false;
