@@ -59,8 +59,8 @@ Roomie「深夜放映室」——以音乐和电影为媒介的"同频陪伴"轻
 
 - `state/player.js` — 全局播放器状态机：小程序真源含 wx 真实音频层，Web 为
   API 完全一致的手动移植（设备层 = `adapters/audio.js` HTMLAudioElement，
-  歌单 = `data/audio-manifest.js`：1 首真实音频 + 占位 mock 器乐曲目）
-- `state/records.js` — 唱片库：Web 手动移植（24 张器乐曲名 + #25 Aruarian_Dance）
+  歌单 = `data/audio-manifest.js`：3 首 CC0 1.0 器乐曲目，全部真实音频）
+- `state/records.js` — 唱片库：Web 手动移植（24 张器乐曲名 + #25 Peaceful 真实音频唱片）
 
 ## Web 适配层（`preview-app/src/adapters/`）
 

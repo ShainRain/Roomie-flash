@@ -1,5 +1,5 @@
-// state/player.js 行为测试（Web 手动移植版语义：歌单 3 首，Aruarian 首曲，真实音频层在
-// Node 环境无 Audio 对象自动降级 mock 走秒——与小程序 Node 测试降级路径一致）
+// state/player.js 行为测试（Web 手动移植版语义：歌单 3 首 CC0 器乐曲目，
+// Peaceful 首曲；真实音频层在 Node 环境无 Audio 对象自动降级 mock 走秒）
 import Player from '../src/state/player.js';
 
 let passed = 0;
@@ -12,13 +12,14 @@ function assert(cond, name) {
 
 // 1. 初始快照
 let snap = Player.snapshot();
-assert(snap.track.title === 'Aruarian_Dance', '初始曲目为《Aruarian_Dance》（新用户首曲）');
+assert(snap.track.title === 'Peaceful', '初始曲目为《Peaceful》（新用户首曲）');
 assert(snap.playing === false, '初始为暂停态');
 assert(snap.position === 0, '初始进度 0s');
-assert(snap.durationText === '4:10', '时长格式化 4:10');
+assert(snap.durationText === '2:01', '时长格式化 2:01');
 assert(snap.positionText === '0:00', '进度格式化 0:00');
 assert(snap.playlistLength === 3, '歌单 3 首');
 assert(snap.track.audioAvailable === true && !!snap.track.src, '首曲为真实音频（audioAvailable + src）');
+assert(snap.track.licenseType === 'CC0-1.0' && snap.track.licenseStatus === 'verified', '首曲 CC0 已核验');
 
 // 2. 歌词索引
 assert(snap.lyricIndex === 0, '0s 落在第 1 个段落标签（index 0）');
@@ -32,31 +33,31 @@ assert(Player.snapshot().playing === false, '再次 toggle 暂停');
 // 4. 切歌
 Player.next();
 snap = Player.snapshot();
-assert(snap.track.title === '蓝调时刻', 'next 切到《蓝调时刻》');
+assert(snap.track.title === 'Seen from the Unseen', 'next 切到《Seen from the Unseen》');
 assert(snap.position === 0, '切歌进度归零');
-assert(snap.track.audioAvailable === false, '占位曲目如实标注 audioAvailable=false');
+assert(snap.track.audioAvailable === true, '第二首同为真实音频');
 Player.next();
 Player.next();
 snap = Player.snapshot();
-assert(snap.track.title === 'Aruarian_Dance', 'next 三回首曲（循环）');
+assert(snap.track.title === 'Peaceful', 'next 三回首曲（循环）');
 Player.prev();
 snap = Player.snapshot();
-assert(snap.track.title === '雾窗', 'prev 回退到《雾窗》（循环）');
+assert(snap.track.title === 'Waves of Longing', 'prev 回退到《Waves of Longing》（循环）');
 
 // 5. seek
 Player.seek(50);
 snap = Player.snapshot();
-assert(snap.position === Math.round(210 * 0.5), 'seek 50% 定位到时长中点');
-assert(snap.progress === 50, '进度百分比 50');
+assert(snap.position === Math.round(229 * 0.5), 'seek 50% 定位到时长中点');
+assert(Math.abs(snap.progress - 50.2) < 0.01, '进度百分比 ≈50.2');
 
 // 6. seek 后段落标签索引联动
 Player.switchTo(0, false);
-Player.seek(10); // 25s → 第 1 行（t=0，下一行 t=30）
+Player.seek(20); // 24.2s → 第 1 行（t=0，下一行 t=25）
 snap = Player.snapshot();
-assert(snap.lyricIndex === 0, 'seek 后段落索引联动（25s → index 0）');
+assert(snap.lyricIndex === 0, 'seek 后段落索引联动（24.2s → index 0）');
 
 // 7. playTrack
-assert(Player.playTrack('bluehour', false) === true, 'playTrack 命中 bluehour');
+assert(Player.playTrack('seen-from-the-unseen', false) === true, 'playTrack 命中 seen-from-the-unseen');
 assert(Player.snapshot().index === 1, 'playTrack 切到 index 1');
 assert(Player.playTrack('not-a-track') === false, 'playTrack 未命中返回 false');
 
@@ -76,7 +77,7 @@ Player.subscribe((snap2, source) => { remoteSource = source; });
 Player.switchTo(0, false);
 Player.applyRemote({ index: 2, position: 100, playing: true, sentAt: Date.now() });
 snap = Player.snapshot();
-assert(snap.index === 2 && snap.track.title === '雾窗', 'remote 切歌生效');
+assert(snap.index === 2 && snap.track.title === 'Waves of Longing', 'remote 切歌生效');
 assert(snap.playing === true, 'remote playing 生效');
 assert(remoteSource === 'remote', 'remote 应用带 source 标记（防止回播）');
 Player.applyRemote({ index: 2, position: snap.position + 1.2, playing: true, sentAt: Date.now() });

@@ -37,7 +37,7 @@
 
 | 文档 | 内容 |
 |---|---|
-| [audio/AUDIO-CATALOG.md](audio/AUDIO-CATALOG.md) | 音频目录与许可核查（文件/SHA-256/大小/licenseStatus；当前仅 1 首真实音频） |
+| [audio/AUDIO-CATALOG.md](audio/AUDIO-CATALOG.md) | 音频目录与许可核查（文件/SHA-256/大小/licenseStatus；3 首 CC0 1.0 已核验） |
 | [audio/ROOMIE-REAL-AUDIO-PLAYBOOK.md](audio/ROOMIE-REAL-AUDIO-PLAYBOOK.md) | 真实音频接入与复现手册（寻址方案/踩坑记录） |
 
 ## Project（项目管理）

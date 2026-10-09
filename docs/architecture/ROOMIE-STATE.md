@@ -14,9 +14,10 @@
 真源为 `miniprogram/utils/player.js`；**Web 端 `src/state/player.js` 是 API 完全
 一致的手动移植**（设备层不同，状态机语义相同）。单例 + pub/sub：
 
-- **Web 歌单**（`src/data/audio-manifest.js`）：3 首器乐曲目——`aruarian`
-  （唯一真实音频，HTMLAudioElement 经 `adapters/audio.js` 播放）+ `bluehour` /
-  `mistwindow`（占位 mock 定时器，audioAvailable=false 如实标注）
+- **Web 歌单**（`src/data/audio-manifest.js`）：3 首 CC0 1.0 器乐曲目——
+  `peaceful` / `seen-from-the-unseen` / `waves-of-longing`（Ondrosik，全部真实
+  音频，经 `adapters/audio.js` 的 HTMLAudioElement 播放；许可逐曲核验见
+  [../audio/AUDIO-CATALOG.md](../audio/AUDIO-CATALOG.md)）
 - 真实音频曲目：进度以音频时钟为准（timeupdate 写回）、播完 onEnded 切歌、
   加载失败回退 mock 走秒（Demo 不断链）
 - API：`subscribe / toggle / play / next / prev / seek / switchTo / playTrack /
@@ -29,8 +30,6 @@
 
 任何页面只许 subscribe / 读 snapshot / dispatch / unmount 时退订。
 禁止第二状态机、第二计时器（工程上有 grep 级检查）。
-许可核查见 [../audio/AUDIO-CATALOG.md](../audio/AUDIO-CATALOG.md)（当前仅 1 首
-真实音频，licenseStatus: unverified）。
 
 ## roomie_room 编辑闭环（saved ↔ draft）
 

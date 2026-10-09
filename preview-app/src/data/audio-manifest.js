@@ -2,72 +2,75 @@
  * Web 音轨清单（audio manifest）— Web Demo 唯一音轨数据源。
  *
  * 诚实原则：
- * - 当前仓库仅含 1 首真实音频（aruarian-dance.mp3，见 docs/audio/AUDIO-CATALOG.md）。
- * - audioAvailable=false 的曲目没有音频文件：走 mock 定时器（无声），UI 如实标注。
- * - licenseStatus 只取 verified / unverified / pending；仓库内无授权证明一律 unverified。
+ * - 3 首曲目全部为真实音频文件，licenseType CC0-1.0，
+ *   licenseStatus=verified 的依据 = 原始 Free Music Archive 曲目页声明
+ *   "licensed under a CC0 1.0 Universal License"（逐曲核对，见
+ *   docs/audio/AUDIO-CATALOG.md 的 SHA-256 与页面链接）。
+ * - 歌单顺序自本版本起 FIXED：未来曲目只能往尾部追加（房间同步 index 语义）。
  */
 
 export const AUDIO_TRACKS = [
   {
-    id: 'aruarian',
-    title: 'Aruarian_Dance',
-    artist: 'Nujabes',
-    album: 'Samurai Champloo OST',
-    duration: 250, // 4:10，与 preview-app/public/audio/aruarian-dance.mp3 实测一致（128kbps CBR）
-    src: '/audio/aruarian-dance.mp3',
+    id: 'peaceful',
+    title: 'Peaceful',
+    artist: 'Ondrosik',
+    album: 'No words',
+    duration: 121, // 实测 2:01（FMA 曲目页 02:01；320kbps CBR 估算 121.9s，浏览器实测复核）
+    src: '/audio/peaceful.mp3',
     audioAvailable: true,
     instrumental: true,
-    sleeve: '/assets/img/song-sleeve-aruarian.webp',
-    licenseStatus: 'unverified', // 仓库内无授权证明（playbook 仅记录文件与时长实测）
-    source: 'preview-app/public/audio/aruarian-dance.mp3（仓库自带，4,008,369 B）',
-    attribution: 'Nujabes — Aruarian Dance（曲名/艺人据文件名与 docs/audio/ROOMIE-REAL-AUDIO-PLAYBOOK.md；仅评审演示用）',
-    // 纯音乐：无版权歌词，用结构性段落标签代替歌词行
-    lyrics: [
-      { t: 0, text: '（纯音乐 · 钢琴与鼓点采样）' },
-      { t: 30, text: '♪ Aruarian Dance — Nujabes' },
-      { t: 90, text: '（即兴钢琴主题浮现）' },
-      { t: 150, text: '♪ 鼓刷与贝斯渐入' },
-      { t: 205, text: '（尾奏 · 钢琴渐弱）' }
-    ]
-  },
-  {
-    id: 'bluehour',
-    title: '蓝调时刻',
-    artist: 'Roomie 氛围组',
-    album: 'Night Sessions',
-    duration: 240,
-    src: null,
-    audioAvailable: false, // 无音频文件：mock 定时器演示
-    instrumental: true,
-    sleeve: '/assets/img/song-sleeve-sea.webp',
-    licenseStatus: 'pending', // 占位曲目，尚未提供文件
-    source: '（未提供音频文件 · mock）',
-    attribution: 'Roomie Demo 占位器乐曲目',
-    lyrics: [
-      { t: 0, text: '（纯音乐 · Instrumental）' },
-      { t: 30, text: '00:30 Theme' },
-      { t: 120, text: '02:00 Main section' },
-      { t: 200, text: '03:20 Outro' }
-    ]
-  },
-  {
-    id: 'mistwindow',
-    title: '雾窗',
-    artist: 'Roomie 氛围组',
-    album: 'Night Sessions',
-    duration: 210,
-    src: null,
-    audioAvailable: false, // 无音频文件：mock 定时器演示
-    instrumental: true,
-    sleeve: '/assets/img/song-sleeve-night.webp',
-    licenseStatus: 'pending', // 占位曲目，尚未提供文件
-    source: '（未提供音频文件 · mock）',
-    attribution: 'Roomie Demo 占位器乐曲目',
+    sleeve: '/assets/img/song-sleeve-sunny.webp',
+    licenseType: 'CC0-1.0',
+    licenseStatus: 'verified',
+    sourceUrl: 'https://freemusicarchive.org/music/Ondrosik/no-words/peaceful-3/',
+    attribution: 'Ondrosik — Peaceful (CC0 1.0 Universal, via Free Music Archive)',
     lyrics: [
       { t: 0, text: '（纯音乐 · Instrumental）' },
       { t: 25, text: '00:25 Theme' },
-      { t: 110, text: '01:50 Main section' },
-      { t: 180, text: '03:00 Outro' }
+      { t: 65, text: '01:05 Main section' },
+      { t: 100, text: '01:40 Outro' }
+    ]
+  },
+  {
+    id: 'seen-from-the-unseen',
+    title: 'Seen from the Unseen',
+    artist: 'Ondrosik',
+    album: 'No words',
+    duration: 126, // 实测 2:06（FMA 曲目页 02:06；320kbps CBR 估算 126.8s）
+    src: '/audio/seen-from-the-unseen.mp3',
+    audioAvailable: true,
+    instrumental: true,
+    sleeve: '/assets/img/song-sleeve-sea.webp',
+    licenseType: 'CC0-1.0',
+    licenseStatus: 'verified',
+    sourceUrl: 'https://freemusicarchive.org/music/Ondrosik/no-words/seen-from-the-unseen/',
+    attribution: 'Ondrosik — Seen from the Unseen (CC0 1.0 Universal, via Free Music Archive)',
+    lyrics: [
+      { t: 0, text: '（纯音乐 · Instrumental）' },
+      { t: 26, text: '00:26 Theme' },
+      { t: 68, text: '01:08 Main section' },
+      { t: 105, text: '01:45 Outro' }
+    ]
+  },
+  {
+    id: 'waves-of-longing',
+    title: 'Waves of Longing',
+    artist: 'Ondrosik',
+    album: 'No words',
+    duration: 229, // 实测 3:49（FMA 曲目页 03:49；320kbps CBR 估算 229.5s）
+    src: '/audio/waves-of-longing.mp3',
+    audioAvailable: true,
+    instrumental: true,
+    sleeve: '/assets/img/song-sleeve-night.webp',
+    licenseType: 'CC0-1.0',
+    licenseStatus: 'verified',
+    sourceUrl: 'https://freemusicarchive.org/music/Ondrosik/no-words/waves-of-longing/',
+    attribution: 'Ondrosik — Waves of Longing (CC0 1.0 Universal, via Free Music Archive)',
+    lyrics: [
+      { t: 0, text: '（纯音乐 · Instrumental）' },
+      { t: 40, text: '00:40 Theme' },
+      { t: 130, text: '02:10 Main section' },
+      { t: 200, text: '03:20 Outro' }
     ]
   }
 ];

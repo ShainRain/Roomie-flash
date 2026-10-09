@@ -33,7 +33,7 @@ wx 环境 vs Web ESM + 浏览器）。
 | Web 文件 | 性质 | 原因 |
 |---|---|---|
 | `src/state/player.js` | **API 完全一致的手动移植**（自合法器乐迁移起） | 小程序 `utils/player.js`（e040ac2 起）含 `wx.createInnerAudioContext` 真实音频层与版权曲目歌词，无法机械转换进 Web。Web 版设备层 = `src/adapters/audio.js`（HTMLAudioElement），歌单 = `src/data/audio-manifest.js` |
-| `src/state/records.js` | 手动移植（schema 一致，内容有意分叉） | Web 24 张唱片标题迁移为器乐/氛围元数据；第 25 张 Aruarian_Dance 为真实音频唱片 |
+| `src/state/records.js` | 手动移植（schema 一致，内容有意分叉） | Web 24 张唱片标题迁移为器乐/氛围元数据；第 25 张 Peaceful 为真实音频唱片（CC0 1.0） |
 | `src/state/room.js` | 手动移植（roomie_room store + pub/sub） | 小程序侧是 `app.globalData` + `wx.setStorageSync`，形状不同 |
 | `src/state/friends.js` | 手动移植 | Web 端把小程序页面内嵌数据提升为共享模块 |
 | `src/data/audio-manifest.js` | **Web 独有** | 音轨清单（真实 src / 占位 mock / licenseStatus / attribution） |

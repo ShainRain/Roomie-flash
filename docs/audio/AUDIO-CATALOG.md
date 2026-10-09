@@ -1,34 +1,38 @@
 # Roomie 音频目录（AUDIO CATALOG）
 
-> 诚实原则：**纯音乐 ≠ 无版权**。licenseStatus 只在仓库内有实际依据时标
-> verified；否则 unverified / pending。
+> 诚实原则：**纯音乐 ≠ 无版权**。licenseStatus 只在有实际依据时标 verified。
+> 本目录 3 首曲目的 CC0 1.0 许可信息**来自对应 Free Music Archive 原始曲目页**
+> （逐曲核对页面声明 "licensed under a CC0 1.0 Universal License"）。
+> CC0 ≠ 绝对零风险：若曲作者对授权有后续声明，以作者与 FMA 页面为准。
 
 ## 文件清单
 
-| ID | 文件 | 标题 | 艺人 | 时长 | 运行时 | License Status | Source | Attribution |
+| ID | 文件 | 标题 | 艺人 | 实测时长 | 运行时 | License | Source URL | Attribution |
 |---|---|---|---|---|---|---|---|---|
-| aruarian | `preview-app/public/audio/aruarian-dance.mp3` | Aruarian_Dance | Nujabes | 4:10 (250s) | Web（HTMLAudioElement）+ 小程序（经 sync-audio.bat 进包） | **unverified** | 仓库自带（e040ac2 引入；playbook 记录文件与时长实测） | Nujabes — Aruarian Dance（曲名/艺人据文件名；仓库内**无授权证明**，仅评审演示用） |
-| bluehour | —（无文件） | 蓝调时刻 | Roomie 氛围组 | 4:00 (240s) | Web（mock 定时器，无声） | pending（未提供文件） | — | Roomie Demo 占位器乐曲目 |
-| mistwindow | —（无文件） | 雾窗 | Roomie 氛围组 | 3:30 (210s) | Web（mock 定时器，无声） | pending（未提供文件） | — | Roomie Demo 占位器乐曲目 |
+| peaceful | `preview-app/public/audio/peaceful.mp3` | Peaceful | Ondrosik | 2:01 (121s) | Web（HTMLAudioElement） | **CC0 1.0** · verified | [FMA track page](https://freemusicarchive.org/music/Ondrosik/no-words/peaceful-3/) | Ondrosik — Peaceful (CC0 1.0 Universal, via FMA) |
+| seen-from-the-unseen | `preview-app/public/audio/seen-from-the-unseen.mp3` | Seen from the Unseen | Ondrosik | 2:06 (126s) | Web | **CC0 1.0** · verified | [FMA track page](https://freemusicarchive.org/music/Ondrosik/no-words/seen-from-the-unseen/) | Ondrosik — Seen from the Unseen (CC0 1.0 Universal, via FMA) |
+| waves-of-longing | `preview-app/public/audio/waves-of-longing.mp3` | Waves of Longing | Ondrosik | 3:49 (229s) | Web | **CC0 1.0** · verified | [FMA track page](https://freemusicarchive.org/music/Ondrosik/no-words/waves-of-longing/) | Ondrosik — Waves of Longing (CC0 1.0 Universal, via FMA) |
 
-**当前仓库仅含 1 首真实音频；其余音轨接口已准备（audioAvailable=false / mock）但未提供文件。**
+三首同属专辑 **No words**（Ondrosik，2026-02-13 发布，Instrumental: Yes，AI generated: No）。
+**均不进入小程序包**（enters-miniprogram = no；小程序侧音频方案见 playbook，属另一链路）。
 
-## aruarian-dance.mp3 技术事实
+## 技术事实（下载自 files.freemusicarchive.org，各曲目页内嵌 fileUrl）
 
-| 项 | 值 |
-|---|---|
-| SHA-256 | `cc4dd476d76fc60d1fe9c32a2a9fdf7379c4eff2f6e8b5e6564306218bc50973` |
-| 大小 | 4,008,369 B |
-| 编码 | MP3 128kbps CBR / 48kHz（playbook 实测记录；时长按 大小×8/码率 ≈ 250.3s） |
-| 入库路径 | `preview-app/public/audio/aruarian-dance.mp3`（git 跟踪） |
-| 进入 Web 构建 | 是（Vite public 静态资产，`/audio/aruarian-dance.mp3`） |
-| 进入小程序包 | 经 `tools/sync-audio.bat` 复制到 `miniprogram/assets/audio/`（**不入库**，.gitignore） |
-| 历史路径 | 仓库根 `Nujabes - Aruarian Dance.mp3`（e040ac2 → 已迁移至 preview-app/public/audio/） |
+| 文件 | 大小 | 编码 | SHA-256 |
+|---|---|---|---|
+| peaceful.mp3 | 4,875,011 B | MP3 320kbps CBR | `ed81b60c3611b1b1d5b00bab7c926e619129e7c2aa6982d8556faffb442b2acc` |
+| seen-from-the-unseen.mp3 | 5,073,743 B | MP3 320kbps CBR | `2bb5cd97c822320f00a1010df63781ada971defe3e10b56b19760d0dfc699965` |
+| waves-of-longing.mp3 | 9,179,659 B | MP3 320kbps CBR | `acbc6ce4ce4f0a6b786d253845b20d65a6ef057abe808f59f42424d21d1f2229` |
 
-## 许可核查记录（2026-10-09）
+时长核实：FMA 页面标注（02:01 / 02:06 / 03:49）与 CBR 估算（121.9 / 126.8 / 229.5s）
+及浏览器实测一致。文件头 MP3 帧同步（0xFFFB），Content-Type: audio/mpeg。
+未转码（原始 MP3 直接入库，Chrome/Safari 均原生支持）。
 
-- `docs/audio/ROOMIE-REAL-AUDIO-PLAYBOOK.md`：记录文件来源约定、时长实测、寻址
-  方案——**不含**任何授权/许可声明
-- `competition-info/`（规则扫描图）：无音频许可条款的机器可读记录
-- 结论：无依据标 verified；按 unverified 处理。如需正式对外发布，先取得授权
-  或替换为可验证的合法音源（manifest 已为此预留 licenseStatus 字段）
+## 许可核查记录
+
+- 2026-10-09：逐曲打开 FMA 原始曲目页，确认页面显示
+  "… by Ondrosik is licensed under a CC0 1.0 Universal License"，并从页面内嵌
+  fileUrl（files.freemusicarchive.org 官方文件域）下载；核对文件头与 MIME。
+- 历史：`aruarian-dance.mp3`（Nujabes，licenseStatus 曾为 unverified）已自
+  Web 运行时删除（git rm；注意：历史提交中仍可能含该文件，见
+  ROOMIE-REAL-AUDIO-PLAYBOOK.md 顶部更新说明）。

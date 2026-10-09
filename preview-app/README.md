@@ -30,9 +30,8 @@ npm run preview   # 生产构建 + 本地预览（推荐评审路径）
 
 ## 音频
 
-- **真实音频（1 首）**：`public/audio/aruarian-dance.mp3`（Nujabes — Aruarian_Dance，歌单首曲）。Song 页或「我的」页点该唱片即真实发声（HTMLAudioElement）。
-- **其余音轨**：`src/data/audio-manifest.js` 中 audioAvailable=false，走 mock 定时器（无声占位演示）。
-- 架构：全局 Player 单例（`src/state/player.js`，手动移植、API 与小程序一致）→ 设备层 `src/adapters/audio.js` → `<audio>`。**当前仓库仅含 1 首真实音频；其余音轨接口已准备但未提供文件。**许可核查见 `docs/audio/AUDIO-CATALOG.md`（licenseStatus: unverified）。
+- **真实音频（3 首，CC0 1.0 已核验）**：`public/audio/`（Ondrosik — Peaceful / Seen from the Unseen / Waves of Longing，源自 Free Music Archive，逐曲核对页面 CC0 声明）。Song 页或「我的」页点第 25 张唱片（Peaceful）即真实发声（HTMLAudioElement）。
+- 架构：全局 Player 单例（`src/state/player.js`，手动移植、API 与小程序一致）→ 设备层 `src/adapters/audio.js` → 单一 `<audio>`。许可核查见 `docs/audio/AUDIO-CATALOG.md`（CC0 信息来自对应曲目页面，非绝对零风险声明）。
 
 ## 技术要点
 

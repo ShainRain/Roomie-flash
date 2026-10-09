@@ -13,9 +13,9 @@
 
 ## Audio
 
-- **真实音频（1 首）**：`preview-app/public/audio/aruarian-dance.mp3`（Nujabes — Aruarian_Dance；Web 经 HTMLAudioElement 直接播放，小程序经 `tools\sync-audio.bat` 复制进包）
-- **其余音轨**：manifest 结构已备（`preview-app/src/data/audio-manifest.js`），audioAvailable=false 走 mock 定时器
-- 目录与许可核查（**当前仓库仅含 1 首真实音频**，licenseStatus: unverified）→ [docs/audio/AUDIO-CATALOG.md](docs/audio/AUDIO-CATALOG.md)；接入复现手册 → [docs/audio/ROOMIE-REAL-AUDIO-PLAYBOOK.md](docs/audio/ROOMIE-REAL-AUDIO-PLAYBOOK.md)
+- **真实音频（3 首，CC0 1.0 已核验）**：`preview-app/public/audio/`（Ondrosik — Peaceful / Seen from the Unseen / Waves of Longing，源自 Free Music Archive 原始曲目页，逐曲核对许可声明）。Web 经 HTMLAudioElement 直接播放。
+- **历史**：此前的 Aruarian_Dance 音源（许可无法核验）已从 Web 运行时删除（git rm；历史提交可能仍含该文件，未改写历史）。
+- 歌单顺序 FIXED（append-only）；目录与许可核查 → [docs/audio/AUDIO-CATALOG.md](docs/audio/AUDIO-CATALOG.md)
 
 ## Documentation
 

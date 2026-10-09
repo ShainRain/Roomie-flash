@@ -3,7 +3,7 @@
  *
  * 与 miniprogram/utils/records.js 的差异（有意为之）：合法器乐迁移后，Web 端
  * 24 张收藏唱片全部改为器乐/氛围标题（移除版权曲目元数据）；第 25 张
- * Aruarian_Dance 为真实音频唱片（audio:true，点击即播）。
+ * Peaceful 为真实音频唱片（audio:true，点击即播，CC0 1.0 已核验）。
  * API 与数据结构保持一致：readSelection 注入式 getter、非法 id 过滤、空回退默认。
  */
 
@@ -24,10 +24,10 @@ export const RECORDS = RECORD_TITLES.map((title, i) => ({
 // 真实音频唱片：点击即播放（audio 标记驱动播放器；trackId 对应歌单曲目 id）
 RECORDS.push({
   id: RECORD_TITLES.length + 1,
-  title: 'Aruarian_Dance',
+  title: 'Peaceful',
   color: RECORD_COLORS[RECORD_TITLES.length % RECORD_COLORS.length],
   audio: true,
-  trackId: 'aruarian'
+  trackId: 'peaceful'
 });
 
 // 默认挂墙选择（含真实音频唱片，与小程序语义一致）

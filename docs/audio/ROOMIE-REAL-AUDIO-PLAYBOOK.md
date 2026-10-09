@@ -1,5 +1,13 @@
 # ROOMIE-REAL-AUDIO-PLAYBOOK — Aruarian_Dance 真实音频接入与复现手册
 
+> **⚠️ 更新（2026-10-09，web-cc0-audio-v1 起）**：本文档描述的 Aruarian_Dance 方案
+> **已被替换**——该音源许可状态无法核验（unverified），已从 Web 运行时删除。
+> Web Demo 现使用 3 首 CC0 1.0 器乐曲目（Ondrosik，核验记录见
+> [AUDIO-CATALOG.md](AUDIO-CATALOG.md)。本文档保留作历史记录：其「小程序端寻址
+> 方案」（§2–§6）对小程序侧仍然有效；**§7 的 Web 迁移计划已过时，勿再参照执行**。
+> 另注：`preview-app/public/audio/aruarian-dance.mp3` 已 git rm，但历史提交中仍可能
+> 含有该文件（未改写历史；如需彻底清理须由维护者评估 BGC/filter-repo，属未来事项）。
+
 > 目标：任何人在任何机器上把工程拷过去后，按本文档操作能**一次通过**地复现
 > 「唱片夹里有 Aruarian_Dance、点击真实发声、默认挂上唱片墙、miniplayer 首曲即它」。
 > 写于 2026-10-09，对应 commit：records.js 25 张唱片 + player.js 真实音频层。

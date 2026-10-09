@@ -44,6 +44,6 @@ Roomie 有两个运行时。**"共享逻辑" ≠ "共享运行时文件"**——
 
 - `src/state/player.js`、`src/state/records.js` 退出 sync-shared，成为**有文档
   的手动移植**（公共 API 不变；Web 歌单 = `src/data/audio-manifest.js`）
-- 真实音频文件唯一存放点：`preview-app/public/audio/aruarian-dance.mp3`
+- 真实音频文件存放点：`preview-app/public/audio/`（3 首 CC0 1.0 器乐曲目）
   （小程序经 `tools/sync-audio.bat` 从该处复制进包）
 - 同步的 3 个文件（room-scene-layout / room-map / room-hit）维持机械同步不变
