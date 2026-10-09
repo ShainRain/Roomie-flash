@@ -67,15 +67,32 @@
   pointer-events: none;
 }
 
-.hero-sleeve {
+.hero-sleeve-card {
   position: absolute;
   left: 7%;
   bottom: 12%;
   width: calc(var(--rpx) * 330);
   height: calc(var(--rpx) * 330);
-  object-fit: contain;
   transform: rotate(-7deg);
+  border-radius: calc(var(--rpx) * 14);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   filter: drop-shadow(calc(var(--rpx) * 12) calc(var(--rpx) * 20) calc(var(--rpx) * 22) rgba(10, 6, 2, 0.45));
+}
+
+.hero-sleeve {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 唱片墙挂片（透明底透视小图）→ 内嵌留边，呈现「挂片卡纸」效果，与墙面一致 */
+.hero-sleeve-card.is-plate .hero-sleeve {
+  width: 88%;
+  height: 88%;
+  object-fit: contain;
 }
 
 .hero-disc {

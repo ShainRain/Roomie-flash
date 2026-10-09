@@ -9,6 +9,8 @@ import Player from '../state/player.js';
 import { showToast } from '../adapters/platform.js';
 import { back } from '../router/router.js';
 import { assetUrl } from '../utils/asset-url.js';
+import RecordsUtil from '../state/records.js';
+import { getStorageSync } from '../adapters/storage.js';
 
 const COMMENTS = [
   { user: 'KIKI', text: '前奏一响就回到高中教室了', likes: 1204 },
@@ -62,14 +64,17 @@ export function mount(container) {
   heroBg.alt = '';
   const heroFade = document.createElement('div');
   heroFade.className = 'hero-fade';
+  const sleeveCard = document.createElement('div');
+  sleeveCard.className = 'hero-sleeve-card';
   const sleeve = document.createElement('img');
   sleeve.className = 'hero-sleeve';
   sleeve.alt = '';
+  sleeveCard.appendChild(sleeve);
   const disc = document.createElement('img');
   disc.className = 'hero-disc';
   disc.src = assetUrl('/assets/img/song-disc.webp');
   disc.alt = '';
-  hero.append(heroBg, heroFade, sleeve, disc);
+  hero.append(heroBg, heroFade, sleeveCard, disc);
   scroller.appendChild(hero);
 
   // ---- 纸张卡片 ----
@@ -222,10 +227,39 @@ export function mount(container) {
   }
 
   // Player 快照 → 全部 UI（唯一数据流）
+  // 封面：与唱片墙挂片一致（rec-plate-<id>，衬在该唱片主题色卡纸上）；
+  // 曲目对应的唱片不在墙上时回退到墙上第一张（对齐小程序「我的选择」语义），
+  // 最终兜底 manifest sleeve（整张封套图）。
+  let lastSleeveKey = '';
+  function resolveSleeve(track) {
+    const rec = RecordsUtil.RECORDS.find((r) => r.trackId === track.id);
+    const selection = RecordsUtil.readSelection(getStorageSync);
+    const recId = rec && selection.includes(rec.id) ? rec.id : selection[0];
+    const plate = recId ? RecordsUtil.byId(recId) : null;
+    if (plate) {
+      return {
+        key: `${track.id}:${recId}`,
+        src: assetUrl(`/assets/img/room/rec-plate-${recId}.webp`),
+        color: plate.color || '#23262B'
+      };
+    }
+    return {
+      key: `${track.id}:raw`,
+      src: assetUrl(track.sleeve || `/assets/img/song-sleeve-${track.id}.webp`),
+      color: ''
+    };
+  }
+
   function apply(nextSnap) {
     snap = nextSnap;
     disc.classList.toggle('hero-disc-spin', snap.playing);
-    sleeve.src = assetUrl(snap.track.sleeve || `/assets/img/song-sleeve-${snap.track.id}.webp`);
+    const sleeveInfo = resolveSleeve(snap.track);
+    if (sleeveInfo.key !== lastSleeveKey) {
+      lastSleeveKey = sleeveInfo.key;
+      sleeve.src = sleeveInfo.src;
+      sleeveCard.classList.toggle('is-plate', Boolean(sleeveInfo.color));
+      sleeveCard.style.background = sleeveInfo.color;
+    }
     titleEl.textContent = snap.track.title;
     artistEl.textContent = `${snap.track.artist} · MOMO 的收藏`;
     posEl.textContent = dragging ? fmtDrag() : snap.positionText;
