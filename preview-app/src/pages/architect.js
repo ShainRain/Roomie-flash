@@ -19,6 +19,7 @@ import Player from '../state/player.js';
 import RecordsUtil from '../state/records.js';
 import { getStorageSync } from '../adapters/storage.js';
 import { showToast } from '../adapters/platform.js';
+import { assetUrl } from '../utils/asset-url.js';
 
 const FLOORS = [
   { key: 'blue-gray', name: '夜蓝灰', color: '#3B4A6B' },
@@ -134,7 +135,7 @@ export function mount(container) {
     cell.className = 'furn-cell';
     const icon = document.createElement('img');
     icon.className = 'furn-cell-icon';
-    icon.src = f.thumb;
+    icon.src = assetUrl(f.thumb); // 根绝对路径必须经 assetUrl（部署子路径安全），否则 Pages 上 404
     icon.alt = f.name;
     const name = document.createElement('span');
     name.className = 'furn-cell-name';
