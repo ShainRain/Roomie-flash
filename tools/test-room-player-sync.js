@@ -47,7 +47,7 @@ function newPage() {
 const page = newPage();
 page.onLoad();
 page.refreshRoomConfig();
-assert(page.data.nowPlaying.title === '晴天', '进房即显示当前曲目《晴天》');
+assert(page.data.nowPlaying.title === 'Aruarian_Dance', '进房即显示当前曲目《Aruarian_Dance》');
 assert(typeof page.unsubPlayer === 'function', 'onLoad 建立了播放器订阅');
 const firstUnsub = page.unsubPlayer;
 page.onLoad();
@@ -55,26 +55,26 @@ assert(page.unsubPlayer === firstUnsub, 'onLoad 重复调用不会重复订阅')
 
 // ---- 2. 核心回归：切歌后房内标题实时更新 ----
 Player.next();
-assert(Player.snapshot().track.title === '花海', '（前置）播放器已切到《花海》');
-assert(page.data.nowPlaying.title === '花海', '切歌后房内标题实时变为《花海》');
+assert(Player.snapshot().track.title === '晴天', '（前置）播放器已切到《晴天》');
+assert(page.data.nowPlaying.title === '晴天', '切歌后房内标题实时变为《晴天》');
 Player.next();
-assert(page.data.nowPlaying.title === '夜曲', '再切一首仍实时变为《夜曲》');
+assert(page.data.nowPlaying.title === '花海', '再切一首仍实时变为《花海》');
 Player.prev();
-assert(page.data.nowPlaying.title === '花海', '上一首同样实时更新');
+assert(page.data.nowPlaying.title === '晴天', '上一首同样实时更新');
 
 // ---- 3. 唱机柜提示文案引用当前曲目 ----
 page.onFurnitureTap({ detail: { id: 'turntable' } });
 assert(page.data.roomState.recordPlaying === true, '点击唱机柜后唱片开始旋转');
-assert(page.data.bubbles.some((b) => b.text.indexOf('花海') >= 0), '唱机柜提示气泡引用当前曲目');
+assert(page.data.bubbles.some((b) => b.text.indexOf('晴天') >= 0), '唱机柜提示气泡引用当前曲目');
 Player.next();
 assert(page.data.roomState.recordPlaying === true, '切歌不打断唱片旋转状态');
-assert(page.data.nowPlaying.title === '夜曲', '唱片旋转中切歌，标题继续跟随');
+assert(page.data.nowPlaying.title === '花海', '唱片旋转中切歌，标题继续跟随');
 
 // ---- 4. 对端切歌：本端跟随 ----
 Player.switchTo(0, false);
-assert(page.data.nowPlaying.title === '晴天', '本地切回《晴天》');
+assert(page.data.nowPlaying.title === 'Aruarian_Dance', '本地切回《Aruarian_Dance》');
 page.applyPeerPlayer({ index: 2, position: 5, playing: true, sentAt: Date.now(), from: 'KIKI' });
-assert(page.data.nowPlaying.title === '夜曲', '对端切歌后本端房内标题跟随');
+assert(page.data.nowPlaying.title === '花海', '对端切歌后本端房内标题跟随');
 assert(Player.snapshot().playing === true, '对端播放态一并生效');
 
 // ---- 5. 房间缓存补发（from: '__cache'）不吞掉本地进度 ----

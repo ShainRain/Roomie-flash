@@ -90,14 +90,16 @@ ok(page.data.characters[0].zBoost === 0, '站起后渲染层级还原');
 page.onFurnitureTap({ detail: { id: 'projector' } });
 ok(page.data.roomState.projectorOn === true, '站起后放映机恢复可用');
 
-// ---- 6. 唱片墙：轮流展示「我的」中已选唱片名称 ----
+// ---- 6. 唱片墙：轮流展示「我的」中已选唱片名称（默认 7 张，含 Aruarian_Dance）----
 const wallBubble = () => (page.data.bubbles.find((b) => b.id === 'record-wall') || {}).text || '';
 page.onFurnitureTap({ detail: { id: 'record-wall' } });
-ok(wallBubble().includes('1/6') && wallBubble().includes('晴天'), `第1次点击展示第一张：《${wallBubble()}》`);
+ok(wallBubble().includes('1/7') && wallBubble().includes('晴天'), `第1次点击展示第一张：《${wallBubble()}》`);
 page.onFurnitureTap({ detail: { id: 'record-wall' } });
-ok(wallBubble().includes('2/6') && wallBubble().includes('花海'), `第2次点击切到下一张：《${wallBubble()}》`);
+ok(wallBubble().includes('2/7') && wallBubble().includes('花海'), `第2次点击切到下一张：《${wallBubble()}》`);
 for (let i = 0; i < 5; i += 1) page.onFurnitureTap({ detail: { id: 'record-wall' } });
-ok(wallBubble().includes('1/6') && wallBubble().includes('晴天'), `点满一轮后循环回第一张：《${wallBubble()}》`);
+ok(wallBubble().includes('7/7') && wallBubble().includes('Aruarian_Dance'), `第7次点击到最后一张：《${wallBubble()}》`);
+page.onFurnitureTap({ detail: { id: 'record-wall' } });
+ok(wallBubble().includes('1/7') && wallBubble().includes('晴天'), `点满一轮后循环回第一张：《${wallBubble()}》`);
 ok(page.data.roomState.recordPlaying === true, '点击唱片墙仍保持"正在播放"状态');
 
 console.log(`\n结果：${passed} 通过，${failed} 失败`);
