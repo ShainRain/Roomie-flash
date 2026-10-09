@@ -40,10 +40,11 @@ export function mount(container) {
     syncOnline: false,
     roomState: { projectorOn: false, lampOn: true, seated: false },
     nowPlaying: { playing: Player.snapshot().playing, title: Player.snapshot().track.title },
-    recordIds: []
+    recordIds: [],
+    recordWallCursor: -1 // 唱片选择可能变化，进入房间后从第一张重新轮流（对齐小程序 room.js）
   };
 
-  const timers = { move: null, peer: null, action: null, hint: null, guitar: null };
+  const timers = { move: null, peer: null, action: null, hint: null, guitar: null, recordWall: null };
 
   const page = document.createElement('div');
   page.className = 'p-room page';
@@ -108,6 +109,7 @@ export function mount(container) {
         .filter((f) => f.hotspot && (f.fixed || keys.includes(f.id)))
         .map((f) => f.hotspot));
     state.recordIds = RecordsUtil.readSelection(getStorageSync);
+    state.recordWallCursor = -1; // 进入房间从第一张重新轮流（对齐小程序 refreshRoomConfig）
     if (!scene) return;
     scene.setProps({
       furniture: keys.slice(),
@@ -243,9 +245,25 @@ export function mount(container) {
     const actions = {
       'record-wall': () => {
         Player.play(); // 文案即「正在播」——必须真实播放（全局 Player）
-        const t = Player.snapshot().track.title;
+        const ids = state.recordIds;
+        if (!ids.length) {
+          flashAction('唱片墙还是空的 · 去「我的」选几张唱片挂上吧');
+          return;
+        }
+        // 轮流展示「我的」唱片墙中已选中的唱片名称：每次点击切换到下一张，循环往复（对齐小程序 room.js）
+        state.recordWallCursor = ((state.recordWallCursor == null ? -1 : state.recordWallCursor) + 1) % ids.length;
+        const rec = RecordsUtil.byId(ids[state.recordWallCursor]);
+        const name = rec ? rec.title : '未知唱片';
         setFurnitureState(id, true);
-        flashAction(`唱片墙：已挂 ${state.recordIds.length} 张收藏 · 正在播《${t}》`);
+        // 气泡锚在唱片墙上方（stage %），与墙面槽位同位浮现（对齐小程序 x:24 y:10）
+        state.bubbles = state.bubbles.filter((b) => b.id !== 'record-wall')
+          .concat([{ id: 'record-wall', x: 24, y: 10, text: `♪ ${state.recordWallCursor + 1}/${ids.length} · 《${name}》`, kind: 'info' }]);
+        setSceneProps({ bubbles: state.bubbles });
+        if (timers.recordWall) clearTimeout(timers.recordWall);
+        timers.recordWall = setTimeout(() => {
+          state.bubbles = state.bubbles.filter((b) => b.id !== 'record-wall');
+          setSceneProps({ bubbles: state.bubbles });
+        }, 2600);
       },
       turntable: () => {
         Player.toggle(); // 全局 Player 真实播放/暂停
