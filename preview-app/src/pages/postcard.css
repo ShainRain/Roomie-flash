@@ -13,6 +13,13 @@
   padding: calc(var(--rpx) * 40) calc(var(--rpx) * 40) calc(var(--rpx) * 96);
 }
 
+/* ---- 顶部返回栏（小程序原生导航返回键的 web 对应） ---- */
+.p-postcard .topbar {
+  display: flex;
+  align-items: center;
+  margin-bottom: calc(var(--rpx) * 12);
+}
+
 /* ---- 编辑式刊头 ---- */
 .pc-head {
   display: flex;

@@ -17,6 +17,7 @@ import { getStorageSync } from '../adapters/storage.js';
 import { showToast, showModal } from '../adapters/platform.js';
 import { loadImage, saveImage } from '../adapters/canvas.js';
 import { assetUrl } from '../utils/asset-url.js';
+import { back } from '../router/router.js';
 
 const FLOOR_COLORS = { 'blue-gray': '#3B4A6B', walnut: '#8A5A33', slate: '#4A5A66' };
 const GEO = SceneLayout.GEOMETRY;
@@ -48,6 +49,17 @@ export function mount(container) {
   const scroller = document.createElement('div');
   scroller.className = 'page-scroll';
   page.appendChild(scroller);
+
+  // ---- 顶部返回栏：小程序原生导航返回键的 web 对应（push 页无 tabbar，必须自带出口） ----
+  const topbar = document.createElement('div');
+  topbar.className = 'topbar';
+  const backBtn = document.createElement('button');
+  backBtn.className = 'nav-ic';
+  backBtn.textContent = '‹';
+  backBtn.setAttribute('aria-label', '返回');
+  backBtn.addEventListener('click', () => back());
+  topbar.appendChild(backBtn);
+  scroller.appendChild(topbar);
 
   // ---- 刊头 ----
   const head = document.createElement('div');
