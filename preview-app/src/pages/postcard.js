@@ -16,6 +16,7 @@ import SceneLayout from '../shared/room-scene-layout.js';
 import { getStorageSync } from '../adapters/storage.js';
 import { showToast, showModal } from '../adapters/platform.js';
 import { loadImage, saveImage } from '../adapters/canvas.js';
+import { assetUrl } from '../utils/asset-url.js';
 
 const FLOOR_COLORS = { 'blue-gray': '#3B4A6B', walnut: '#8A5A33', slate: '#4A5A66' };
 const GEO = SceneLayout.GEOMETRY;
@@ -145,7 +146,7 @@ export function mount(container) {
     const slots = SceneLayout.RECORD_SLOTS.slice(0, selectedIds.length);
     slots.forEach((s, i) => entries.push([`plate-${i}`, `/assets/img/pc/pc-plate-${selectedIds[i]}.png`]));
     const pairs = await Promise.all(entries.map(([key, src]) =>
-      loadImage(src).then((img) => [key, img]).catch(() => [key, null])));
+      loadImage(assetUrl(src)).then((img) => [key, img]).catch(() => [key, null])));
     if (seq !== drawSeq) return; // 期间状态又变了，丢弃这次绘制
     const imgs = Object.fromEntries(pairs);
 

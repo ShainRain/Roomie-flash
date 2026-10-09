@@ -15,6 +15,7 @@
 import SceneLayout from '../../shared/room-scene-layout.js';
 import { createMap } from '../../shared/room-map.js';
 import { hitTest } from '../../shared/room-hit.js';
+import { assetUrl } from '../../utils/asset-url.js';
 
 // 景深/地板多边形只需要几何（碰撞与寻路在页面侧）
 const sceneMap = createMap(SceneLayout.GEOMETRY, SceneLayout);
@@ -28,14 +29,8 @@ const HIT_ITEMS = SceneLayout.FIXTURE_OBJECTS
 
 const FLOOR_COLORS = { 'blue-gray': '#3B4A6B', walnut: '#8A5A33', slate: '#4A5A66' };
 
-// Assets live in the /assets/... URL space (public/assets, synced from miniprogram/assets).
-const BASE = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.BASE_URL) || '/';
-function assetUrl(path) {
-  if (!path) return '';
-  if (!path.startsWith('/')) return path;
-  return BASE === '/' ? path : BASE.replace(/\/$/, '') + path;
-}
-
+// Assets live in the /assets/... URL space（public/assets，synced from miniprogram/assets）；
+// 一律经共享 assetUrl 解析（部署子路径安全，生成文件不改）。
 function hexToRgba(hex, alpha) {
   const n = parseInt(hex.slice(1), 16);
   return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${alpha})`;

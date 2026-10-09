@@ -21,6 +21,12 @@ import architect from './pages/architect.js';
 import song from './pages/song.js';
 import profile from './pages/profile.js';
 import postcard from './pages/postcard.js';
+import { assetUrl } from './utils/asset-url.js';
+
+// Oranienbaum 刊头字体：经 JS 注入 @font-face（url 走 assetUrl，部署子路径安全）
+const fontFace = document.createElement('style');
+fontFace.textContent = `@font-face { font-family: 'Oranienbaum'; src: url('${assetUrl('/fonts/Oranienbaum-Regular.ttf')}') format('truetype'); font-weight: 400; font-style: normal; font-display: swap; }`;
+document.head.appendChild(fontFace);
 
 // app.js onLaunch parity：未读角标初始值（mock：2 条未读邀请/动态）
 if (!getStorageSync('roomie_unread')) setStorageSync('roomie_unread', 2);

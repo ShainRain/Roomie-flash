@@ -8,6 +8,7 @@ import './song.css';
 import Player from '../state/player.js';
 import { showToast } from '../adapters/platform.js';
 import { back } from '../router/router.js';
+import { assetUrl } from '../utils/asset-url.js';
 
 const COMMENTS = [
   { user: 'KIKI', text: '前奏一响就回到高中教室了', likes: 1204 },
@@ -57,7 +58,7 @@ export function mount(container) {
   hero.className = 'song-hero rise-in rise-d1';
   const heroBg = document.createElement('img');
   heroBg.className = 'hero-bg';
-  heroBg.src = '/assets/img/song-hifi-bg.webp';
+  heroBg.src = assetUrl('/assets/img/song-hifi-bg.webp');
   heroBg.alt = '';
   const heroFade = document.createElement('div');
   heroFade.className = 'hero-fade';
@@ -66,7 +67,7 @@ export function mount(container) {
   sleeve.alt = '';
   const disc = document.createElement('img');
   disc.className = 'hero-disc';
-  disc.src = '/assets/img/song-disc.webp';
+  disc.src = assetUrl('/assets/img/song-disc.webp');
   disc.alt = '';
   hero.append(heroBg, heroFade, sleeve, disc);
   scroller.appendChild(hero);

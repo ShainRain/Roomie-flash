@@ -3,14 +3,9 @@
    rpx→px: 1rpx = 390/750 px = 0.52px, exposed as --rpx so ported rules stay
    traceable to the original rpx numbers (calc(var(--rpx) * N)). */
 
-@font-face {
-  font-family: 'Oranienbaum';
-  src: url('/fonts/Oranienbaum-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-/* MiSans / NotoSerifSC intentionally NOT loaded: 8–14MB per weight, needs
+/* @font-face 已移到 app.js 以 JS 注入（url 需经 assetUrl 加 BASE_URL 前缀，
+   部署子路径下 CSS 内根绝对路径会 404）。
+   MiSans / NotoSerifSC intentionally NOT loaded: 8–14MB per weight, needs
    subsetting before shipping. System CJK stack is the fallback for now. */
 
 :root {

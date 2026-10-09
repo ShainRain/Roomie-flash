@@ -8,8 +8,9 @@
  *   docs/audio/AUDIO-CATALOG.md 的 SHA-256 与页面链接）。
  * - 歌单顺序自本版本起 FIXED：未来曲目只能往尾部追加（房间同步 index 语义）。
  */
+import { assetUrl } from '../utils/asset-url.js';
 
-export const AUDIO_TRACKS = [
+const TRACKS = [
   {
     id: 'peaceful',
     title: 'Peaceful',
@@ -74,6 +75,13 @@ export const AUDIO_TRACKS = [
     ]
   }
 ];
+
+// 资产路径统一经 assetUrl 解析（部署子路径安全）
+export const AUDIO_TRACKS = TRACKS.map((t) => ({
+  ...t,
+  src: assetUrl(t.src),
+  sleeve: assetUrl(t.sleeve)
+}));
 
 export function trackById(id) {
   return AUDIO_TRACKS.find((t) => t.id === id) || null;

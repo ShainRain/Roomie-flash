@@ -6,6 +6,7 @@
  * 仅本机存储，不上传。
  */
 import { getStorageSync, setStorageSync, removeStorageSync } from './storage.js';
+import { assetUrl } from '../utils/asset-url.js';
 
 const SLOTS = {
   avatar: { key: 'roomie_avatar' },
@@ -15,14 +16,12 @@ const SLOTS = {
 // 2MB 上限（原文件字节数；dataURL 约 ×1.33，仍在 localStorage 限额内）
 const MAX_BYTES = 2 * 1024 * 1024;
 
-const DEFAULT_PREFIX = '/assets/img/char-momo-';
-
 function slotOf(name) {
   return SLOTS[name] || SLOTS.avatar;
 }
 
 function defaultSrc(sprite) {
-  return `${DEFAULT_PREFIX}${sprite || 'idle'}.webp`;
+  return assetUrl(`/assets/img/char-momo-${sprite || 'idle'}.webp`);
 }
 
 function formatSize(bytes) {
